@@ -1,0 +1,551 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:2:1-143:12
+	xmlns:android
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:2:11-69
+	package
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:3:3-32
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:5:3-31
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+	android:versionCode
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:4:3-27
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+uses-sdk
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:7:3-9:36
+MERGED from [com.google.android.gms:play-services:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:23:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appindexing:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appindexing:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appinvite:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appstate:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-cast:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:mediarouter-v7:22.2.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-drive:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-fitness:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-location:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:27:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-games:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-drive:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-gcm:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-identity:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-location:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:27:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:27:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-nearby:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-panorama:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-plus:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-safetynet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-vision:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\7.8.0\AndroidManifest.xml:4:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-wallet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.8.0\AndroidManifest.xml:19:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-identity:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:27:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-wearable:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+	android:targetSdkVersion
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:9:5-34
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:8:5-30
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+		INJECTED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:10:3-76
+MERGED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:21:5-78
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:20:5-78
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:20:5-78
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:20:5-78
+MERGED from [com.google.android.gms:play-services-nearby:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.8.0\AndroidManifest.xml:19:5-79
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:20:5-78
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:10:20-74
+uses-permission#android.permission.INTERNET
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:11:3-64
+MERGED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:21:5-67
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:21:5-67
+MERGED from [com.google.android.gms:play-services-appinvite:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\7.8.0\AndroidManifest.xml:19:5-67
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:21:5-66
+MERGED from [com.google.android.gms:play-services-gcm:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:21:5-66
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:21:5-66
+MERGED from [com.google.android.gms:play-services-wallet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.8.0\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:21:5-66
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:11:20-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:13:3-78
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:22:5-80
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:22:5-80
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:22:5-80
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:22:5-80
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:13:20-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:15:3-78
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:15:20-76
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:16:3-76
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:16:20-74
+uses-feature#0x00020000
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:18:3-20:30
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:23:5-25:33
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:23:5-25:33
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:23:5-25:33
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:23:5-25:33
+	android:required
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:20:5-28
+	android:glEsVersion
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:19:5-37
+application
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:22:3-142:17
+MERGED from [com.google.android.gms:play-services:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:24:5-32:19
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:24:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-appindexing:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-analytics:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.8.0\AndroidManifest.xml:24:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-appindexing:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-appinvite:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\7.8.0\AndroidManifest.xml:20:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-appstate:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-cast:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:mediarouter-v7:22.2.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-drive:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-fitness:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-location:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:28:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-games:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-drive:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-gcm:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\AndroidManifest.xml:24:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-identity:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-location:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:28:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:28:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-nearby:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.8.0\AndroidManifest.xml:20:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-panorama:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-plus:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-safetynet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-vision:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\7.8.0\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-identity:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.8.0\AndroidManifest.xml:28:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-wearable:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.8.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.0.1] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:24:5-39
+	android:icon
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:23:5-41
+	android:hardwareAccelerated
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:25:5-39
+meta-data#com.google.android.geo.API_KEY
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:31:5-33:66
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:32:9-54
+	android:value
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:33:9-64
+meta-data#com.google.android.gms.version
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:34:5-36:65
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-base:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.8.0\AndroidManifest.xml:21:9-23:69
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:35:9-54
+	android:value
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:36:9-62
+activity#com.example.mapdemo.MainActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:37:5-42:16
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:37:15-43
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:38:7-41:23
+action#android.intent.action.MAIN
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:39:9-60
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:39:17-58
+category#android.intent.category.LAUNCHER
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:40:9-68
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:40:19-66
+activity#com.example.mapdemo.LegalInfoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:43:5-45:43
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:45:7-41
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:44:7-40
+activity#com.example.mapdemo.BasicMapDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:46:5-48:53
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:48:7-51
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:47:7-43
+activity#com.example.mapdemo.CameraDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:49:5-51:50
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:51:7-48
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:50:7-41
+activity#com.example.mapdemo.CircleDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:52:5-54:50
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:54:7-48
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:53:7-41
+activity#com.example.mapdemo.EventsDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:55:5-57:50
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:57:7-48
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:56:7-41
+activity#com.example.mapdemo.GroundOverlayDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:58:5-60:58
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:60:7-56
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:59:7-48
+activity#com.example.mapdemo.IndoorDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:61:5-63:50
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:63:7-48
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:62:7-41
+activity#com.example.mapdemo.LayersDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:64:5-66:50
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:66:7-48
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:65:7-41
+activity#com.example.mapdemo.LiteDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:67:5-69:48
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:69:7-46
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:68:7-39
+activity#com.example.mapdemo.LiteListDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:70:5-72:53
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:72:7-51
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:71:7-43
+activity#com.example.mapdemo.LocationSourceDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:73:5-75:59
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:75:7-57
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:74:7-49
+activity#com.example.mapdemo.MapInPagerDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:76:5-78:56
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:78:7-54
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:77:7-45
+activity#com.example.mapdemo.MarkerDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:79:5-81:50
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:81:7-48
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:80:7-41
+activity#com.example.mapdemo.MultiMapDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:82:5-84:53
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:84:7-51
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:83:7-43
+activity#com.example.mapdemo.MyLocationDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:85:5-87:55
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:87:7-53
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:86:7-45
+activity#com.example.mapdemo.OptionsDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:88:5-90:51
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:90:7-49
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:89:7-42
+activity#com.example.mapdemo.PolygonDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:91:5-93:51
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:93:7-49
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:92:7-42
+activity#com.example.mapdemo.PolylineDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:94:5-96:52
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:96:7-50
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:95:7-43
+activity#com.example.mapdemo.ProgrammaticDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:97:5-99:56
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:99:7-54
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:98:7-47
+activity#com.example.mapdemo.RawMapViewDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:100:5-102:56
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:102:7-54
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:101:7-45
+activity#com.example.mapdemo.RetainMapDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:103:5-105:54
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:105:7-52
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:104:7-44
+activity#com.example.mapdemo.SaveStateDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:106:5-108:54
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:108:7-52
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:107:7-44
+activity#com.example.mapdemo.SnapshotDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:109:5-111:52
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:111:7-50
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:110:7-43
+activity#com.example.mapdemo.SplitStreetViewPanoramaAndMapDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:112:5-114:78
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:114:7-76
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:113:7-64
+activity#com.example.mapdemo.StreetViewPanoramaBasicDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:115:5-117:70
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:117:7-68
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:116:7-58
+activity#com.example.mapdemo.StreetViewPanoramaEventsDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:118:5-120:71
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:120:7-69
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:119:7-59
+activity#com.example.mapdemo.StreetViewPanoramaNavigationDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:121:5-123:75
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:123:7-73
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:122:7-63
+activity#com.example.mapdemo.StreetViewPanoramaOptionsDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:124:5-126:72
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:126:7-70
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:125:7-60
+activity#com.example.mapdemo.StreetViewPanoramaViewDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:127:5-129:69
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:129:7-67
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:128:7-57
+activity#com.example.mapdemo.TileCoordinateDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:130:5-132:59
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:132:7-57
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:131:7-49
+activity#com.example.mapdemo.TileOverlayDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:133:5-135:56
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:135:7-54
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:134:7-46
+activity#com.example.mapdemo.UiSettingsDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:136:5-138:55
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:138:7-53
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:137:7-45
+activity#com.example.mapdemo.VisibleRegionDemoActivity
+ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:139:5-141:58
+	android:label
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:141:7-56
+	android:name
+		ADDED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:140:7-48
+activity#com.google.android.gms.ads.AdActivity
+ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:26:9-29:64
+	android:configChanges
+		ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:28:13-122
+	android:theme
+		ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:29:13-61
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:27:13-65
+activity#com.google.android.gms.ads.purchase.InAppPurchaseActivity
+ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:30:9-31:52
+	android:theme
+		ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:31:13-50
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.8.0\AndroidManifest.xml:30:19-91
+android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
+IMPLIED from E:\projects\java_projects\android\MapLand\app\src\main\AndroidManifest.xml:2:1-143:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.android.gms:play-services-gcm:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\AndroidManifest.xml:21:5-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-gcm:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\AndroidManifest.xml:21:22-79
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from [com.google.android.gms:play-services-wallet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.8.0\AndroidManifest.xml:21:5-70
+	android:name
+		ADDED from [com.google.android.gms:play-services-wallet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.8.0\AndroidManifest.xml:21:22-68
+uses-permission#android.permission.USE_CREDENTIALS
+ADDED from [com.google.android.gms:play-services-wallet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.8.0\AndroidManifest.xml:22:5-73
+	android:name
+		ADDED from [com.google.android.gms:play-services-wallet:7.8.0] E:\projects\java_projects\android\MapLand\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.8.0\AndroidManifest.xml:22:22-71
