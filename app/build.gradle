@@ -8,7 +8,6 @@ android {
         applicationId "com.example.mapdemo"
         minSdkVersion 21
         targetSdkVersion 23
-        versionName "1.0"
     }
 
     buildTypes {
