@@ -27,7 +27,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+
     </LinearLayout>
+    <CheckBox
+        android:id="@+id/duration_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="onToggleCustomDuration"
+        android:text="@string/duration"/>
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
