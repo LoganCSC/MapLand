@@ -16,31 +16,35 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Spinner android:id="@+id/map_type_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-    </LinearLayout>
-    <CheckBox
-        android:id="@+id/duration_toggle"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="onToggleCustomDuration"
-        android:text="@string/duration"/>
+        android:stretchColumns="1">
+        <TableRow>
+            <Spinner android:id="@+id/map_type_select"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+            <CheckBox
+                android:id="@+id/traffic_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onToggleTraffic"
+                android:text="@string/toggle_traffic"/>
+        </TableRow>
+    </TableLayout>
+
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.google.android.gms.maps.SupportMapFragment"/>
+        class="com.google.android.gms.maps.SupportMapFragment"
+        tools:layout="@layout/abc_action_bar_title_item" />
 </LinearLayout>
 
 

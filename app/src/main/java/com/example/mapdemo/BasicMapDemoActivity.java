@@ -24,19 +24,21 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -58,6 +60,8 @@ public class BasicMapDemoActivity extends FragmentActivity
         MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
     }
 
+    private CompoundButton mTrafficCheckbox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +80,44 @@ public class BasicMapDemoActivity extends FragmentActivity
                 android.R.layout.simple_spinner_item, mapTypeValues);
         dropList.setAdapter(adapter);
         dropList.setOnItemSelectedListener(this);
+
+        mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
+
+        // look this up in the cloud data base and retrieve relevant info
+        String username = getAccountName();
+    }
+
+    /**
+     * @return the account name. For gmail users, this is the email address
+     */
+    public String getAccountName() {
+        // get the users already signed in account
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        Account[] list = manager.getAccounts();
+        Log.i("ACCT", "User Accounts");
+        for (Account acct : list) {
+            Log.i("ACCT", "Account = " + acct.toString());
+        }
+
+        String accountName;
+        if (list.length == 0) {
+            Log.i("ACCT", "No accounts found. Using guest user ");
+            accountName = "guest";
+        }
+        else {
+            Account account = list[0];
+            accountName = account.name;
+            Log.i("ACCT", "Account Name = " + accountName);
+        }
+
+        return accountName;
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         theMap = map;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(37.65478,-122.07035), 11));
+                new LatLng(37.65478, -122.07035), 11));
 
         map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
@@ -97,6 +132,14 @@ public class BasicMapDemoActivity extends FragmentActivity
         //settings.setCompassEnabled(true);
         //settings.setMyLocationButtonEnabled(true);
         //settings.setScrollGesturesEnabled(isChecked(R.id.scroll_toggle));
+    }
+
+
+    /**
+     * Called when the traffic checkbox is toggled
+     */
+    public void onToggleTraffic(View view) {
+        theMap.setTrafficEnabled(mTrafficCheckbox.isChecked());
     }
 
     @Override

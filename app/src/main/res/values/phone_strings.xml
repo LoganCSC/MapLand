@@ -32,6 +32,7 @@
   <string name="down_arrow">\u2193</string>
   <string name="drag_melbourne">Drag Melbourne</string>
   <string name="duration">Custom Duration</string>
+  <string name="toggle_traffic">Show Traffic</string>
   <string name="hue">Hue</string>
   <string name="events_demo_label">Events</string>
   <string name="events_demo_description">Demonstrates event handling.</string>
