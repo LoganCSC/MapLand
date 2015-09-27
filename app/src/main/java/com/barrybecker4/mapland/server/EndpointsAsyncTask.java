@@ -1,4 +1,4 @@
-package com.example.mapdemo.server;
+package com.barrybecker4.mapland.server;
 
 import android.content.Context;
 import android.os.AsyncTask;

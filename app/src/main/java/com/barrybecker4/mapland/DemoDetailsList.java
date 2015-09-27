@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.mapdemo;
+package com.barrybecker4.mapland;
 
 /**
  * A list of all the demos we have available.

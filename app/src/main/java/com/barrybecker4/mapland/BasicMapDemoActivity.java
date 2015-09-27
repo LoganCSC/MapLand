@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.mapdemo;
+package com.barrybecker4.mapland;
 
-import com.example.mapdemo.server.EndpointsAsyncTask;
+import com.barrybecker4.mapland.server.EndpointsAsyncTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

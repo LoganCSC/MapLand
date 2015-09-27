@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.mapdemo;
+package com.barrybecker4.mapland;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;

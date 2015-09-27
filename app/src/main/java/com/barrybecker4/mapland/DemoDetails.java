@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.mapdemo;
+package com.barrybecker4.mapland;
 
 import android.support.v4.app.FragmentActivity;
 
