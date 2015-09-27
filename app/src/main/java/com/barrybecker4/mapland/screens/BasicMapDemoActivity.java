@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.barrybecker4.mapland;
+package com.barrybecker4.mapland.screens;
 
+import com.barrybecker4.mapland.R;
 import com.barrybecker4.mapland.server.EndpointsAsyncTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

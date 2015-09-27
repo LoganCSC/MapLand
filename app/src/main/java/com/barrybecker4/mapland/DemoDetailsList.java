@@ -16,6 +16,11 @@
 
 package com.barrybecker4.mapland;
 
+import com.barrybecker4.mapland.screens.BasicMapDemoActivity;
+import com.barrybecker4.mapland.screens.EventsDemoActivity;
+import com.barrybecker4.mapland.screens.PolygonDemoActivity;
+import com.barrybecker4.mapland.screens.TileCoordinateDemoActivity;
+
 /**
  * A list of all the demos we have available.
  */

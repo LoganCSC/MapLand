@@ -16,7 +16,7 @@ import javax.inject.Named;
  * An endpoint class we are exposing
  */
 @Api(
-        name = "myApi",
+        name = "mapLandApi",
         version = "v1",
         namespace = @ApiNamespace(
                 ownerDomain = "backend.mapland.barrybecker4.com",
@@ -24,7 +24,7 @@ import javax.inject.Named;
                 packagePath = ""
         )
 )
-public class MyEndpoint {
+public class MapLandEndpoint {
 
     /**
      * A simple endpoint method that takes a name and says Hi back

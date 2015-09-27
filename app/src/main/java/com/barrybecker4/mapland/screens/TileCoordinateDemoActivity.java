@@ -1,5 +1,6 @@
-package com.barrybecker4.mapland;
+package com.barrybecker4.mapland.screens;
 
+import com.barrybecker4.mapland.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;

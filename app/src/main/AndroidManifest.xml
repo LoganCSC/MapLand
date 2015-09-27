@@ -57,16 +57,16 @@
             android:name="com.barrybecker4.mapland.LegalInfoActivity"
             android:label="@string/legal_info" />
         <activity
-            android:name="com.barrybecker4.mapland.BasicMapDemoActivity"
+            android:name=".screens.BasicMapDemoActivity"
             android:label="@string/basic_map_demo_label" />
         <activity
-            android:name="com.barrybecker4.mapland.EventsDemoActivity"
+            android:name=".screens.EventsDemoActivity"
             android:label="@string/events_demo_label" />
         <activity
-            android:name="com.barrybecker4.mapland.PolygonDemoActivity"
+            android:name=".screens.PolygonDemoActivity"
             android:label="@string/polygon_demo_label" />
         <activity
-            android:name="com.barrybecker4.mapland.TileCoordinateDemoActivity"
+            android:name=".screens.TileCoordinateDemoActivity"
             android:label="@string/tile_coordinate_demo_label" />
     </application>
 

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
 
-import com.barrybecker4.mapland.backend.myApi.MyApi;
+import com.barrybecker4.mapland.backend.mapLandApi.MapLandApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -18,13 +18,13 @@ import java.io.IOException;
  * in the cloud on Google App Engine.
  */
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-    private static MyApi myApiService = null;
+    private static MapLandApi myApiService = null;
     private Context context;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         if (myApiService == null) {  // Only do this once
-            MyApi.Builder builder = createBuilder();
+            MapLandApi.Builder builder = createBuilder();
             myApiService = builder.build();
         }
 
@@ -39,11 +39,11 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     }
 
     /**
-     * The part that is commented is used to initiallize if running everything locally.
+     * The part that is commented is used to initialize if running everything locally.
      * The shorter version is used if the backend has been deployed to google app ending in the cloud.
      * @return builder with provides cloud api service access
      */
-    private MyApi.Builder createBuilder() {
+    private MapLandApi.Builder createBuilder() {
         /*
         MyApi.Builder builder =
             new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
@@ -57,7 +57,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
                     abstractGoogleClientRequest.setDisableGZipContent(true);
                 }
             });*/
-        return new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+        return new MapLandApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                 .setRootUrl("https://maplandbackend.appspot.com/_ah/api/");
     }
 
