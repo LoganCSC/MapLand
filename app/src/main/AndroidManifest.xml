@@ -61,47 +61,8 @@
             android:name=".BasicMapDemoActivity"
             android:label="@string/basic_map_demo_label" />
         <activity
-            android:name=".CameraDemoActivity"
-            android:label="@string/camera_demo_label" />
-        <activity
-            android:name=".CircleDemoActivity"
-            android:label="@string/circle_demo_label" />
-        <activity
             android:name=".EventsDemoActivity"
             android:label="@string/events_demo_label" />
-        <activity
-            android:name=".GroundOverlayDemoActivity"
-            android:label="@string/ground_overlay_demo_label" />
-        <activity
-            android:name=".IndoorDemoActivity"
-            android:label="@string/indoor_demo_label" />
-        <activity
-            android:name=".LayersDemoActivity"
-            android:label="@string/layers_demo_label" />
-        <activity
-            android:name=".LiteDemoActivity"
-            android:label="@string/lite_demo_label" />
-        <activity
-            android:name=".LiteListDemoActivity"
-            android:label="@string/lite_list_demo_label" />
-        <activity
-            android:name=".LocationSourceDemoActivity"
-            android:label="@string/location_source_demo_label" />
-        <activity
-            android:name=".MapInPagerDemoActivity"
-            android:label="@string/map_in_pager_demo_label" />
-        <activity
-            android:name=".MarkerDemoActivity"
-            android:label="@string/marker_demo_label" />
-        <activity
-            android:name=".MultiMapDemoActivity"
-            android:label="@string/multi_map_demo_label" />
-        <activity
-            android:name=".MyLocationDemoActivity"
-            android:label="@string/my_location_demo_label" />
-        <activity
-            android:name=".OptionsDemoActivity"
-            android:label="@string/options_demo_label" />
         <activity
             android:name=".PolygonDemoActivity"
             android:label="@string/polygon_demo_label" />
