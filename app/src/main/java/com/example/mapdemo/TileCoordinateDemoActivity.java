@@ -45,7 +45,7 @@ public class TileCoordinateDemoActivity extends FragmentActivity implements OnMa
         public CoordTileProvider(Context context) {
             /* Scale factor based on density, with a 0.6 multiplier to increase tile generation
              * speed */
-            mScaleFactor = context.getResources().getDisplayMetrics().density * 0.6f;
+            mScaleFactor = context.getResources().getDisplayMetrics().density * 1.6f; // was 0.6
             Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             borderPaint.setStyle(Paint.Style.STROKE);
             mBorderTile = Bitmap.createBitmap((int) (TILE_SIZE_DP * mScaleFactor),

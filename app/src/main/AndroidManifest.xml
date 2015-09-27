@@ -67,53 +67,8 @@
             android:name=".PolygonDemoActivity"
             android:label="@string/polygon_demo_label" />
         <activity
-            android:name=".PolylineDemoActivity"
-            android:label="@string/polyline_demo_label" />
-        <activity
-            android:name=".ProgrammaticDemoActivity"
-            android:label="@string/programmatic_demo_label" />
-        <activity
-            android:name=".RawMapViewDemoActivity"
-            android:label="@string/raw_map_view_demo_label" />
-        <activity
-            android:name=".RetainMapDemoActivity"
-            android:label="@string/retain_map_demo_label" />
-        <activity
-            android:name=".SaveStateDemoActivity"
-            android:label="@string/save_state_demo_label" />
-        <activity
-            android:name=".SnapshotDemoActivity"
-            android:label="@string/snapshot_demo_label" />
-        <activity
-            android:name=".SplitStreetViewPanoramaAndMapDemoActivity"
-            android:label="@string/split_street_view_panorama_and_map_demo_label" />
-        <activity
-            android:name=".StreetViewPanoramaBasicDemoActivity"
-            android:label="@string/street_view_panorama_basic_demo_label" />
-        <activity
-            android:name=".StreetViewPanoramaEventsDemoActivity"
-            android:label="@string/street_view_panorama_events_demo_label" />
-        <activity
-            android:name=".StreetViewPanoramaNavigationDemoActivity"
-            android:label="@string/street_view_panorama_navigation_demo_label" />
-        <activity
-            android:name=".StreetViewPanoramaOptionsDemoActivity"
-            android:label="@string/street_view_panorama_options_demo_label" />
-        <activity
-            android:name=".StreetViewPanoramaViewDemoActivity"
-            android:label="@string/street_view_panorama_view_demo_label" />
-        <activity
             android:name=".TileCoordinateDemoActivity"
             android:label="@string/tile_coordinate_demo_label" />
-        <activity
-            android:name=".TileOverlayDemoActivity"
-            android:label="@string/tile_overlay_demo_label" />
-        <activity
-            android:name=".UiSettingsDemoActivity"
-            android:label="@string/ui_settings_demo_label" />
-        <activity
-            android:name=".VisibleRegionDemoActivity"
-            android:label="@string/visible_region_demo_label" />
     </application>
 
 </manifest>
