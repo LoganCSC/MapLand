@@ -1,3 +1,3 @@
-build
-app/build
-backend/build
+/build
+/app/build
+/backend/build
