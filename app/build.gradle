@@ -8,12 +8,15 @@ android {
         applicationId "com.example.mapdemo"
         minSdkVersion 21
         targetSdkVersion 23
+        // needed to avoid com.android.dex.DexIndexOverflowException
+        multiDexEnabled = true
+
     }
 
     buildTypes {
-        debug {
-            debuggable true
-        }
+        //debug {
+        //    debuggable true
+        //}
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
@@ -23,7 +26,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // changing this from 7.8.0 to 8.1 will cause an update to be required in the emulator
     compile 'com.google.android.gms:play-services:7.8.0'
     compile 'com.android.support:appcompat-v7:23.0.1'
-    //compile project(path: ':backend', configuration: 'android-endpoints')
+    compile project(path: ':backend', configuration: 'android-endpoints')
 }

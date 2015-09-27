@@ -16,6 +16,7 @@
 
 package com.example.mapdemo;
 
+import com.example.mapdemo.server.EndpointsAsyncTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,9 +27,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,6 +43,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -85,6 +90,16 @@ public class BasicMapDemoActivity extends FragmentActivity
 
         // look this up in the cloud data base and retrieve relevant info
         String username = getAccountName();
+
+        // call the back end server
+        AsyncTask<Pair<Context, String>, Void, String> task = new EndpointsAsyncTask();
+        task.execute(new Pair<Context, String>(this, username));
+        Log.i("TASK", "status = " + task.getStatus());
+        try {
+            Log.i("TASK", "value = " + task.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -129,9 +144,9 @@ public class BasicMapDemoActivity extends FragmentActivity
         UiSettings settings = map.getUiSettings();
 
         settings.setZoomControlsEnabled(true);
-        //settings.setCompassEnabled(true);
-        //settings.setMyLocationButtonEnabled(true);
-        //settings.setScrollGesturesEnabled(isChecked(R.id.scroll_toggle));
+        settings.setCompassEnabled(true);
+        settings.setMyLocationButtonEnabled(true);
+        settings.setScrollGesturesEnabled(true);
     }
 
 
