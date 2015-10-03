@@ -17,6 +17,7 @@
 package com.barrybecker4.mapland.screens;
 
 import com.barrybecker4.mapland.R;
+import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.server.EndpointsAsyncTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -93,7 +94,7 @@ public class BasicMapDemoActivity extends FragmentActivity
         String username = getAccountName();
 
         // call the back end server
-        AsyncTask<Pair<Context, String>, Void, String> task = new EndpointsAsyncTask();
+        AsyncTask<Pair<Context, String>, Void, UserBean> task = new EndpointsAsyncTask();
         task.execute(new Pair<Context, String>(this, username));
         Log.i("TASK", "status = " + task.getStatus());
         try {

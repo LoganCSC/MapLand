@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.backend.mapLandApi.MapLandApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -12,31 +13,34 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Used to communicate with the backend endpoints (REST service) running
  * in the cloud on Google App Engine.
  */
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, UserBean> {
 
     private static final boolean IS_LOCAL = true;
-    private static MapLandApi myApiService = null;
+    private static MapLandApi mapLandApiService = null;
     private Context context;
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
-        if (myApiService == null) {  // Only do this once
+    protected UserBean doInBackground(Pair<Context, String>... params) {
+        if (mapLandApiService == null) {  // Only do this once
             MapLandApi.Builder builder = createBuilder();
-            myApiService = builder.build();
+            mapLandApiService = builder.build();
         }
 
         context = params[0].first;
-        String name = params[0].second;
+        String userId = params[0].second;
 
         try {
-            return myApiService.sayHi(name).execute().getData();
+            return mapLandApiService.getUserInfo(userId).execute();
         } catch (IOException e) {
-            return e.getMessage();
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -72,8 +76,13 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+    protected void onPostExecute(UserBean result) {
+        String locs = "null locations!";
+        if (result.getLocations() != null) {
+            locs = result.getLocations().toString();
+        }
+        String message = result.getUserId() + " owns " + result.getCredits() + " credits, and these locations: " + locs;
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
 }

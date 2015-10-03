@@ -10,8 +10,11 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Named;
 
@@ -29,23 +32,42 @@ import javax.inject.Named;
 )
 public class MapLandEndpoint {
 
-    private Set<String> previousUsers = new HashSet<>();
-    /**
-     * A simple endpoint method that takes a name and says Hi back
-     */
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
-        MyBean response = new MyBean();
 
-        if (previousUsers.contains(name)) {
-            response.setData("Welcome back, " + name);
+    private Map<String, UserBean> userInfoMap = new HashMap<>();
+
+    private static final UserBean GUEST_INFO = new UserBean();
+    static {
+        GUEST_INFO.setUserId("guest");
+        GUEST_INFO.setCredits(10);
+    }
+
+    private static final Random RAND = new Random();
+
+    /**
+     * A simple endpoint method that takes a userId and returns persisted information about that user.
+     */
+    @ApiMethod(name = "getUserInfo")
+    public UserBean getUserInfo(@Named("userId") String userId) {
+        UserBean response = new UserBean();
+
+        if (userInfoMap.containsKey(userId)) {
+            response = userInfoMap.get(userId);
         }
-        else if (name.equals("guest")) {
-            response.setData("No one logged in, guest used.");
+        else if (userId.equals("guest")) {
+            response = GUEST_INFO;
         }
         else {
-            response.setData("Hello " + name);
-            previousUsers.add(name);
+            // Someone new. Create some random info for them
+            long randomCredits = (long) (RAND.nextInt(100) * RAND.nextInt(100) + RAND.nextInt(100));
+            response.setCredits(randomCredits);
+            int numLocations = RAND.nextInt(10);
+            List<Long> locations = new ArrayList<>(numLocations);
+            for (int i=0; i< numLocations; i++) {
+                locations.add(RAND.nextLong());
+            }
+
+            response.setLocations(new ArrayList<>(locations));
+            userInfoMap.put(userId, response);
         }
 
         return response;

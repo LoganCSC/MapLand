@@ -1,5 +1,8 @@
 package com.barrybecker4.mapland.backend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents all information that we need about a user.
  * The object model for the data we are sending through endpoints.
@@ -10,8 +13,8 @@ public class UserBean {
 
     /** probably the users email address */
     private String userId;
-    private long credits;
-    private long[] locations;
+    private long credits = 0;
+    private List<Long> locations = new ArrayList<>();
 
 
     public String getUserId() {
@@ -30,11 +33,11 @@ public class UserBean {
         this.credits = credits;
     }
 
-    public long[] getLocations() {
+    public List<Long> getLocations() {
         return locations;
     }
 
-    public void setLocations(long[] locations) {
+    public void setLocations(List<Long> locations) {
         this.locations = locations;
     }
 
