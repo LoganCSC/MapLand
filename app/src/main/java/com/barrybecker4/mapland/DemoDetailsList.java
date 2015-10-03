@@ -30,7 +30,7 @@ public final class DemoDetailsList {
     private DemoDetailsList() {}
 
     public static final DemoDetails[] DEMOS = {
-        new DemoDetails(R.string.basic_map_demo_label,
+        new DemoDetails(R.string.map_land_demo_label,
                         R.string.basic_map_demo_description,
                         BasicMapDemoActivity.class),
         new DemoDetails(R.string.events_demo_label,

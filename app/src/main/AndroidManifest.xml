@@ -58,7 +58,7 @@
             android:label="@string/legal_info" />
         <activity
             android:name=".screens.BasicMapDemoActivity"
-            android:label="@string/basic_map_demo_label" />
+            android:label="@string/map_land_demo_label" />
         <activity
             android:name=".screens.EventsDemoActivity"
             android:label="@string/events_demo_label" />

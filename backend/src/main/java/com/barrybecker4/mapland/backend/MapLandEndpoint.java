@@ -10,6 +10,9 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.inject.Named;
 
 /**
@@ -26,13 +29,24 @@ import javax.inject.Named;
 )
 public class MapLandEndpoint {
 
+    private Set<String> previousUsers = new HashSet<>();
     /**
      * A simple endpoint method that takes a name and says Hi back
      */
     @ApiMethod(name = "sayHi")
     public MyBean sayHi(@Named("name") String name) {
         MyBean response = new MyBean();
-        response.setData("Hi, " + name);
+
+        if (previousUsers.contains(name)) {
+            response.setData("Welcome back, " + name);
+        }
+        else if (name.equals("guest")) {
+            response.setData("No one logged in, guest used.");
+        }
+        else {
+            response.setData("Hello " + name);
+            previousUsers.add(name);
+        }
 
         return response;
     }

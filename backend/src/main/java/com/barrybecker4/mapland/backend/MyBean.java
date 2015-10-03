@@ -5,13 +5,14 @@ package com.barrybecker4.mapland.backend;
  */
 public class MyBean {
 
-    private String myData;
+    private String data;
+
 
     public String getData() {
-        return myData;
+        return data;
     }
 
     public void setData(String data) {
-        myData = data;
+        this.data = data;
     }
 }

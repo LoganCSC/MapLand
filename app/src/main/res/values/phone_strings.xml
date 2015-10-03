@@ -17,15 +17,8 @@
 <resources>
   <string name="alpha">Alpha</string>
   <string name="animate">Animate</string>
-  <string name="basic_map_demo_label">Basic Map</string>
+  <string name="map_land_demo_label">Land Grab</string>
   <string name="basic_map_demo_description">Launches a map</string>
-  <string name="buildings">Buildings</string>
-  <string name="camera_demo_label">Camera</string>
-  <string name="camera_demo_description">Demonstrates camera functions.</string>
-  <string name="circle_demo_label">Circles</string>
-  <string name="circle_demo_description">Demonstrates how to add Circles to a map.</string>
-  <string name="clear_map">Clear</string>
-  <string name="compass">Compass</string>
   <string name="custom_info_contents">Custom info contents</string>
   <string name="custom_info_window">Custom info window</string>
   <string name="default_info_window">Default info window</string>
@@ -41,20 +34,10 @@
   <string name="fill_hue">Fill Hue</string>
   <string name="flat">Flat</string>
   <string name="go_to_bondi">Go to Bondi</string>
-  <string name="go_to_santorini">Go to Santorini</string>
-  <string name="go_to_sydney">Go to Sydney</string>
-  <string name="ground_overlay_demo_label">Ground Overlays</string>
-  <string name="ground_overlay_demo_description">Demonstrates how to add a GroundOverlay to a map.</string>
-  <string name="hybrid">Hybrid</string>
-
-
 
   <string name="indoor">Indoor</string>
   <string-array name="layers_array">
     <item>@string/normal</item>
-    <item>@string/hybrid</item>
-
-
 
     <item>@string/satellite</item>
     <item>@string/terrain</item>
