@@ -18,6 +18,8 @@ import java.io.IOException;
  * in the cloud on Google App Engine.
  */
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+
+    private static final boolean IS_LOCAL = true;
     private static MapLandApi myApiService = null;
     private Context context;
 
@@ -39,26 +41,34 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     }
 
     /**
-     * The part that is commented is used to initialize if running everything locally.
+     *
      * The shorter version is used if the backend has been deployed to google app ending in the cloud.
      * @return builder with provides cloud api service access
      */
     private MapLandApi.Builder createBuilder() {
-        /*
-        MyApi.Builder builder =
-            new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-            // options for running against local devappserver
-            // - 10.0.2.2 is localhost's IP address in Android emulator
-            // - turn off compression when running against local devappserver
-            .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                @Override
-                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                    abstractGoogleClientRequest.setDisableGZipContent(true);
-                }
-            });*/
-        return new MapLandApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                .setRootUrl("https://maplandbackend.appspot.com/_ah/api/");
+
+        MapLandApi.Builder builder;
+
+        if (IS_LOCAL) {
+            builder = new MapLandApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                // options for running against local devappserver
+                // - 10.0.2.2 is localhost's IP address in Android emulator
+                // - turn off compression when running against local devappserver
+                .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+                .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                    @Override
+                    public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                        abstractGoogleClientRequest.setDisableGZipContent(true);
+                    }
+                });
+        }
+        else {
+            // Assuming that the server has been deployed to the appEngine in the cloud
+            builder = new MapLandApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                    .setRootUrl("https://maplandbackend.appspot.com/_ah/api/");
+        }
+
+        return builder;
     }
 
     @Override
