@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, UserBean> {
 
-    private static final boolean IS_LOCAL = false;
+    private static final boolean IS_LOCAL = true;
     private static MapLandApi mapLandApiService = null;
     private Context context;
 
