@@ -32,7 +32,7 @@ import javax.inject.Named;
 )
 public class MapLandEndpoint {
 
-    private Map<String, UserBean> userInfoMap = new HashMap<>();
+    //private Map<String, UserBean> userInfoMap = new HashMap<>();
     private Map<Long, LocationBean> locationInfoMap = new HashMap<>();
 
     private static final String GUEST = "guest";
@@ -64,10 +64,10 @@ public class MapLandEndpoint {
     @ApiMethod(name = "getUserInfo")
     public UserBean getUserInfo(@Named("userId") String userId) {
 
-        //DataStoreAccess access = new DataStoreAccess();
-        //UserBean response= access.getUserById(userId);
+        DataStoreAccess access = new DataStoreAccess();
+        UserBean response= access.getUserById(userId);
 
-
+/*
         UserBean response = new UserBean();
         if (userInfoMap.containsKey(userId)) {
             response = userInfoMap.get(userId);
@@ -87,7 +87,7 @@ public class MapLandEndpoint {
 
             response.setLocations(new ArrayList<>(locations));
             userInfoMap.put(userId, response);
-        }
+        }*/
 
         return response;
     }
