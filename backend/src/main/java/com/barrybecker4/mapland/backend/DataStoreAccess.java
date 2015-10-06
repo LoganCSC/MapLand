@@ -28,8 +28,38 @@ import java.security.GeneralSecurityException;
  */
 public class DataStoreAccess {
 
-    /** same as appEngine app name. See https://console.developers.google.com/project/maplandbackend */
-    private static final String DATASET_ID = "maplandbackend";
+    private Datastore datastore = new DataStorage().getInstance();
+
+    /**
+     * Get the specified user if they are in the database.
+     * If they are not in the database, add a record for them.
+     * @param userId user id
+     */
+    public UserBean getUserById(String userId) {
+        UserBean user = new UserBean();
+
+        /*
+        if (userInfoMap.containsKey(userId)) {
+            user = userInfoMap.get(userId);
+        }
+        else if (userId.equals(GUEST)) {
+            user = GUEST_INFO;
+        }
+        else {
+            // Someone new. Create some random info for them
+            long randomCredits = (long) (RAND.nextInt(100) * RAND.nextInt(100) + RAND.nextInt(100));
+            user.setCredits(randomCredits);
+            int numLocations = RAND.nextInt(10);
+            List<Long> locations = new ArrayList<>(numLocations);
+            for (int i = 0; i < numLocations; i++) {
+                locations.add(RAND.nextLong());
+            }
+
+            user.setLocations(new ArrayList<>(locations));
+            userInfoMap.put(userId, user);
+        }*/
+        return user;
+    }
 
     public void dataStoreTest() {
 
@@ -58,7 +88,6 @@ public class DataStoreAccess {
 
     /** get the question entity, and if its not there add one */
     private Entity getEntity(String kind, String name) throws DatastoreException {
-        Datastore datastore = getDatastore();
 
         // Create an RPC request to begin a new transaction.
         BeginTransactionRequest.Builder treq = BeginTransactionRequest.newBuilder();
@@ -121,55 +150,5 @@ public class DataStoreAccess {
         // Build the entity.
         entity = entityBuilder.build();
         return entity;
-    }
-
-    /**
-     * The environment variables DATASTORE_SERVICE_ACCOUNT and DATASTORE_PRIVATE_KEY_FILE must be set.
-     * For example:
-     *  DATASTORE_SERVICE_ACCOUNT =
-     *  699545660653-e8s7820hnt688l84uu7aq93geplj6s3l@developer.gserviceaccount.com
-     *  DATASTORE_PRIVATE_KEY_FILE = C:/Users/becker/backend/MapLandBackend-ecbfa6fe5549.p12
-     * @return the data store instance
-     */
-    private Datastore getDatastore() {
-        Datastore datastore = null;
-
-        // Setup the connection to Google Cloud Datastore and infer credentials
-        // from the environment.
-        try {
-            Credential credential = getCredential();
-            System.err.println("Got the credential:" + credential.toString());
-
-            DatastoreOptions.Builder options = DatastoreHelper.getOptionsFromEnv().credential(credential);
-            //DatastoreOptions.Builder options = DatastoreHelper.getOptionsfromEnv();
-            datastore = DatastoreFactory.get().create(options.dataset(DATASET_ID).build());
-        } catch (GeneralSecurityException exception) {
-            throw new IllegalArgumentException(
-                    "Security error connecting to the datastore: " + exception.getMessage(), exception);
-        } catch (IOException exception) {
-            throw new IllegalArgumentException(
-                    "I/O error connecting to the datastore: " + exception.getMessage(), exception);
-        }
-
-        System.out.println("successfully connected to datastore.");
-        return datastore;
-    }
-
-
-    private Credential getCredential() throws GeneralSecurityException, IOException {
-        final String serviceAccount = "699545660653-e8s7820hnt688l84uu7aq93geplj6s3l@developer.gserviceaccount.com";
-        final String FILE_NAME = "/MapLandBackend-ecbfa6fe5549.p12";
-
-        //URL url = getClass().getResource(FILE_NAME);
-        //URL url = servletContext.getResource(FILE_NAME);
-        URL url = getClass().getResource(FILE_NAME);
-        if ( url == null ){
-            throw new RuntimeException( "Cannot find resource: '" + FILE_NAME + "'" );
-        }
-        String filename = url.getFile();
-        System.out.println("filename = " + filename);
-
-        //String filename = "E:/projects/java_projects/android/MapLand/backend/MapLandBackend-ecbfa6fe5549.p12";
-        return DatastoreHelper.getServiceAccountCredential(serviceAccount, filename);
     }
 }

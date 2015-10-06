@@ -32,8 +32,6 @@ import javax.inject.Named;
 )
 public class MapLandEndpoint {
 
-
-
     private Map<String, UserBean> userInfoMap = new HashMap<>();
     private Map<Long, LocationBean> locationInfoMap = new HashMap<>();
 
@@ -65,10 +63,12 @@ public class MapLandEndpoint {
      */
     @ApiMethod(name = "getUserInfo")
     public UserBean getUserInfo(@Named("userId") String userId) {
+
+        //DataStoreAccess access = new DataStoreAccess();
+        //UserBean response= access.getUserById(userId);
+
+
         UserBean response = new UserBean();
-
-        new DataStoreAccess().dataStoreTest();
-
         if (userInfoMap.containsKey(userId)) {
             response = userInfoMap.get(userId);
         }
