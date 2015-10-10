@@ -6,6 +6,8 @@
 
 package com.barrybecker4.mapland.backend;
 
+import com.barrybecker4.mapland.backend.datamodel.UserBean;
+import com.barrybecker4.mapland.backend.datastore.DataStoreAccess;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -30,13 +32,18 @@ import javax.inject.Named;
             packagePath = ""
     )
 )
+
+/**
+ * When deployed to google appengine view here:
+ *  https://console.developers.google.com/project/maplandbackend
+ */
 public class MapLandEndpoint {
 
     //private Map<String, UserBean> userInfoMap = new HashMap<>();
-    private Map<Long, LocationBean> locationInfoMap = new HashMap<>();
+    private Map<Long, com.barrybecker4.mapland.backend.datamodel.LocationBean> locationInfoMap = new HashMap<>();
 
     private static final String GUEST = "guest";
-    private static final UserBean GUEST_INFO = new UserBean();
+    private static final com.barrybecker4.mapland.backend.datamodel.UserBean GUEST_INFO = new com.barrybecker4.mapland.backend.datamodel.UserBean();
     static {
         GUEST_INFO.setUserId(GUEST);
         GUEST_INFO.setCredits(10);
@@ -44,7 +51,7 @@ public class MapLandEndpoint {
         locations.add(123L);
         GUEST_INFO.setLocations(locations);
     }
-    private static final LocationBean LOCATION_123_INFO = new LocationBean();
+    private static final com.barrybecker4.mapland.backend.datamodel.LocationBean LOCATION_123_INFO = new com.barrybecker4.mapland.backend.datamodel.LocationBean();
     static {
         LOCATION_123_INFO.setId(123L);
         LOCATION_123_INFO.setOwnerId(GUEST);
@@ -65,39 +72,15 @@ public class MapLandEndpoint {
     public UserBean getUserInfo(@Named("userId") String userId) {
 
         DataStoreAccess access = new DataStoreAccess();
-        UserBean response= access.getUserById(userId);
-
-/*
-        UserBean response = new UserBean();
-        if (userInfoMap.containsKey(userId)) {
-            response = userInfoMap.get(userId);
-        }
-        else if (userId.equals(GUEST)) {
-            response = GUEST_INFO;
-        }
-        else {
-            // Someone new. Create some random info for them
-            long randomCredits = (long) (RAND.nextInt(100) * RAND.nextInt(100) + RAND.nextInt(100));
-            response.setCredits(randomCredits);
-            int numLocations = RAND.nextInt(10);
-            List<Long> locations = new ArrayList<>(numLocations);
-            for (int i=0; i< numLocations; i++) {
-                locations.add(RAND.nextLong());
-            }
-
-            response.setLocations(new ArrayList<>(locations));
-            userInfoMap.put(userId, response);
-        }*/
-
-        return response;
+        return access.getUserById(userId);
     }
 
     /**
      * endpoint method that takes a locationId and returns persisted information about that location.
      */
     @ApiMethod(name = "getLocationInfo")
-    public LocationBean getLocationInfo(@Named("locationId") Long locationId) {
-        LocationBean response = new LocationBean();
+    public com.barrybecker4.mapland.backend.datamodel.LocationBean getLocationInfo(@Named("locationId") Long locationId) {
+        com.barrybecker4.mapland.backend.datamodel.LocationBean response = new com.barrybecker4.mapland.backend.datamodel.LocationBean();
 
         if (locationInfoMap.containsKey(locationId)) {
             response = locationInfoMap.get(locationId);

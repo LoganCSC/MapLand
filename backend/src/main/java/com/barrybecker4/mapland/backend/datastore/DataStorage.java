@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.backend;
+package com.barrybecker4.mapland.backend.datastore;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.datastore.client.Datastore;
@@ -42,7 +42,6 @@ public class DataStorage {
         Datastore datastore = null;
 
         // Setup the connection to Google Cloud Datastore and infer credentials
-        // from the environment.
         try {
             Credential credential = getCredential();
             System.err.println("Got the credential:" + credential.toString());

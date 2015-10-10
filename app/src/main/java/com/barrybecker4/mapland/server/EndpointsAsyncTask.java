@@ -22,7 +22,9 @@ import java.util.List;
  */
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, UserBean> {
 
-    private static final boolean IS_LOCAL = true;
+    /** if IS_LOCAL is false then the app tries to connect to the backed running on appengine in the cloud */
+    private static final boolean IS_LOCAL = false;
+
     private static MapLandApi mapLandApiService = null;
     private Context context;
 

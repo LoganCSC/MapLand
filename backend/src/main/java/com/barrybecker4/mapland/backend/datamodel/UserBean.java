@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.backend;
+package com.barrybecker4.mapland.backend.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ import java.util.List;
  * @author Barry Becker
  */
 public class UserBean {
-
 
     /** probably the users email address */
     private String userId;

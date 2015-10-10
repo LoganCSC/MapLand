@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.backend;
+package com.barrybecker4.mapland.backend.datamodel;
 
 /**
  * Used to transfer information about a specific map location
