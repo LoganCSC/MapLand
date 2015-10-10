@@ -19,13 +19,15 @@ public class DataStorage {
     /** same as appEngine app name. See https://console.developers.google.com/project/maplandbackend */
     private static final String DATASET_ID = "maplandbackend";
 
-    private Datastore instance;
+    private static Datastore instance;
 
     public DataStorage() {
-        instance = getDatastore();
     }
 
-    public Datastore getInstance() {
+    public static Datastore getInstance() {
+        if (instance == null) {
+            instance = getDatastore();
+        }
         return instance;
     }
 
@@ -38,7 +40,7 @@ public class DataStorage {
      *  See http://stackoverflow.com/questions/14209175/java-security-accesscontrolexception-access-denied-java-io-filepermission/32960102#32960102
      * @return the data store instance
      */
-    private Datastore getDatastore() {
+    private static Datastore getDatastore() {
         Datastore datastore = null;
 
         // Setup the connection to Google Cloud Datastore and infer credentials
@@ -61,11 +63,11 @@ public class DataStorage {
     }
 
 
-    private Credential getCredential() throws GeneralSecurityException, IOException {
+    private static Credential getCredential() throws GeneralSecurityException, IOException {
         final String serviceAccount = "699545660653-e8s7820hnt688l84uu7aq93geplj6s3l@developer.gserviceaccount.com";
         final String FILE_NAME = "/MapLandBackend-ecbfa6fe5549.p12";
 
-        URL url = getClass().getResource(FILE_NAME);
+        URL url = DataStorage.class.getResource(FILE_NAME);
         if ( url == null ){
             throw new RuntimeException( "Cannot find resource: '" + FILE_NAME + "'" );
         }

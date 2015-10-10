@@ -13,9 +13,9 @@ public class LocationBean {
     /** Id of the user who owns this location */
     private String ownerId;
 
-    private double nwLattitudeCoord;
+    private double nwLatitudeCoord;
     private double nwLongitudeCoord;
-    private double seLattitudeCoord;
+    private double seLatitudeCoord;
     private double seLongitudeCoord;
 
     public Long getId() {
@@ -44,12 +44,12 @@ public class LocationBean {
     private String notes;
 
 
-    public double getNwLattitudeCoord() {
-        return nwLattitudeCoord;
+    public double getNwLatitudeCoord() {
+        return nwLatitudeCoord;
     }
 
-    public void setNwLattitudeCoord(double nwLattitudeCoord) {
-        this.nwLattitudeCoord = nwLattitudeCoord;
+    public void setNwLatitudeCoord(double nwLatitudeCoord) {
+        this.nwLatitudeCoord = nwLatitudeCoord;
     }
 
     public double getNwLongitudeCoord() {
@@ -60,12 +60,12 @@ public class LocationBean {
         this.nwLongitudeCoord = nwLongitudeCoord;
     }
 
-    public double getSeLattitudeCoord() {
-        return seLattitudeCoord;
+    public double getSeLatitudeCoord() {
+        return seLatitudeCoord;
     }
 
-    public void setSeLattitudeCoord(double seLattitudeCoord) {
-        this.seLattitudeCoord = seLattitudeCoord;
+    public void setSeLatitudeCoord(double seLatitudeCoord) {
+        this.seLatitudeCoord = seLatitudeCoord;
     }
 
     public double getSeLongitudeCoord() {

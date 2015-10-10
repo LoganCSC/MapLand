@@ -16,9 +16,19 @@
 
 package com.barrybecker4.mapland.screens;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.Spinner;
+
 import com.barrybecker4.mapland.R;
-import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
-import com.barrybecker4.mapland.server.EndpointsAsyncTask;
+import com.barrybecker4.mapland.server.UserRetriever;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,25 +37,10 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.util.Pair;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.Spinner;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -76,11 +71,9 @@ public class LandGrabMapActivity extends FragmentActivity
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        //MapFragment mapFragment = (MapFragment) getFragmentManager()
-        //        .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // combo list
+        // map type droplist
         dropList = (Spinner) findViewById(R.id.map_type_select);
         ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, mapTypeValues);
@@ -89,18 +82,20 @@ public class LandGrabMapActivity extends FragmentActivity
 
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
 
-        // look this up in the cloud data base and retrieve relevant info
+        // look this up in the cloud database and retrieve relevant info
         String username = getAccountName();
 
-        // call the back end server
-        AsyncTask<Pair<Context, String>, Void, UserBean> task = new EndpointsAsyncTask();
-        task.execute(new Pair<Context, String>(this, username));
+        // call the backend server asynchronously
+        UserRetriever.getUser(username, this, new UserRetrievalHandler(this));
+        //AsyncTask<Pair<Context, String>, Void, UserBean> task = new UserRetriever();
+        //task.execute(new Pair<Context, String>(this, username));
+        /*
         Log.i("TASK", "status = " + task.getStatus());
         try {
             Log.i("TASK", "value = " + task.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -150,7 +145,6 @@ public class LandGrabMapActivity extends FragmentActivity
         settings.setScrollGesturesEnabled(true);
     }
 
-
     /**
      * Called when the traffic checkbox is toggled
      */
@@ -167,6 +161,5 @@ public class LandGrabMapActivity extends FragmentActivity
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
