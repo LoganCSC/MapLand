@@ -28,6 +28,8 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.barrybecker4.mapland.R;
+import com.barrybecker4.mapland.screens.support.UserAccounts;
+import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
 import com.barrybecker4.mapland.server.UserRetriever;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -83,7 +85,7 @@ public class LandGrabMapActivity extends FragmentActivity
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
 
         // look this up in the cloud database and retrieve relevant info
-        String username = getAccountName();
+        String username = UserAccounts.getDefaultAccountName(this);
 
         // call the backend server asynchronously
         UserRetriever.getUser(username, this, new UserRetrievalHandler(this));
@@ -98,31 +100,6 @@ public class LandGrabMapActivity extends FragmentActivity
         }*/
     }
 
-    /**
-     * @return the account name. For gmail users, this is the email address
-     */
-    public String getAccountName() {
-        // get the users already signed in account
-        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-        Account[] list = manager.getAccounts();
-        Log.i("ACCT", "User Accounts");
-        for (Account acct : list) {
-            Log.i("ACCT", "Account = " + acct.toString());
-        }
-
-        String accountName;
-        if (list.length == 0) {
-            Log.i("ACCT", "No accounts found. Using guest user ");
-            accountName = "guest";
-        }
-        else {
-            Account account = list[0];
-            accountName = account.name;
-            Log.i("ACCT", "Account Name = " + accountName);
-        }
-
-        return accountName;
-    }
 
     @Override
     public void onMapReady(GoogleMap map) {

@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.screens;
+package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
 import android.widget.Toast;
