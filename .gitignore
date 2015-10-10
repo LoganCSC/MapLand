@@ -3,3 +3,4 @@
 /backend/build
 /backend/*.p12
 /backend/**/*.p12
+/../*.iml
