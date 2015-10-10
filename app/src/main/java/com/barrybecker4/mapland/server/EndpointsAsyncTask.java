@@ -47,7 +47,6 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, U
     }
 
     /**
-     *
      * The shorter version is used if the backend has been deployed to google app ending in the cloud.
      * @return builder with provides cloud api service access
      */

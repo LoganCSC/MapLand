@@ -17,17 +17,16 @@
 <resources>
   <string name="alpha">Alpha</string>
   <string name="animate">Animate</string>
-  <string name="map_land_demo_label">Land Grab</string>
+  <string name="map_land_demo_label">Land Grab Map</string>
   <string name="basic_map_demo_description">Launches a map</string>
   <string name="custom_info_contents">Custom info contents</string>
   <string name="custom_info_window">Custom info window</string>
   <string name="default_info_window">Default info window</string>
   <string name="down_arrow">\u2193</string>
-  <string name="drag_melbourne">Drag Melbourne</string>
   <string name="duration">Custom Duration</string>
   <string name="toggle_traffic">Show Traffic</string>
   <string name="hue">Hue</string>
-  <string name="events_demo_label">Events</string>
+  <string name="events_demo_label">Events test</string>
   <string name="events_demo_description">Demonstrates event handling.</string>
   <string name="fade_in">Fade In Tiles</string>
   <string name="fill_alpha">Fill Alpha</string>
@@ -57,9 +56,6 @@
   <string name="multi_map_demo_label">Multiple Maps</string>
   <string name="multi_map_demo_description">Demonstrates how to show multiple maps in a single activity.</string>
 
-
-
-
   <string name="my_location">My Location</string>
   <string name="my_location_demo_label">My Location Demo</string>
   <string name="my_location_demo_description">Demonstrates how to use GMS Location</string>
@@ -69,9 +65,6 @@
   <string name="normal">Normal</string>
   <string name="options_demo_label">Options</string>
   <string name="options_demo_description">Demonstrates how to use Options to initialize a map.</string>
-
-
-
 
   <string name="polygon_demo_label">Polygons</string>
   <string name="polygon_demo_description">Demonstrates how to add Polygons to a map.</string>
@@ -141,27 +134,6 @@
   <string name="lite_go_to_australia">Go to Australia (Five Markers)</string>
   <string name="lite_list_demo_label">Lite Mode ListView</string>
   <string name="lite_list_demo_description">Demonstrates using maps in lite mode in a ListView</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   <!--     Indoor    -->
   <string name="activate_higher_level">Activate Higher Level</string>

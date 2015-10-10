@@ -16,7 +16,7 @@
 
 package com.barrybecker4.mapland;
 
-import com.barrybecker4.mapland.screens.BasicMapDemoActivity;
+import com.barrybecker4.mapland.screens.LandGrabMapActivity;
 import com.barrybecker4.mapland.screens.EventsDemoActivity;
 import com.barrybecker4.mapland.screens.PolygonDemoActivity;
 import com.barrybecker4.mapland.screens.TileCoordinateDemoActivity;
@@ -32,7 +32,7 @@ public final class DemoDetailsList {
     public static final DemoDetails[] DEMOS = {
         new DemoDetails(R.string.map_land_demo_label,
                         R.string.basic_map_demo_description,
-                        BasicMapDemoActivity.class),
+                        LandGrabMapActivity.class),
         new DemoDetails(R.string.events_demo_label,
                         R.string.events_demo_description,
                         EventsDemoActivity.class),

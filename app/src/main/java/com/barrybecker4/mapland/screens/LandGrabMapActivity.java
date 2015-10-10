@@ -50,9 +50,8 @@ import java.util.concurrent.ExecutionException;
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
  */
-public class BasicMapDemoActivity extends FragmentActivity
+public class LandGrabMapActivity extends FragmentActivity
         implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
-
 
     private Spinner dropList;
     private List<String> mapTypeValues = Arrays.asList(
