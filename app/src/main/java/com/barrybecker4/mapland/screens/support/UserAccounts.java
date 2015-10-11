@@ -15,24 +15,13 @@ import java.util.List;
 public class UserAccounts {
 
     /**
+     * If no accounts found, guest assumed.
      * @return the account name. For gmail users, this is the email address
      */
     public static String getDefaultAccountName(Context context) {
 
-        Account[] list = getAccounts(context);
-
-        String accountName;
-        if (list.length == 0) {
-            Log.i("ACCT", "No accounts found. Using guest user ");
-            accountName = "guest";
-        }
-        else {
-            Account account = list[0];
-            accountName = account.name;
-            Log.i("ACCT", "Account Name = " + accountName);
-        }
-
-        return accountName;
+        List<String> list = getAccountNames(context);
+        return list.get(0);
     }
 
     public static List<String> getAccountNames(Context context) {
@@ -41,6 +30,10 @@ public class UserAccounts {
         List<String> accountNames = new LinkedList<>();
         for (Account acc : accounts) {
             accountNames.add(acc.name);
+        }
+        if (accountNames.isEmpty()) {
+            Log.i("ACCT", "No accounts found. Using guest user");
+            accountNames.add("guest");
         }
         return accountNames;
     }
