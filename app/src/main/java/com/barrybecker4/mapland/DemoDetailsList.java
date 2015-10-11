@@ -31,7 +31,7 @@ public final class DemoDetailsList {
 
     public static final DemoDetails[] DEMOS = {
         new DemoDetails(R.string.map_land_demo_label,
-                        R.string.basic_map_demo_description,
+                        R.string.land_grab_description,
                         LandGrabMapActivity.class),
         new DemoDetails(R.string.events_demo_label,
                         R.string.events_demo_description,

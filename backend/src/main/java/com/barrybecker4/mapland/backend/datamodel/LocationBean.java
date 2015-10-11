@@ -1,5 +1,7 @@
 package com.barrybecker4.mapland.backend.datamodel;
 
+import com.google.appengine.api.datastore.GeoPt;
+
 /**
  * Used to transfer information about a specific map location
  * The rectangular region is defined by north-west (nw) and south-east (se) geo coordinates.
@@ -12,11 +14,16 @@ public class LocationBean {
 
     /** Id of the user who owns this location */
     private String ownerId;
+    /* switch to using GeoPt when its ready for prime time
+    private GeoPt northWestCorner;
+    private GeoPt southEastCorner; */
+
 
     private double nwLatitudeCoord;
     private double nwLongitudeCoord;
     private double seLatitudeCoord;
     private double seLongitudeCoord;
+
 
     public Long getId() {
         return id;
@@ -43,6 +50,22 @@ public class LocationBean {
     /** additional info about the location. Probably added by ownwer(s) */
     private String notes;
 
+    /*
+    public GeoPt getNorthWestCorner() {
+        return northWestCorner;
+    }
+
+    public void setNorthWestCorner(GeoPt pt) {
+        this.northWestCorner = pt;
+    }
+
+    public void setSouthEastCorner(GeoPt pt) {
+        this.southEastCorner = pt;
+    }
+
+    public GeoPt getSouthEastCorner() {
+        return southEastCorner;
+    }*/
 
     public double getNwLatitudeCoord() {
         return nwLatitudeCoord;

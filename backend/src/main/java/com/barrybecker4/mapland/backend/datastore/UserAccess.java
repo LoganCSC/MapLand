@@ -34,6 +34,7 @@ public class UserAccess extends DataStoreAccess {
         UserBean user = new UserBean();
 
         try {
+            System.out.println("About to get info for " + userId);
             Entity entity = getUserEntity("User", userId);
 
             // Get `name` property value.

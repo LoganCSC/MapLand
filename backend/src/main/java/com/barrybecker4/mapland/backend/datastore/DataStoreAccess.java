@@ -1,6 +1,6 @@
 package com.barrybecker4.mapland.backend.datastore;
 
-import com.google.api.services.datastore.DatastoreV1;
+//import com.google.appengine.api.datastore.Entity;
 import com.google.api.services.datastore.DatastoreV1.BeginTransactionResponse;
 import com.google.api.services.datastore.DatastoreV1.BeginTransactionRequest;
 import com.google.api.services.datastore.DatastoreV1.Entity;
@@ -16,10 +16,6 @@ import com.google.api.services.datastore.client.DatastoreException;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.protobuf.ByteString;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/

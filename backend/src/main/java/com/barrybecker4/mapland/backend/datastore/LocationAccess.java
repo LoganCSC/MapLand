@@ -7,7 +7,12 @@ import com.google.api.services.datastore.DatastoreV1.Value;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.barrybecker4.mapland.backend.datamodel.LocationBean;
+import com.google.appengine.api.datastore.GeoPt;
+//import com.google.appengine.api.datastore.Entity;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,6 +66,10 @@ public class LocationAccess extends DataStoreAccess {
             location.setNwLongitudeCoord(nwLong);
             location.setSeLatitudeCoord(seLat);
             location.setSeLongitudeCoord(seLong);
+            /** GeoPt not yet ready for prime time unfortunately
+            location.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
+            location.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
+             */
 
         } catch (DatastoreException exception) {
             // Catch all Datastore rpc errors.
@@ -74,6 +83,20 @@ public class LocationAccess extends DataStoreAccess {
         }
 
         return location;
+    }
+
+    /**
+     * Specify upper left and lower right corners of a bounding region.
+     * Because of a limitation of GAE datastore, we cannot make inequality queries on more
+     * than one property at a time. To workaround this, the query uses only a lattitude
+     * filter, then does further filtering on the results.
+     * @return a list of all locations within the bounds specified.
+     */
+    public List<LocationBean> getAllLocationsInRegion(
+            Double nwLat, Double nwLong, Double seLat, Double seLong) {
+
+        // @@TODO
+        return null;
     }
 
     /** @return new Location entity with specified info */

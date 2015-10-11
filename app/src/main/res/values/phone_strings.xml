@@ -18,7 +18,7 @@
   <string name="alpha">Alpha</string>
   <string name="animate">Animate</string>
   <string name="map_land_demo_label">Land Grab Map</string>
-  <string name="basic_map_demo_description">Launches a map</string>
+  <string name="land_grab_description">Launches a map</string>
   <string name="custom_info_contents">Custom info contents</string>
   <string name="custom_info_window">Custom info window</string>
   <string name="default_info_window">Default info window</string>
@@ -154,16 +154,6 @@
   <string name="request_position">Position</string>
   <string name="split_street_view_panorama_and_map_demo_description">Demonstrates how to show a Street View panorama and map.</string>
   <string name="split_street_view_panorama_and_map_demo_label">Street View Panorama and Map</string>
-  <string name="street_view_panorama_basic_demo_description">Standard Street View Panorama using a Fragment.</string>
-  <string name="street_view_panorama_basic_demo_label">Street View Panorama</string>
-  <string name="street_view_panorama_events_demo_description">Standard Street View Panorama with event handling.</string>
-  <string name="street_view_panorama_events_demo_label">Street View Panorama events</string>
-  <string name="street_view_panorama_navigation_demo_description">Street View Panorama with programatic navigation</string>
-  <string name="street_view_panorama_navigation_demo_label">Street View Panorama navigation</string>
-  <string name="street_view_panorama_options_demo_description">Street View Panorama with toggles for options</string>
-  <string name="street_view_panorama_options_demo_label">Street View Panorama options</string>
-  <string name="street_view_panorama_view_demo_description">Standard Street View Panorama using a View</string>
-  <string name="street_view_panorama_view_demo_label">Street View Panorama View</string>
   <string name="streetnames">Streetnames</string>
   <string name="tap_screen">tap screen</string>
   <string name="long_press_screen">long press screen</string>
