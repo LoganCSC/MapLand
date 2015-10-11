@@ -31,42 +31,12 @@ public class UserAccess extends DataStoreAccess {
      * @param userId user id
      */
     public UserBean getUserById(String userId) {
-        UserBean user = new UserBean();
+        UserBean user = null;
 
         try {
             System.out.println("About to get info for " + userId);
             Entity entity = getUserEntity("User", userId);
-
-            // Get `name` property value.
-            //String name = entity.getProperty(0).getValue().getStringValue();
-            // Get `credits` property value.
-            //Long credits = entity.getProperty(0).getValue().getIntegerValue();
-            //Value locsValue = entity.getProperty(1).getValue();
-
-            Map<String, Value> propertyMap = DatastoreHelper.getPropertyMap(entity);
-            System.out.println("user propertyMap = "+ propertyMap);
-
-            Long credits = propertyMap.get("credits").getIntegerValue();
-            List<Long> locations = new ArrayList<>();
-            for (Value value : propertyMap.get("locations").getListValueList()) {
-                System.out.println(value.getIntegerValue());
-                locations.add(value.getIntegerValue());
-            }
-
-            /*
-            int numLocations = locsValue.getListValueCount();
-            List<Long> locations = new ArrayList<>(numLocations);
-            for (int i = 0; i < numLocations; i++) {
-               locations.add(locsValue.getListValue(i).getIntegerValue());
-            }*/
-
-            System.out.println("Username = " + userId);
-            System.out.println("Credits = " + credits);
-            System.out.println("Locations = " + locations);
-
-            user.setUserId(userId);
-            user.setCredits(credits);
-            user.setLocations(locations);
+            user = new UserBean(entity);
 
         } catch (DatastoreException exception) {
             // Catch all Datastore rpc errors.

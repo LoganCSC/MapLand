@@ -1,6 +1,11 @@
 package com.barrybecker4.mapland.backend.datamodel;
 
+import com.google.api.services.datastore.DatastoreV1;
+import com.google.api.services.datastore.client.DatastoreHelper;
+import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.appengine.api.datastore.GeoPt;
+
+import java.util.Map;
 
 /**
  * Used to transfer information about a specific map location
@@ -23,6 +28,52 @@ public class LocationBean {
     private double nwLongitudeCoord;
     private double seLatitudeCoord;
     private double seLongitudeCoord;
+
+    public LocationBean() {}
+
+    public LocationBean(Entity locationEntity) {
+
+        Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
+        System.out.println("location propertyMap = "+ propertyMap);
+
+        Long locationId = propertyMap.get("id").getIntegerValue();
+        String ownerId = propertyMap.get("ownerId").getStringValue();
+        Long cost = propertyMap.get("cost").getIntegerValue();
+        Integer income = (int) propertyMap.get("income").getIntegerValue();
+        Double nwLat = propertyMap.get("nwLatitude").getDoubleValue();
+        Double nwLong = propertyMap.get("nwLongitude").getDoubleValue();
+        Double seLat = propertyMap.get("seLatitude").getDoubleValue();
+        Double seLong = propertyMap.get("seLongitude").getDoubleValue();
+            /*
+            List<Long> locations = new ArrayList<>();
+            for (Value value : propertyMap.get("locations").getListValueList()) {
+                System.out.println(value.getIntegerValue());
+                locations.add(value.getIntegerValue());
+            }*/
+
+        System.out.println("LocationId = " + locationId);
+        System.out.println("OwnerId = " + ownerId);
+        System.out.println("Cost = " + cost);
+        System.out.println("Income = " + income);
+        System.out.println("nwLat = " + nwLat);
+        System.out.println("nwLong = " + nwLong);
+        System.out.println("seLat = " + seLat);
+        System.out.println("seLong = " + seLong);
+
+
+        this.setId(locationId);
+        this.setOwnerId(ownerId);
+        this.setCost(cost);
+        this.setIncome(income);
+        this.setNwLatitudeCoord(nwLat);
+        this.setNwLongitudeCoord(nwLong);
+        this.setSeLatitudeCoord(seLat);
+        this.setSeLongitudeCoord(seLong);
+        /** GeoPt not yet ready for prime time unfortunately
+         location.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
+         location.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
+         */
+    }
 
 
     public Long getId() {

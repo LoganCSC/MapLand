@@ -7,11 +7,17 @@ import com.google.api.services.datastore.DatastoreV1.Value;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.barrybecker4.mapland.backend.datamodel.LocationBean;
-import com.google.appengine.api.datastore.GeoPt;
+//import com.google.appengine.api.datastore.GeoPt;
 //import com.google.appengine.api.datastore.Entity;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.apphosting.datastore.DatastoreV4;
 import com.google.protobuf.InvalidProtocolBufferException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,49 +33,11 @@ public class LocationAccess extends DataStoreAccess {
      * @param locationId user id
      */
     public LocationBean getLocationById(Long locationId) {
-        LocationBean location = new LocationBean();
+        LocationBean location = null;
 
         try {
             Entity entity = getEntity("Location", locationId);
-
-            Map<String, Value> propertyMap = DatastoreHelper.getPropertyMap(entity);
-            System.out.println("location propertyMap = "+ propertyMap);
-
-            String ownerId = propertyMap.get("ownerId").getStringValue();
-            Long cost = propertyMap.get("cost").getIntegerValue();
-            Integer income = (int) propertyMap.get("income").getIntegerValue();
-            Double nwLat = propertyMap.get("nwLatitude").getDoubleValue();
-            Double nwLong = propertyMap.get("nwLongitude").getDoubleValue();
-            Double seLat = propertyMap.get("seLatitude").getDoubleValue();
-            Double seLong = propertyMap.get("seLongitude").getDoubleValue();
-            /*
-            List<Long> locations = new ArrayList<>();
-            for (Value value : propertyMap.get("locations").getListValueList()) {
-                System.out.println(value.getIntegerValue());
-                locations.add(value.getIntegerValue());
-            }*/
-
-            System.out.println("LocationId = " + locationId);
-            System.out.println("OwnerId = " + ownerId);
-            System.out.println("Cost = " + cost);
-            System.out.println("Income = " + income);
-            System.out.println("nwLat = " + nwLat);
-            System.out.println("nwLong = " + nwLong);
-            System.out.println("seLat = " + seLat);
-            System.out.println("seLong = " + seLong);
-
-            location.setId(locationId);
-            location.setOwnerId(ownerId);
-            location.setCost(cost);
-            location.setIncome(income);
-            location.setNwLatitudeCoord(nwLat);
-            location.setNwLongitudeCoord(nwLong);
-            location.setSeLatitudeCoord(seLat);
-            location.setSeLongitudeCoord(seLong);
-            /** GeoPt not yet ready for prime time unfortunately
-            location.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
-            location.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
-             */
+            location = new LocationBean(entity);
 
         } catch (DatastoreException exception) {
             // Catch all Datastore rpc errors.
@@ -88,15 +56,53 @@ public class LocationAccess extends DataStoreAccess {
     /**
      * Specify upper left and lower right corners of a bounding region.
      * Because of a limitation of GAE datastore, we cannot make inequality queries on more
-     * than one property at a time. To workaround this, the query uses only a lattitude
+     * than one property at a time. To workaround this, the query uses only a latitude
      * filter, then does further filtering on the results.
+     * When GeoPt is supported bette, we can switch to using that.
      * @return a list of all locations within the bounds specified.
      */
     public List<LocationBean> getAllLocationsInRegion(
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
 
-        // @@TODO
-        return null;
+        // first query by latitude
+        Query.FilterPredicate nwLatFilter =
+                new Query.FilterPredicate("nwLatitude",
+                        Query.FilterOperator.GREATER_THAN_OR_EQUAL,
+                        nwLat);
+
+        Query.FilterPredicate seLatFilter =
+                new Query.FilterPredicate("swLattitue",
+                        Query.FilterOperator.LESS_THAN_OR_EQUAL,
+                        seLat);
+
+        // Use CompositeFilter to combine multiple filters
+        Query.CompositeFilter latRangeFilter =
+                Query.CompositeFilterOperator.and(nwLatFilter, seLatFilter);
+
+
+        // Use class Query to assemble a query
+        Query query = new Query("Location").setFilter(latRangeFilter);
+
+        // Use PreparedQuery interface to retrieve results
+        DatastoreService datastoreSvc = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery pq = datastoreSvc.prepare(query);
+
+        List<LocationBean> list = new ArrayList<>();
+/*
+        for (Entity result : pq.asQueryResultIterable()) { //pq.asIterable()) {
+            LocationBean loc = new LocationBean(result);
+            //String firstName = (String) result.getProperty("firstName");
+            //String lastName = (String) result.getProperty("lastName");
+            //Long height = (Long) result.getProperty("height");
+
+            System.out.println(loc);
+            list.add(loc);
+        }*/
+
+
+        // then manually filter by longitute (this is really only going to work as
+        // long as there are less than 1000 items in the result
+        return list;
     }
 
     /** @return new Location entity with specified info */
