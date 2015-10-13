@@ -26,6 +26,7 @@ public class UserRetrievalHandler implements IRetrievalHandler {
         if (result.getLocations() != null) {
             locs = result.getLocations().toString();
         }
+        System.out.println("User = " + result.toString());
         String message = result.getUserId() + " owns " + result.getCredits() + " credits, and these locations: " + locs;
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }

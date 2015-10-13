@@ -47,10 +47,6 @@ public class UserBean {
            locations.add(locsValue.getListValue(i).getIntegerValue());
         }*/
 
-        System.out.println("Username = " + username);
-        System.out.println("Credits = " + credits);
-        System.out.println("Locations = " + locations);
-
         this.setUserId(username);
         this.setCredits(credits);
         this.setLocations(locations);
@@ -60,6 +56,9 @@ public class UserBean {
         this.userId = userId;
     }
 
+    public String getUserId() {
+        return this.userId;
+    }
     public long getCredits() {
         return credits;
     }
@@ -74,6 +73,10 @@ public class UserBean {
 
     public void setLocations(List<Long> locations) {
         this.locations = locations;
+    }
+
+    public String toString() {
+        return "{userId: " + this.userId + " credits: " + this.credits + " location: " + this.locations + "}";
     }
 
 }

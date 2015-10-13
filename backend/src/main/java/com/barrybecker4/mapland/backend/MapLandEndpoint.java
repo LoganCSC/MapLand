@@ -74,7 +74,9 @@ public class MapLandEndpoint {
     public UserBean getUserInfo(@Named("userId") String userId) {
 
         UserAccess access = new UserAccess();
-        return access.getUserById(userId);
+        UserBean user = access.getUserById(userId);
+        System.out.println("returning user = " + user);
+        return user;
     }
 
     /**
