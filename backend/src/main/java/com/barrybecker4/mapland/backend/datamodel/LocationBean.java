@@ -41,9 +41,10 @@ public class LocationBean {
     public LocationBean(Entity locationEntity) {
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
-        //System.out.println("location propertyMap = "+ propertyMap);
+        System.out.println("location propertyMap = " + propertyMap);
 
-        Long locationId = propertyMap.get("id").getIntegerValue();
+        DatastoreV1.Value idVal = propertyMap.get("id");
+        Long locationId = idVal == null ?  null : idVal.getIntegerValue();
         String ownerId = propertyMap.get("ownerId").getStringValue();
         Long cost = propertyMap.get("cost").getIntegerValue();
         Integer income = (int) propertyMap.get("income").getIntegerValue();

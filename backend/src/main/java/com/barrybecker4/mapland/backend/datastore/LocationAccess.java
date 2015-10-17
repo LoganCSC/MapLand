@@ -116,7 +116,8 @@ public class LocationAccess extends DataStoreAccess {
                 System.out.println("retrieved " + locationBean);
                 // only add it to the list if it also meets the longitude filter.
                 // This must be done manually be because of bigTable query limitations.
-                if (locationBean.getNwLongitudeCoord() >= nwLong && locationBean.getSeLongitudeCoord() <= seLong) {
+                if (locationBean.getNwLongitudeCoord() >= nwLong &&
+                        locationBean.getSeLongitudeCoord() <= seLong) {
                     list.add(locationBean);
                 }
             }

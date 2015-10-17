@@ -68,7 +68,7 @@ public class DataStoreAccess {
         creq.setTransaction(createTransaction());
 
         // Insert the entity in the commit request mutation.
-        creq.getMutationBuilder().addInsert(entity);
+        creq.getMutationBuilder().addInsertAutoId(entity); // addInsert(entity)
 
         // Execute the Commit RPC synchronously and ignore the response.
         // Apply the insert mutation if the entity was not found and close

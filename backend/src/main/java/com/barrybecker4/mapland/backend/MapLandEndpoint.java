@@ -110,7 +110,6 @@ public class MapLandEndpoint {
             @Named("seLat") Double seLat, @Named("seLong") Double seLong) throws DatastoreException {
 
         LocationAccess access = new LocationAccess();
-        LocationBean newLocation = access.addNewLocation(owner, nwLat, nwLong, seLat, seLong);
-        return newLocation;
+        return access.addNewLocation(owner, nwLat, nwLong, seLat, seLong);
     }
 }

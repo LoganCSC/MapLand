@@ -59,7 +59,8 @@ import java.util.Map;
 public class LandGrabMapActivity extends FragmentActivity
         implements OnMapReadyCallback, AdapterView.OnItemSelectedListener, GameStateInitializedListener {
 
-    private static final LatLng INITIAL_POSITION = new LatLng(37.65478, -122.07035);
+    private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
+    private static final LatLng INITIAL_POSITION = new LatLng(37.6545, -122.0701);
     private static final int INITIAL_ZOOM_LEVEL = 11;
 
     // these spinners/droplists are AdapterViews and passed to onItemSelected.
@@ -114,7 +115,7 @@ public class LandGrabMapActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap map) {
         theMap = map;
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(INITIAL_POSITION, INITIAL_ZOOM_LEVEL));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(INITIAL_CENTER, INITIAL_ZOOM_LEVEL));
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         map.setMyLocationEnabled(true);

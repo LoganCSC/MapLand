@@ -50,7 +50,7 @@ public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, 
         try {
             return MapLandApiService.getInstance()
                     .addLocationInfo(loc.getOwnerId(),
-                            loc.getNwLatitudeCoord(), loc.getNwLongitudeCoord(), loc.getSeLatitudeCoord(), loc.getSeLatitudeCoord())
+                            loc.getNwLatitudeCoord(), loc.getNwLongitudeCoord(), loc.getSeLatitudeCoord(), loc.getSeLongitudeCoord())
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();
