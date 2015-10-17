@@ -1,5 +1,6 @@
 package com.barrybecker4.mapland.backend.datastore;
 
+import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.api.services.datastore.DatastoreV1.Key;
 import com.google.api.services.datastore.DatastoreV1.Property;
@@ -13,11 +14,15 @@ import com.barrybecker4.mapland.backend.datamodel.LocationBean;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+//import com.google.appengine.api.datastore.Query;
+import com.google.api.services.datastore.DatastoreV1.Query;
+//import com.google.appengine.api.datastore.Entity;
 import com.google.apphosting.datastore.DatastoreV4;
 import com.google.protobuf.InvalidProtocolBufferException;
+import static com.google.api.services.datastore.client.DatastoreHelper.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +31,8 @@ import java.util.Map;
  * TODO: add a method that gets location for a specified lat/long
  */
 public class LocationAccess extends DataStoreAccess {
+
+    public static final String KIND = "Location";
 
     /**
      * Get the specified location if it is in the database.
@@ -36,7 +43,7 @@ public class LocationAccess extends DataStoreAccess {
         LocationBean location = null;
 
         try {
-            Entity entity = getEntity("Location", locationId);
+            Entity entity = getEntity(KIND, locationId);
             location = new LocationBean(entity);
 
         } catch (DatastoreException exception) {
@@ -62,6 +69,56 @@ public class LocationAccess extends DataStoreAccess {
      * @return a list of all locations within the bounds specified.
      */
     public List<LocationBean> getAllLocationsInRegion(
+    Double nwLat, Double nwLong, Double seLat, Double seLong) {
+
+        // first query by latitude
+        Query.Builder query = Query.newBuilder();
+
+        DatastoreV1.Filter nwLatFilter =
+                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.GREATER_THAN_OR_EQUAL, makeValue(nwLat))
+                .build();
+        DatastoreV1.Filter seLatFilter =
+                makeFilter("seLatitude", DatastoreV1.PropertyFilter.Operator.LESS_THAN_OR_EQUAL, makeValue(seLat))
+                .build();
+
+        query.setFilter(makeFilter(nwLatFilter, seLatFilter));
+        query.addKindBuilder().setName(KIND);
+
+        DatastoreV1.RunQueryRequest request = DatastoreV1.RunQueryRequest.newBuilder().setQuery(query).build();
+        DatastoreV1.RunQueryResponse response;
+        List<LocationBean> list = new LinkedList<>();
+
+        try {
+            response = datastore.runQuery(request);
+
+            for (DatastoreV1.EntityResult result : response.getBatch().getEntityResultList()) {
+                Entity locationEntity = result.getEntity();
+                LocationBean locationBean = new LocationBean(locationEntity);
+                System.out.println("retrieved " + locationBean);
+                // only add it to the list if it also meets the longitude filter.
+                // This must be done manually be because of bigTable query limitations.
+                if (locationBean.getNwLongitudeCoord() >= nwLong && locationBean.getSeLongitudeCoord() <= seLong) {
+                    list.add(locationBean);
+                }
+            }
+        }
+        catch (  DatastoreException e) {
+            e.printStackTrace();
+        }
+        System.out.println("returning " + list.size() + " locations");
+
+        return list;
+    }
+
+    /**
+     * Specify upper left and lower right corners of a bounding region.
+     * Because of a limitation of GAE datastore, we cannot make inequality queries on more
+     * than one property at a time. To workaround this, the query uses only a latitude
+     * filter, then does further filtering on the results.
+     * When GeoPt is supported bette, we can switch to using that.
+     * @return a list of all locations within the bounds specified.
+     *
+    public List<LocationBean> getAllLocationsInRegion(
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
 
         // first query by latitude
@@ -71,7 +128,7 @@ public class LocationAccess extends DataStoreAccess {
                         nwLat);
 
         Query.FilterPredicate seLatFilter =
-                new Query.FilterPredicate("swLattitue",
+                new Query.FilterPredicate("seLatitude",
                         Query.FilterOperator.LESS_THAN_OR_EQUAL,
                         seLat);
 
@@ -88,8 +145,8 @@ public class LocationAccess extends DataStoreAccess {
         PreparedQuery pq = datastoreSvc.prepare(query);
 
         List<LocationBean> list = new ArrayList<>();
-/*
-        for (Entity result : pq.asQueryResultIterable()) { //pq.asIterable()) {
+
+        for (Entity result : pq.asIterable()) { //pq.asIterable()) {
             LocationBean loc = new LocationBean(result);
             //String firstName = (String) result.getProperty("firstName");
             //String lastName = (String) result.getProperty("lastName");
@@ -97,13 +154,12 @@ public class LocationAccess extends DataStoreAccess {
 
             System.out.println(loc);
             list.add(loc);
-        }*/
+        }
 
-
-        // then manually filter by longitute (this is really only going to work as
+        // then manually filter by longitude (this is really only going to work as
         // long as there are less than 1000 items in the result
         return list;
-    }
+    }*/
 
     /** @return new Location entity with specified info */
     private Entity createLocationEntity(

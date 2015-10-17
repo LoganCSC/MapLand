@@ -30,7 +30,7 @@ public class UserBean {
         //Value locsValue = entity.getProperty(1).getValue();
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(userEntity);
-        System.out.println("user propertyMap = "+ propertyMap);
+        //System.out.println("user propertyMap = "+ propertyMap);
 
         String username = propertyMap.get("name").getStringValue();
         Long credits = propertyMap.get("credits").getIntegerValue();
@@ -50,6 +50,7 @@ public class UserBean {
         this.setUserId(username);
         this.setCredits(credits);
         this.setLocations(locations);
+        System.out.println("created User:"  + this);
     }
 
     public void setUserId(String userId) {
@@ -78,5 +79,4 @@ public class UserBean {
     public String toString() {
         return "{userId: " + this.userId + " credits: " + this.credits + " location: " + this.locations + "}";
     }
-
 }

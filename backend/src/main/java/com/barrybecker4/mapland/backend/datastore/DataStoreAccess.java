@@ -11,7 +11,6 @@ import com.google.api.services.datastore.DatastoreV1.CommitRequest;
 import com.google.api.services.datastore.client.Datastore;
 import com.google.api.services.datastore.client.DatastoreException;
 
-import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.protobuf.ByteString;
 
 
@@ -23,8 +22,12 @@ public class DataStoreAccess {
     protected Datastore datastore = DataStorage.getInstance();
 
 
-    /** get the user entity, and if its not there create one */
-    protected Entity getEntity(String kind, Object name) throws DatastoreException {
+    /**
+     * get the entity, and if its not there create one
+     * @param kind the kind of entity to get
+     * @param id unique id - either name string or long id.
+     */
+    protected Entity getEntity(String kind, Object id) throws DatastoreException {
 
         // Create an RPC request to begin a new transaction.
         BeginTransactionRequest.Builder treq = BeginTransactionRequest.newBuilder();
@@ -37,8 +40,7 @@ public class DataStoreAccess {
         LookupRequest.Builder lreq = LookupRequest.newBuilder();
         // Set the entity key with only one `path_element`: no parent.
 
-        Key.Builder key = createKey(kind, name);
-
+        Key.Builder key = createKey(kind, id);
         lreq.addKey(key); // Add one key to the lookup request.
 
         // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
@@ -53,10 +55,10 @@ public class DataStoreAccess {
 
         Entity entity;
         if (lresp.getFoundCount() > 0) {
-            System.out.println("Found a user entity");
+            System.out.println("Found an entity with id = " + id);
             entity = lresp.getFound(0).getEntity();
         } else {
-            throw new IllegalStateException("No " + kind + " entity found with name " + name);
+            throw new IllegalStateException("No " + kind + " entity found with name " + id);
             /*
             // If no entity was found, create a new one.
             Long credits = (long) (100 * Math.random());
@@ -72,7 +74,6 @@ public class DataStoreAccess {
         datastore.commit(creq.build());  // need?
         return entity;
     }
-
 
     private Key.Builder createKey(String kind, Object name) {
         Key.PathElement.Builder pathBuilder = Key.PathElement.newBuilder().setKind(kind);

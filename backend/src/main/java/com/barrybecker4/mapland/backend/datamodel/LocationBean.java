@@ -34,7 +34,7 @@ public class LocationBean {
     public LocationBean(Entity locationEntity) {
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
-        System.out.println("location propertyMap = "+ propertyMap);
+        //System.out.println("location propertyMap = "+ propertyMap);
 
         Long locationId = propertyMap.get("id").getIntegerValue();
         String ownerId = propertyMap.get("ownerId").getStringValue();
@@ -44,22 +44,14 @@ public class LocationBean {
         Double nwLong = propertyMap.get("nwLongitude").getDoubleValue();
         Double seLat = propertyMap.get("seLatitude").getDoubleValue();
         Double seLong = propertyMap.get("seLongitude").getDoubleValue();
-            /*
-            List<Long> locations = new ArrayList<>();
-            for (Value value : propertyMap.get("locations").getListValueList()) {
-                System.out.println(value.getIntegerValue());
-                locations.add(value.getIntegerValue());
-            }*/
+        /*
+        List<Long> locations = new ArrayList<>();
+        for (Value value : propertyMap.get("locations").getListValueList()) {
+            System.out.println(value.getIntegerValue());
+            locations.add(value.getIntegerValue());
+        }*/
 
-        System.out.println("LocationId = " + locationId);
-        System.out.println("OwnerId = " + ownerId);
-        System.out.println("Cost = " + cost);
-        System.out.println("Income = " + income);
-        System.out.println("nwLat = " + nwLat);
-        System.out.println("nwLong = " + nwLong);
-        System.out.println("seLat = " + seLat);
-        System.out.println("seLong = " + seLong);
-
+        System.out.println("created Location: " + this);
 
         this.setId(locationId);
         this.setOwnerId(ownerId);
@@ -174,4 +166,9 @@ public class LocationBean {
         this.notes = notes;
     }
 
+    public String toString() {
+        return "{locationId: " + this.id + " owner: " + this.ownerId + " cost: " + this.cost
+                + " nw["+this.nwLatitudeCoord +", " + this.nwLongitudeCoord+"] sw["
+                + this.seLatitudeCoord +", " + this.seLongitudeCoord+"]}";
+    }
 }
