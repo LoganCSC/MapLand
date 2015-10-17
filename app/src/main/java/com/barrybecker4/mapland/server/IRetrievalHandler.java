@@ -7,5 +7,5 @@ import com.google.api.client.json.GenericJson;
  */
 public interface IRetrievalHandler {
 
-    public void entityRetrieved(GenericJson entity);
+    public void jsonRetrieved(GenericJson result);
 }

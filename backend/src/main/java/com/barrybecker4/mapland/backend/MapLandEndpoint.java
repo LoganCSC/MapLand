@@ -82,6 +82,18 @@ public class MapLandEndpoint {
     /**
      * endpoint method that takes a locationId and returns persisted information about that location.
      */
+    @ApiMethod(name = "getLocationsInViewPort")
+    public List<LocationBean> getLocationsInViewPort(
+            @Named("nwLat") Double nwLat, @Named("nwLong") Double nwLong,
+            @Named("seLat") Double seLat, @Named("seLong") Double seLong) {
+
+        LocationAccess access = new LocationAccess();
+        return access.getAllLocationsInViewPort(nwLat, nwLong, seLat, seLong);
+    }
+
+    /**
+     * endpoint method that takes a locationId and returns persisted information about that location.
+     */
     @ApiMethod(name = "getLocationInfo")
     public LocationBean getLocationInfo(@Named("locationId") Long locationId) {
         LocationBean response = new LocationBean();

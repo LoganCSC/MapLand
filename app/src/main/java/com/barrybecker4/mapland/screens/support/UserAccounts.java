@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Provide support for accesing user accounts on the device
+ * Provide support for accessing user accounts on the device
  * @author Barry Becker
  */
 public class UserAccounts {

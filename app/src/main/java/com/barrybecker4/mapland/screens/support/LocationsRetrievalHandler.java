@@ -3,20 +3,24 @@ package com.barrybecker4.mapland.screens.support;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBeanCollection;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.server.IRetrievalHandler;
 import com.google.api.client.json.GenericJson;
 
+import java.util.List;
+
 /**
  * @author Barry Becker
  */
-public class UserRetrievalHandler implements IRetrievalHandler {
+public class LocationsRetrievalHandler implements IRetrievalHandler {
 
     private Context context;
     private GameState state;
 
-    public UserRetrievalHandler(Context context, GameState state) {
+    public LocationsRetrievalHandler(Context context, GameState state) {
 
         this.context = context;
         this.state = state;
@@ -25,15 +29,11 @@ public class UserRetrievalHandler implements IRetrievalHandler {
     /** Show a popup with the user info */
     @Override
     public void jsonRetrieved(GenericJson result) {
-        UserBean user = (UserBean) result;
-        state.setCurrentUser(user);
+        List<LocationBean> locations = ((LocationBeanCollection)result).getItems();
+        state.setVisibleLocations(locations);
 
-        String locs = "null locations!";
-        if (user.getLocations() != null) {
-            locs = user.getLocations().toString();
-        }
-        System.out.println("User = " + user.toString());
-        String message = user.getUserId() + " owns " + user.getCredits() + " credits, and these locations: " + locs;
+        String message = "Locations retrieved to client = " + locations;
+        System.out.println(message);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

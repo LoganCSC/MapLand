@@ -26,9 +26,13 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.barrybecker4.mapland.R;
+import com.barrybecker4.mapland.game.GameState;
+import com.barrybecker4.mapland.screens.support.LocationsRetrievalHandler;
 import com.barrybecker4.mapland.screens.support.UserAccounts;
 import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
+import com.barrybecker4.mapland.server.LocationRetriever;
 import com.barrybecker4.mapland.server.UserRetriever;
+import com.barrybecker4.mapland.server.ViewPort;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,12 +48,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This shows how to create a simple activity with a map and a marker on the map.
+ * Lang Grab is a game where you try to acquire as much land as you can in a certain time interval.
  */
 public class LandGrabMapActivity extends FragmentActivity
         implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
-    /// these spinners/droplists are AdapterViews and passed to onItemSelected.
+    // these spinners/droplists are AdapterViews and passed to onItemSelected.
     private Spinner userDropList;
     private Spinner mapTypeDropList;
 
@@ -65,12 +70,14 @@ public class LandGrabMapActivity extends FragmentActivity
     }
 
     private CompoundButton mTrafficCheckbox;
+    private GameState state;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.land_grab_screen);
+        state = new GameState();
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -92,7 +99,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
 
-        updateWithNewUser();
+        retrieveActiveUser();
     }
 
 
@@ -101,6 +108,8 @@ public class LandGrabMapActivity extends FragmentActivity
         theMap = map;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(37.65478, -122.07035), 11));
+
+        retrieveVisibleLocations();
 
         map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
@@ -127,7 +136,7 @@ public class LandGrabMapActivity extends FragmentActivity
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent == userDropList) {
-            updateWithNewUser();
+            retrieveActiveUser();
         }
         else if (parent == mapTypeDropList) {
             if (theMap != null) {
@@ -139,20 +148,21 @@ public class LandGrabMapActivity extends FragmentActivity
         }
     }
 
-    private void updateWithNewUser() {
-        String username = (String)userDropList.getSelectedItem(); //UserAccounts.getDefaultAccountName(this);
+    /**
+     * Retrieve the user (asynchronously) specified in the droplist.
+     */
+    private void retrieveActiveUser() {
+        String username = (String)userDropList.getSelectedItem();
+        UserRetriever.getUser(username, this, new UserRetrievalHandler(this, state));
+    }
 
-        // call the backend server asynchronously
-        UserRetriever.getUser(username, this, new UserRetrievalHandler(this));
-        //AsyncTask<Pair<Context, String>, Void, UserBean> task = new UserRetriever();
-        //task.execute(new Pair<Context, String>(this, username));
-        /*
-        Log.i("TASK", "status = " + task.getStatus());
-        try {
-            Log.i("TASK", "value = " + task.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }*/
+    /**
+     * Retrieve the locations that are in the current map viewport.
+     */
+    private void retrieveVisibleLocations() {
+        VisibleRegion region = theMap.getProjection().getVisibleRegion();
+        ViewPort viewport = new ViewPort(region);
+        LocationRetriever.getLocations(viewport, this, new LocationsRetrievalHandler(this, state));
     }
 
     @Override

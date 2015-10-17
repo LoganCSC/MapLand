@@ -68,8 +68,8 @@ public class LocationAccess extends DataStoreAccess {
      * When GeoPt is supported bette, we can switch to using that.
      * @return a list of all locations within the bounds specified.
      */
-    public List<LocationBean> getAllLocationsInRegion(
-    Double nwLat, Double nwLong, Double seLat, Double seLong) {
+    public List<LocationBean> getAllLocationsInViewPort(
+            Double nwLat, Double nwLong, Double seLat, Double seLong) {
 
         // first query by latitude
         Query.Builder query = Query.newBuilder();
@@ -118,7 +118,7 @@ public class LocationAccess extends DataStoreAccess {
      * When GeoPt is supported bette, we can switch to using that.
      * @return a list of all locations within the bounds specified.
      *
-    public List<LocationBean> getAllLocationsInRegion(
+    public List<LocationBean> getAllLocationsInViewPort(
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
 
         // first query by latitude
