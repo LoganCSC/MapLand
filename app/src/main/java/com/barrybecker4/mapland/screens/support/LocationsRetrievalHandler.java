@@ -5,9 +5,8 @@ import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBeanCollection;
-import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
-import com.barrybecker4.mapland.server.IRetrievalHandler;
+import com.barrybecker4.mapland.server.IResponseHandler;
 import com.google.api.client.json.GenericJson;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * @author Barry Becker
  */
-public class LocationsRetrievalHandler implements IRetrievalHandler {
+public class LocationsRetrievalHandler implements IResponseHandler {
 
     private Context context;
     private GameState state;

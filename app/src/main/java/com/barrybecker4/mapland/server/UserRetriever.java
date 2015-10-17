@@ -15,18 +15,18 @@ import java.io.IOException;
 public class UserRetriever extends AsyncTask<Pair<Context, String>, Void, UserBean> {
 
     private Context context;
-    private IRetrievalHandler callback;
+    private IResponseHandler callback;
 
     /**
      * Asynchronously retrieve the user (or add if not there)
      */
-    public static void getUser(String username, Context context, IRetrievalHandler callback) {
+    public static void getUser(String username, Context context, IResponseHandler callback) {
 
         // call the backend server
         AsyncTask<Pair<Context, String>, Void, UserBean> task = new UserRetriever(callback);
         task.execute(new Pair<>(context, username));
 
-        Log.i("TASK", "status = " + task.getStatus());
+        Log.i("TASK", "user retriever status = " + task.getStatus());
         /*
         try {
             Log.i("TASK", "value = " + task.get());
@@ -39,7 +39,7 @@ public class UserRetriever extends AsyncTask<Pair<Context, String>, Void, UserBe
      * Constructor
      * @param callback called when the user entity has been retrieved
      */
-    public UserRetriever(IRetrievalHandler callback) {
+    private UserRetriever(IResponseHandler callback) {
         this.callback = callback;
     }
 

@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.backend.datastore;
 
 //import com.google.appengine.api.datastore.Entity;
+import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.DatastoreV1.BeginTransactionResponse;
 import com.google.api.services.datastore.DatastoreV1.BeginTransactionRequest;
 import com.google.api.services.datastore.DatastoreV1.Entity;
@@ -23,35 +24,25 @@ public class DataStoreAccess {
 
 
     /**
-     * get the entity, and if its not there create one
+     * Get the specified entity. If its not there, throw an exception
      * @param kind the kind of entity to get
      * @param id unique id - either name string or long id.
+     * @throws DatastoreException if proplem accessing the datastore
+     * @throws IllegalStateException if entity with specified id not found
      */
     protected Entity getEntity(String kind, Object id) throws DatastoreException {
 
-        // Create an RPC request to begin a new transaction.
-        BeginTransactionRequest.Builder treq = BeginTransactionRequest.newBuilder();
-        // Execute the RPC synchronously.
-        BeginTransactionResponse tres = datastore.beginTransaction(treq.build());
-        // Get the transaction handle from the response.
-        ByteString tx = tres.getTransaction();
-
         // Create an RPC request to get entities by key.
         LookupRequest.Builder lreq = LookupRequest.newBuilder();
-        // Set the entity key with only one `path_element`: no parent.
 
         Key.Builder key = createKey(kind, id);
         lreq.addKey(key); // Add one key to the lookup request.
 
         // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
-        lreq.getReadOptionsBuilder().setTransaction(tx);
+        lreq.getReadOptionsBuilder().setTransaction(createTransaction());
         // Execute the RPC and get the response.
         LookupResponse lresp = datastore.lookup(lreq.build());
 
-        // Create an RPC request to commit the transaction.
-        CommitRequest.Builder creq = CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
 
         Entity entity;
         if (lresp.getFoundCount() > 0) {
@@ -59,20 +50,47 @@ public class DataStoreAccess {
             entity = lresp.getFound(0).getEntity();
         } else {
             throw new IllegalStateException("No " + kind + " entity found with name " + id);
-            /*
-            // If no entity was found, create a new one.
-            Long credits = (long) (100 * Math.random());
-            List<Long> locations = Arrays.asList(34L, 45L, 67L);
-            entity = createUserEntity(key, name, credits, locations);
-            // Insert the entity in the commit request mutation.
-            creq.getMutationBuilder().addInsert(entity);*/
         }
+
+        return entity;
+    }
+
+    /**
+     * @param entity the entity to add
+     * @return the complete entity that was added
+     * DatastoreException if problem accessing the datastore
+     */
+    protected void insertEntity(Entity entity) throws DatastoreException {
+
+        // Create an RPC request to commit the transaction.
+        CommitRequest.Builder creq = CommitRequest.newBuilder();
+        // Set the transaction to commit.
+        creq.setTransaction(createTransaction());
+
+        // Insert the entity in the commit request mutation.
+        creq.getMutationBuilder().addInsert(entity);
 
         // Execute the Commit RPC synchronously and ignore the response.
         // Apply the insert mutation if the entity was not found and close
         // the transaction.
-        datastore.commit(creq.build());  // need?
-        return entity;
+        DatastoreV1.CommitResponse resp = datastore.commit(creq.build());
+        Key key = resp.getMutationResult().getInsertAutoIdKey(0);
+        Long id = key.getPathElement(0).getId();
+        System.out.println("id generated for location just added : " + id);
+        //return entity;
+    }
+
+    /**
+     * @return new transaction
+     * @throws DatastoreException if problem accessing the datastore
+     */
+    protected ByteString createTransaction() throws DatastoreException {
+        // Create an RPC request to begin a new transaction.
+        BeginTransactionRequest.Builder treq = BeginTransactionRequest.newBuilder();
+        // Execute the RPC synchronously.
+        BeginTransactionResponse tres = datastore.beginTransaction(treq.build());
+        // Get the transaction handle from the response.
+        return tres.getTransaction();
     }
 
     private Key.Builder createKey(String kind, Object name) {

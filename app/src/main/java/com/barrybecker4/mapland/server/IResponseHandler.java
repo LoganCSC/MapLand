@@ -5,7 +5,7 @@ import com.google.api.client.json.GenericJson;
 /**
  * @author Barry Becker
  */
-public interface IRetrievalHandler {
+public interface IResponseHandler {
 
     public void jsonRetrieved(GenericJson result);
 }

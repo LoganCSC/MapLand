@@ -55,21 +55,16 @@ public class UserAccess extends DataStoreAccess {
     /** get the user entity, and if its not there create one */
     private Entity getUserEntity(String kind, String name) throws DatastoreException {
 
-        // Create an RPC request to begin a new transaction.
-        BeginTransactionRequest.Builder treq = BeginTransactionRequest.newBuilder();
-        // Execute the RPC synchronously.
-        BeginTransactionResponse tres = datastore.beginTransaction(treq.build());
-        // Get the transaction handle from the response.
-        ByteString tx = tres.getTransaction();
-
         // Create an RPC request to get entities by key.
         LookupRequest.Builder lreq = LookupRequest.newBuilder();
         // Set the entity key with only one `path_element`: no parent.
         Key.Builder key = Key.newBuilder().addPathElement(
                 Key.PathElement.newBuilder().setKind(kind).setName(name));
         lreq.addKey(key); // Add one key to the lookup request.
+        //key.getPathElement(0).getName()
 
         // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
+        ByteString tx = createTransaction();
         lreq.getReadOptionsBuilder().setTransaction(tx);
         // Execute the RPC and get the response.
         LookupResponse lresp = datastore.lookup(lreq.build());

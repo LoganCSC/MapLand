@@ -16,6 +16,7 @@
 
 package com.barrybecker4.mapland.screens;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -26,10 +27,15 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.barrybecker4.mapland.R;
+import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
 import com.barrybecker4.mapland.game.GameState;
+import com.barrybecker4.mapland.game.GameStateInitializedListener;
+import com.barrybecker4.mapland.game.LocationUtil;
+import com.barrybecker4.mapland.screens.support.LocationAddHandler;
 import com.barrybecker4.mapland.screens.support.LocationsRetrievalHandler;
 import com.barrybecker4.mapland.screens.support.UserAccounts;
 import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
+import com.barrybecker4.mapland.server.LocationAdder;
 import com.barrybecker4.mapland.server.LocationRetriever;
 import com.barrybecker4.mapland.server.UserRetriever;
 import com.barrybecker4.mapland.server.ViewPort;
@@ -51,7 +57,10 @@ import java.util.Map;
  * Lang Grab is a game where you try to acquire as much land as you can in a certain time interval.
  */
 public class LandGrabMapActivity extends FragmentActivity
-        implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
+        implements OnMapReadyCallback, AdapterView.OnItemSelectedListener, GameStateInitializedListener {
+
+    private static final LatLng INITIAL_POSITION = new LatLng(37.65478, -122.07035);
+    private static final int INITIAL_ZOOM_LEVEL = 11;
 
     // these spinners/droplists are AdapterViews and passed to onItemSelected.
     private Spinner userDropList;
@@ -77,7 +86,7 @@ public class LandGrabMapActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.land_grab_screen);
-        state = new GameState();
+        state = new GameState(this);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -102,28 +111,27 @@ public class LandGrabMapActivity extends FragmentActivity
         retrieveActiveUser();
     }
 
-
     @Override
     public void onMapReady(GoogleMap map) {
         theMap = map;
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(37.65478, -122.07035), 11));
-
-        retrieveVisibleLocations();
-
-        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-
-        // Other supported types include: MAP_TYPE_NORMAL,
-        // MAP_TYPE_TERRAIN, MAP_TYPE_HYBRID and MAP_TYPE_NONE
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(INITIAL_POSITION, INITIAL_ZOOM_LEVEL));
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         map.setMyLocationEnabled(true);
-        UiSettings settings = map.getUiSettings();
+        configureMapSettings(map);
 
-        settings.setZoomControlsEnabled(true);
-        settings.setCompassEnabled(true);
-        settings.setMyLocationButtonEnabled(true);
-        settings.setScrollGesturesEnabled(true);
+        retrieveVisibleLocations();
+
+        Location loc = map.getMyLocation();
+
+        LatLng pos = INITIAL_POSITION;
+        if (loc != null) {
+            // we can only set it if on a real device
+            pos = new LatLng(loc.getLatitude(), loc.getLongitude());
+        }
+
+        map.addMarker(new MarkerOptions().position(pos).title("Marker"));
+        state.setCurrentPosition(pos);
     }
 
     /**
@@ -148,6 +156,14 @@ public class LandGrabMapActivity extends FragmentActivity
         }
     }
 
+    private void configureMapSettings(GoogleMap map) {
+        UiSettings settings = map.getUiSettings();
+        settings.setZoomControlsEnabled(true);
+        settings.setCompassEnabled(true);
+        settings.setMyLocationButtonEnabled(true);
+        settings.setScrollGesturesEnabled(true);
+    }
+
     /**
      * Retrieve the user (asynchronously) specified in the droplist.
      */
@@ -167,5 +183,37 @@ public class LandGrabMapActivity extends FragmentActivity
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    /**
+     * Called when the game state is initialized
+     * Locations are only added as needed. Initially there are no locations in a game
+     * When a user occupies a spot for the first time, a location is created and the
+     * user gets ownership of it.
+     * If a user moves into a location owned by someone else, then get ownership.
+     */
+    @Override
+    public void initialized(GameState state) {
+
+        LocationBean currentLocation = null;
+        String user = state.getCurrentUser().getUserId();
+
+        // if the user owns the current location, then set it as current
+        List<LocationBean> locations = state.getVisibleLocations();
+        for (LocationBean loc : locations) {
+            if (LocationUtil.contains(state.getCurrentPosition(), loc)) {
+                state.setCurrentLocation(loc);
+                if (!loc.getOwnerId().equals(user)) {
+                    // then need to change ownership on this location to the current user!
+                    System.out.println("The location you are in is owned by " + loc.getOwnerId());
+                }
+            }
+        }
+
+        // otherwise, add this new location to the datastore, and to the users list of owned locations
+        LocationBean loc = LocationUtil.createLocationAtPosition(user, state.getCurrentPosition());
+        LocationAdder.addLocation(loc, this, new LocationAddHandler(this, state));
+
+        state.setCurrentLocation(currentLocation);
     }
 }

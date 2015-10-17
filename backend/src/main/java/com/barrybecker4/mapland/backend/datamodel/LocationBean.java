@@ -11,6 +11,13 @@ import java.util.Map;
  * Used to transfer information about a specific map location
  * The rectangular region is defined by north-west (nw) and south-east (se) geo coordinates.
  *
+ * Locations are square grid cells on a map where the coordinates of the corner vertices
+ * are simply the lat/long degree coordinates rounded to 3 decimal places.
+ * Since 1 degree of latitude ~= 69 miles,
+ * this means the edge length of a grid cell is about 364 feet in the horizontal direction.
+ * Since 1 degree of longitude ~= 54.6 miles,
+ * this means the edge length of a grid cell is about 288 feet in the vertical direction.
+ *
  * @author Barry Becker
  */
 public class LocationBean {

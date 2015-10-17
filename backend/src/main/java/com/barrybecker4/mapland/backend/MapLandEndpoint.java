@@ -13,6 +13,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.barrybecker4.mapland.backend.datamodel.LocationBean;
+import com.google.api.services.datastore.client.DatastoreException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +42,7 @@ import javax.inject.Named;
  */
 public class MapLandEndpoint {
 
-    //private Map<String, UserBean> userInfoMap = new HashMap<>();
-    private Map<Long, LocationBean> locationInfoMap = new HashMap<>();
+    //private Map<Long, LocationBean> locationInfoMap = new HashMap<>();
 
     private static final String GUEST = "guest";
     private static final UserBean GUEST_INFO = new UserBean();
@@ -53,6 +53,7 @@ public class MapLandEndpoint {
         locations.add(123L);
         GUEST_INFO.setLocations(locations);
     }
+    /*
     private static final LocationBean LOCATION_123_INFO = new LocationBean();
     static {
         LOCATION_123_INFO.setId(123L);
@@ -63,7 +64,7 @@ public class MapLandEndpoint {
         LOCATION_123_INFO.setNwLongitudeCoord(124.45);
         LOCATION_123_INFO.setSeLatitudeCoord(125.45);
         LOCATION_123_INFO.setSeLongitudeCoord(126.45);
-    }
+    }*/
 
     private static final Random RAND = new Random();
 
@@ -96,38 +97,20 @@ public class MapLandEndpoint {
      */
     @ApiMethod(name = "getLocationInfo")
     public LocationBean getLocationInfo(@Named("locationId") Long locationId) {
-        LocationBean response = new LocationBean();
-
         LocationAccess access = new LocationAccess();
         return access.getLocationById(locationId);
     }
 
     /**
-     * endpoint method that takes adds a new location with specified information.
+     * endpoint method that adds a new location with specified information.
      */
     @ApiMethod(name = "addLocationInfo")
-    public LocationBean addLocationInfo(@Named("locationId") Long locationId) {
-        LocationBean response = new LocationBean();
+    public LocationBean addLocationInfo(@Named("owner") String owner,
+            @Named("nwLat") Double nwLat, @Named("nwLong") Double nwLong,
+            @Named("seLat") Double seLat, @Named("seLong") Double seLong) throws DatastoreException {
 
-        if (locationInfoMap.containsKey(locationId)) {
-            response = locationInfoMap.get(locationId);
-        }
-        else if (locationId.equals(LOCATION_123_INFO.getId())) {
-            response = LOCATION_123_INFO;
-        }
-        else {
-            // Someone new. Create some random location
-            Long id = RAND.nextLong();
-            response.setId(id);
-            response.setCost(RAND.nextInt(500) + 7);
-            response.setIncome(RAND.nextInt(20));
-            response.setNwLatitudeCoord(RAND.nextDouble());
-            response.setNwLongitudeCoord(RAND.nextDouble());
-            response.setSeLatitudeCoord(RAND.nextDouble());
-            response.setSeLongitudeCoord(RAND.nextDouble());
-            locationInfoMap.put(id, response);
-        }
-
-        return response;
+        LocationAccess access = new LocationAccess();
+        LocationBean newLocation = access.addNewLocation(owner, nwLat, nwLong, seLat, seLong);
+        return newLocation;
     }
 }
