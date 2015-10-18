@@ -76,7 +76,9 @@ public class GameState {
 
     private void checkIfInitialized() {
         if (initialized) return;
-        initialized = (currentUser != null && currentPosition != null && visibleLocations != null);
+        initialized = (currentUser != null
+                && currentPosition != null
+                && visibleLocations != null);
 
         if (initialized && listener != null) {
             listener.initialized(this);

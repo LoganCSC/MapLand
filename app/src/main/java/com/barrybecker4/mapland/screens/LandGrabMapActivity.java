@@ -28,6 +28,7 @@ import android.widget.Spinner;
 
 import com.barrybecker4.mapland.R;
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.game.GameStateInitializedListener;
 import com.barrybecker4.mapland.game.LocationUtil;
@@ -39,6 +40,7 @@ import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
 import com.barrybecker4.mapland.server.LocationAdder;
 import com.barrybecker4.mapland.server.LocationRetriever;
 import com.barrybecker4.mapland.server.UserRetriever;
+import com.barrybecker4.mapland.server.UserUpdater;
 import com.barrybecker4.mapland.server.ViewPort;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -63,10 +65,9 @@ public class LandGrabMapActivity extends FragmentActivity
     // these spinners/droplists are AdapterViews and passed to onItemSelected.
     private Spinner userDropList;
     private Spinner mapTypeDropList;
+    private CompoundButton mTrafficCheckbox;
 
     private LandMap theMap;
-
-    private CompoundButton mTrafficCheckbox;
     private GameState state;
 
 
@@ -155,30 +156,32 @@ public class LandGrabMapActivity extends FragmentActivity
      * Locations are only added as needed. Initially there are no locations in a game
      * When a user occupies a spot for the first time, a location is created and the
      * user gets ownership of it.
-     * If a user moves into a location owned by someone else, then get ownership.
+     * If a user moves into a location owned by someone else, then they get ownership.
      */
     @Override
     public void initialized(GameState state) {
 
-        LocationBean currentLocation = null;
-        String user = state.getCurrentUser().getUserId();
+        //LocationBean currentLocation = null;
+        UserBean user = state.getCurrentUser();
 
         // if the user owns the current location, then set it as current
         List<LocationBean> locations = state.getVisibleLocations();
         for (LocationBean loc : locations) {
             if (LocationUtil.contains(state.getCurrentPosition(), loc)) {
                 state.setCurrentLocation(loc);
-                if (!loc.getOwnerId().equals(user)) {
+                if (!loc.getOwnerId().equals(user.getUserId())) {
                     // then need to change ownership on this location to the current user!
                     System.out.println("The location you are in is owned by " + loc.getOwnerId());
+
+                    user.getLocations().add(loc.getId());
+                    UserUpdater.updateUser(user, this, null);
                 }
             }
         }
-
-        // otherwise, add this new location to the datastore, and to the users list of owned locations
-        LocationBean loc = LocationUtil.createLocationAtPosition(user, state.getCurrentPosition());
-        LocationAdder.addLocation(loc, this, new LocationAddHandler(this, state));
-
-        state.setCurrentLocation(currentLocation);
+        if (state.getCurrentLocation() == null) {
+            // otherwise, add this new location to the datastore, and to the users list of owned locations
+            LocationBean loc = LocationUtil.createLocationAtPosition(user.getUserId(), state.getCurrentPosition());
+            LocationAdder.addLocation(loc, this, new LocationAddHandler(this, state));
+        }
     }
 }
