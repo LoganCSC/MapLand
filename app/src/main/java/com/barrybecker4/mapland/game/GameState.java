@@ -32,6 +32,12 @@ public class GameState {
         this.initialized = false;
     }
 
+    /** call this before changing the current user */
+    public void reset() {
+        currentUser = null;
+        initialized = false;
+    }
+
     public UserBean getCurrentUser() {
         return currentUser;
     }

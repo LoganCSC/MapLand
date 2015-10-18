@@ -31,6 +31,7 @@ import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.game.GameStateInitializedListener;
 import com.barrybecker4.mapland.game.LocationUtil;
+import com.barrybecker4.mapland.screens.support.LandMap;
 import com.barrybecker4.mapland.screens.support.LocationAddHandler;
 import com.barrybecker4.mapland.screens.support.LocationsRetrievalHandler;
 import com.barrybecker4.mapland.screens.support.UserAccounts;
@@ -59,25 +60,11 @@ import java.util.Map;
 public class LandGrabMapActivity extends FragmentActivity
         implements OnMapReadyCallback, AdapterView.OnItemSelectedListener, GameStateInitializedListener {
 
-    private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
-    private static final LatLng INITIAL_POSITION = new LatLng(37.6545, -122.0701);
-    private static final int INITIAL_ZOOM_LEVEL = 11;
-
     // these spinners/droplists are AdapterViews and passed to onItemSelected.
     private Spinner userDropList;
     private Spinner mapTypeDropList;
 
-    private List<String> mapTypeValues = Arrays.asList(
-            "Normal", "Terrain", "Hybrid", "Satellite");
-    private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
-    private GoogleMap theMap;
-
-    static {
-        MAP_TYPE_MAP.put("Normal", GoogleMap.MAP_TYPE_NORMAL);
-        MAP_TYPE_MAP.put("Terrain", GoogleMap.MAP_TYPE_TERRAIN);
-        MAP_TYPE_MAP.put("Hybrid", GoogleMap.MAP_TYPE_HYBRID);
-        MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
-    }
+    private LandMap theMap;
 
     private CompoundButton mTrafficCheckbox;
     private GameState state;
@@ -103,7 +90,7 @@ public class LandGrabMapActivity extends FragmentActivity
         // map type droplist
         mapTypeDropList = (Spinner) findViewById(R.id.map_type_select);
         ArrayAdapter mapTypeAdapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, mapTypeValues);
+                android.R.layout.simple_spinner_item, LandMap.MAP_TYPE_VALUES);
         mapTypeDropList.setAdapter(mapTypeAdapter);
         mapTypeDropList.setOnItemSelectedListener(this);
 
@@ -114,55 +101,32 @@ public class LandGrabMapActivity extends FragmentActivity
 
     @Override
     public void onMapReady(GoogleMap map) {
-        theMap = map;
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(INITIAL_CENTER, INITIAL_ZOOM_LEVEL));
-        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-
-        map.setMyLocationEnabled(true);
-        configureMapSettings(map);
-
+        theMap = new LandMap(map);
+        state.setCurrentPosition(theMap.getCurrentLocation());
         retrieveVisibleLocations();
-
-        Location loc = map.getMyLocation();
-
-        LatLng pos = INITIAL_POSITION;
-        if (loc != null) {
-            // we can only set it if on a real device
-            pos = new LatLng(loc.getLatitude(), loc.getLongitude());
-        }
-
-        map.addMarker(new MarkerOptions().position(pos).title("Marker"));
-        state.setCurrentPosition(pos);
     }
 
     /**
      * Called when the traffic checkbox is toggled
      */
     public void onToggleTraffic(View view) {
-        theMap.setTrafficEnabled(mTrafficCheckbox.isChecked());
+        theMap.showTraffic(mTrafficCheckbox.isChecked());
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent == userDropList) {
+            state.reset();
             retrieveActiveUser();
         }
         else if (parent == mapTypeDropList) {
             if (theMap != null) {
-                theMap.setMapType(MAP_TYPE_MAP.get((String)mapTypeDropList.getSelectedItem()));
+                theMap.setMapType((String)mapTypeDropList.getSelectedItem());
             }
         }
         else {
             Log.i("WARNING", "No droplist found for " + parent.toString() + " item=" + parent.getSelectedItem());
         }
-    }
-
-    private void configureMapSettings(GoogleMap map) {
-        UiSettings settings = map.getUiSettings();
-        settings.setZoomControlsEnabled(true);
-        settings.setCompassEnabled(true);
-        settings.setMyLocationButtonEnabled(true);
-        settings.setScrollGesturesEnabled(true);
     }
 
     /**
@@ -177,7 +141,7 @@ public class LandGrabMapActivity extends FragmentActivity
      * Retrieve the locations that are in the current map viewport.
      */
     private void retrieveVisibleLocations() {
-        VisibleRegion region = theMap.getProjection().getVisibleRegion();
+        VisibleRegion region = theMap.getVisibleRegion();
         ViewPort viewport = new ViewPort(region);
         LocationRetriever.getLocations(viewport, this, new LocationsRetrievalHandler(this, state));
     }
