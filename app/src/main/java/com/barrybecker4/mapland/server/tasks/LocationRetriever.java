@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.server;
+package com.barrybecker4.mapland.server.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,6 +6,9 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBeanCollection;
+import com.barrybecker4.mapland.server.IResponseHandler;
+import com.barrybecker4.mapland.server.MapLandApiService;
+import com.barrybecker4.mapland.server.ViewPort;
 
 import java.io.IOException;
 
@@ -45,6 +48,7 @@ public class LocationRetriever extends AsyncTask<Pair<Context, ViewPort>, Void, 
 
         context = params[0].first;
         ViewPort view = params[0].second;
+        System.out.println("Now requesting all locations bounded by " + view);
 
         try {
             return MapLandApiService.getInstance()

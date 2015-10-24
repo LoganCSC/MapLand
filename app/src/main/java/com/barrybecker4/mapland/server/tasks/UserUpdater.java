@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.server;
+package com.barrybecker4.mapland.server.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,13 +6,16 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
+import com.barrybecker4.mapland.server.IResponseHandler;
+import com.barrybecker4.mapland.server.MapLandApiService;
+
 import java.io.IOException;
 
 /**
  * Used to communicate with the backend endpoints (REST service running
- * in the cloud on Google App Engine) to get info on the current user.
+ * in the cloud on Google App Engine) to add or update users.
  */
-public class UserRetriever extends AsyncTask<Pair<Context, String>, Void, UserBean> {
+public class UserUpdater extends AsyncTask<Pair<Context, UserBean>, Void, UserBean> {
 
     private Context context;
     private IResponseHandler callback;
@@ -20,38 +23,34 @@ public class UserRetriever extends AsyncTask<Pair<Context, String>, Void, UserBe
     /**
      * Asynchronously retrieve the user (or add if not there)
      */
-    public static void getUser(String username, Context context, IResponseHandler callback) {
+    public static void updateUser(UserBean user, Context context, IResponseHandler callback) {
 
         // call the backend server
-        AsyncTask<Pair<Context, String>, Void, UserBean> task = new UserRetriever(callback);
-        task.execute(new Pair<>(context, username));
+        AsyncTask<Pair<Context, UserBean>, Void, UserBean> task =
+                new UserUpdater(callback);
 
-        Log.i("TASK", "user retriever status = " + task.getStatus());
-        /*
-        try {
-            Log.i("TASK", "value = " + task.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }*/
+        task.execute(new Pair<>(context, user));
+
+        Log.i("TASK", "update user status = " + task.getStatus());
     }
 
     /**
      * Constructor
      * @param callback called when the user entity has been retrieved
      */
-    private UserRetriever(IResponseHandler callback) {
+    private UserUpdater(IResponseHandler callback) {
         this.callback = callback;
     }
 
     @Override
-    protected UserBean doInBackground(Pair<Context, String>... params) {
+    protected UserBean doInBackground(Pair<Context, UserBean>... params) {
 
         context = params[0].first;
-        String userId = params[0].second;
+        UserBean user = params[0].second;
 
         try {
             return MapLandApiService.getInstance()
-                    .getUserInfo(userId)
+                    .updateUserInfo(user)
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,4 +64,5 @@ public class UserRetriever extends AsyncTask<Pair<Context, String>, Void, UserBe
             callback.jsonRetrieved(result);
         }
     }
+
 }

@@ -3,7 +3,7 @@ package com.barrybecker4.mapland.backend.datamodel;
 import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.api.services.datastore.DatastoreV1.Entity;
-import com.google.appengine.api.datastore.GeoPt;
+//import com.google.appengine.api.datastore.GeoPt;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class LocationBean {
 
-    private Long id;
+    private Long locationId;
 
     /** Id of the user who owns this location */
     private String ownerId;
@@ -43,7 +43,7 @@ public class LocationBean {
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
         System.out.println("location propertyMap = " + propertyMap);
 
-        DatastoreV1.Value idVal = propertyMap.get("id");
+        DatastoreV1.Value idVal = propertyMap.get("locationId");
         Long locationId = idVal == null ?  null : idVal.getIntegerValue();
         String ownerId = propertyMap.get("ownerId").getStringValue();
         Long cost = propertyMap.get("cost").getIntegerValue();
@@ -59,9 +59,7 @@ public class LocationBean {
             locations.add(value.getIntegerValue());
         }*/
 
-        System.out.println("created Location: " + this);
-
-        this.setId(locationId);
+        this.setLocationId(locationId);
         this.setOwnerId(ownerId);
         this.setCost(cost);
         this.setIncome(income);
@@ -73,15 +71,16 @@ public class LocationBean {
          location.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
          location.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
          */
+        System.out.println("created Location: " + this);
     }
 
 
-    public Long getId() {
-        return id;
+    public Long getLocationId() {
+        return locationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLocationId(Long id) {
+        this.locationId = id;
     }
 
     public String getOwnerId() {
@@ -175,8 +174,8 @@ public class LocationBean {
     }
 
     public String toString() {
-        return "{locationId: " + this.id + " owner: " + this.ownerId + " cost: " + this.cost
+        return "{locationId: " + this.locationId + " owner: " + this.ownerId + " cost: " + this.cost
                 + " nw["+this.nwLatitudeCoord +", " + this.nwLongitudeCoord+"] sw["
-                + this.seLatitudeCoord +", " + this.seLongitudeCoord+"]}";
+                + this.seLatitudeCoord +", " + this.seLongitudeCoord+"] + notes: "+ notes + "}";
     }
 }

@@ -22,8 +22,9 @@ public class LandMap {
     public static final List<String> MAP_TYPE_VALUES = Arrays.asList(
             "Normal", "Terrain", "Hybrid", "Satellite");
 
+    // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
-    private static final LatLng DEFAULT_POSITION = new LatLng(37.6545, -122.0701);
+    private static final LatLng DEFAULT_POSITION = new LatLng(37.640, -122.0761);
     private static final int INITIAL_ZOOM_LEVEL = 11;
 
     private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
@@ -39,15 +40,13 @@ public class LandMap {
     public LandMap(GoogleMap map) {
         theMap = map;
         map.setMyLocationEnabled(true);
+        configureMapSettings(map);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        configureMapSettings(map);;
 
-        LatLng pos = getCurrentLocation();
-        LatLng center = pos;
-
+        LatLng center = getCurrentLocation();
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, INITIAL_ZOOM_LEVEL));
-        map.addMarker(new MarkerOptions().position(pos).alpha(0.5f).title("Start"));
+        map.addMarker(new MarkerOptions().position(center).alpha(0.5f).title("Start"));
     }
 
     public LatLng getCurrentLocation() {

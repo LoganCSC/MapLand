@@ -7,6 +7,7 @@ import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.api.services.datastore.DatastoreV1.Key;
 import com.google.api.services.datastore.DatastoreV1.Property;
 import com.google.api.services.datastore.DatastoreV1.Value;
+import com.google.api.services.datastore.DatastoreV1.EntityResult;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.barrybecker4.mapland.backend.datamodel.LocationBean;
 //import com.google.appengine.api.datastore.GeoPt;
@@ -30,6 +31,12 @@ public class LocationAccess extends DataStoreAccess {
 
     public static final String KIND = "Location";
     private static final Random RND = new Random();
+
+    private static final Long MIN_INITIAL_COST = 100L;
+    private static final Long MAX_INITIAL_COST = 200L;
+    private static final Integer MIN_INITIAL_INCOME = 0;
+    private static final Integer MAX_INITIAL_INCOME = 20;
+
 
     /**
      * Get the specified location if it is in the database.
@@ -70,8 +77,8 @@ public class LocationAccess extends DataStoreAccess {
                 Key.PathElement.newBuilder().setKind(KIND)); //.setId(id));
 
         // Random cost and income assigned
-        Long cost = 100L + RND.nextInt(200);
-        Integer income = RND.nextInt(50);
+        Long cost = MIN_INITIAL_COST + RND.nextInt((int)(MAX_INITIAL_COST - MIN_INITIAL_COST));
+        Integer income = MIN_INITIAL_INCOME + RND.nextInt(MAX_INITIAL_INCOME - MIN_INITIAL_INCOME);
 
         Entity locationEntity = createLocationEntity(key, owner, cost, income,
                 nwLat, nwLong, seLat, seLong);
@@ -101,14 +108,14 @@ public class LocationAccess extends DataStoreAccess {
         UserBean oldOwner = userAccess.getUserById(location.getOwnerId());
         UserBean newOwner = locationAndUser.getUser();
 
-        if (newOwner.getLocations().contains(location.getId())) {
-            throw new IllegalStateException(newOwner.getUserId() + " already owns location " + location.getId());
+        if (newOwner.getLocations().contains(location.getLocationId())) {
+            throw new IllegalStateException(newOwner.getUserId() + " already owns location " + location.getLocationId());
         }
-        newOwner.getLocations().add(location.getId());
+        newOwner.getLocations().add(location.getLocationId());
         location.setOwnerId(newOwner.getUserId());
-        boolean removed = oldOwner.getLocations().remove(location.getId());
+        boolean removed = oldOwner.getLocations().remove(location.getLocationId());
         if (!removed) {
-            String msg = "Was not able to remove location " + location.getId() + " from " + oldOwner.getUserId();
+            String msg = "Was not able to remove location " + location.getLocationId() + " from " + oldOwner.getUserId();
            throw new IllegalStateException(msg);
         }
 
@@ -120,7 +127,11 @@ public class LocationAccess extends DataStoreAccess {
         return locationAndUser;
     }
 
-
+    /**
+     * @param location location to update
+     * @return true if successfully updated
+     * @throws DatastoreException
+     */
     public boolean updateLocation(LocationBean location) throws DatastoreException {
 
         // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
@@ -136,8 +147,7 @@ public class LocationAccess extends DataStoreAccess {
         creq.getMutationBuilder().addUpdate(entity);
 
         // Execute the Commit RPC synchronously and ignore the response.
-        // Apply the insert mutation if the entity was not found and close
-        // the transaction.
+        // Apply the insert mutation if the entity was not found and close the transaction.
         datastore.commit(creq.build());
         return true;
     }
@@ -157,17 +167,15 @@ public class LocationAccess extends DataStoreAccess {
         UserAccess userAcces = new UserAccess();
         UserBean ownerBean = userAcces.getUserById(owner);
 
-        locationEntity = insertEntity(locationEntity);
-
-        Long locId = locationEntity.getKey().getPathElement(0).getId();
-        ownerBean.getLocations().add(locId);
+        Long newId = insertEntity(locationEntity);
+        ownerBean.getLocations().add(newId);
 
         boolean success = userAcces.updateUser(ownerBean);
         if (success) {
-            System.out.println(owner + " just had location " + locId + " added.");
+            System.out.println(owner + " just had location " + newId + " added.");
         }
         else {
-            System.out.printf("Failed to add " + locId + " to " + owner);
+            System.out.printf("Failed to add " + newId + " to " + owner);
         }
     }
 
@@ -176,6 +184,8 @@ public class LocationAccess extends DataStoreAccess {
      * Because of a limitation of GAE datastore, we cannot make inequality queries on more
      * than one property at a time. To workaround this, the query uses only a latitude
      * filter, then does further filtering on the results.
+     * latitudes are like a y value where the origin is at the equator. Higher values are further north.
+     * logitudes are like x values where the origin passes through Greenwich England. CA is in a negative longitude
      * When GeoPt is supported bette, we can switch to using that.
      * @return a list of all locations within the bounds specified.
      */
@@ -185,15 +195,14 @@ public class LocationAccess extends DataStoreAccess {
         // first query by latitude
         Query.Builder query = Query.newBuilder();
 
-        // One degree of lattitude = about 69 miles, so 0.01 degrees is less than a mile.
-        //final double APPX_WIDTH = 0.01;
+        // One degree of latitude = about 69 miles, so 0.01 degrees is less than a mile.
         DatastoreV1.Filter nwLatFilter =
-                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.GREATER_THAN_OR_EQUAL, makeValue(nwLat))
+                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.LESS_THAN_OR_EQUAL, makeValue(nwLat))
                 .build();
-        // I really want this to be selattitude, but cannot query on more than one attribute
+        // I really want this to be seLattitude, but cannot query on more than one attribute
         // Switch to using GeoPt when feasable.
         DatastoreV1.Filter seLatFilter =
-                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.LESS_THAN_OR_EQUAL, makeValue(seLat))
+                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.GREATER_THAN_OR_EQUAL, makeValue(seLat))
                 .build();
 
         query.setFilter(makeFilter(nwLatFilter, seLatFilter));
@@ -206,14 +215,19 @@ public class LocationAccess extends DataStoreAccess {
         try {
             response = datastore.runQuery(request);
 
-            for (DatastoreV1.EntityResult result : response.getBatch().getEntityResultList()) {
+            List<DatastoreV1.EntityResult> results =
+                    response.getBatch().getEntityResultList();
+            System.out.println("There were " + results.size()
+                    + " locations retrieved for viewport: ["+ nwLat +", " + nwLong +"] [" + seLat + ", " + seLong + "]");
+
+            for (DatastoreV1.EntityResult result : results) {
                 Entity locationEntity = result.getEntity();
                 LocationBean locationBean = new LocationBean(locationEntity);
-                System.out.println("retrieved " + locationBean);
                 // only add it to the list if it also meets the longitude filter.
                 // This must be done manually be because of bigTable query limitations.
                 if (locationBean.getNwLongitudeCoord() >= nwLong &&
                         locationBean.getSeLongitudeCoord() <= seLong) {
+                    System.out.println("adding " + locationBean);
                     list.add(locationBean);
                 }
             }
@@ -281,7 +295,7 @@ public class LocationAccess extends DataStoreAccess {
 
         // Set the entity key with only one `path_element`: no parent.
         Key.Builder key = Key.newBuilder().addPathElement(
-                Key.PathElement.newBuilder().setKind(KIND).setId(location.getId()));
+                Key.PathElement.newBuilder().setKind(KIND).setId(location.getLocationId()));
 
         return createLocationEntity(key, location.getOwnerId(), location.getCost(), location.getIncome(),
                 location.getNwLatitudeCoord(), location.getNwLongitudeCoord(),

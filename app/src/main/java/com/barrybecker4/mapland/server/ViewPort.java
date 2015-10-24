@@ -13,10 +13,10 @@ public class ViewPort {
     private double seLong;
 
     public ViewPort(VisibleRegion vr) {
-        this.nwLat = vr.latLngBounds.southwest.longitude;
-        this.nwLong = vr.latLngBounds.northeast.latitude;
-        this.seLat = vr.latLngBounds.northeast.longitude;
-        this.seLong = vr.latLngBounds.southwest.latitude;
+        this.nwLat = vr.latLngBounds.northeast.latitude;
+        this.nwLong = vr.latLngBounds.southwest.longitude;
+        this.seLat = vr.latLngBounds.southwest.latitude;
+        this.seLong = vr.latLngBounds.northeast.longitude;
     }
 
     public ViewPort(double nwLat, double nwLong, double seLat, double seLong) {
@@ -40,5 +40,9 @@ public class ViewPort {
 
     public double getSeLong() {
         return seLong;
+    }
+
+    public String toString() {
+        return "[" + nwLat + ", " + nwLong + "] [" + seLat + ", " + seLong + "]";
     }
 }

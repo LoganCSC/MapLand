@@ -57,10 +57,10 @@ public class DataStoreAccess {
 
     /**
      * @param entity the entity to add
-     * @return the complete entity that was added (will now have its ID)
+     * @return the location of the added entity that was added (will now have its ID)
      * DatastoreException if problem accessing the datastore
      */
-    protected Entity insertEntity(Entity entity) throws DatastoreException {
+    protected Long insertEntity(Entity entity) throws DatastoreException {
 
         // Create an RPC request to commit the transaction.
         CommitRequest.Builder creq = CommitRequest.newBuilder();
@@ -77,7 +77,7 @@ public class DataStoreAccess {
         Key key = resp.getMutationResult().getInsertAutoIdKey(0);
         Long id = key.getPathElement(0).getId();
         System.out.println("id generated for location just added : " + id);
-        return entity;
+        return id;
     }
 
     /**

@@ -36,7 +36,7 @@ public class UserBean {
         Long credits = propertyMap.get("credits").getIntegerValue();
         List<Long> locations = new ArrayList<>();
         for (DatastoreV1.Value value : propertyMap.get("locations").getListValueList()) {
-            System.out.println(value.getIntegerValue());
+            System.out.println("location: " + value.getIntegerValue());
             locations.add(value.getIntegerValue());
         }
 

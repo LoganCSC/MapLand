@@ -1,4 +1,4 @@
-package com.barrybecker4.mapland.server;
+package com.barrybecker4.mapland.server.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,6 +8,7 @@ import android.util.Pair;
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationAndUserBean;
+import com.barrybecker4.mapland.server.MapLandApiService;
 
 import java.io.IOException;
 

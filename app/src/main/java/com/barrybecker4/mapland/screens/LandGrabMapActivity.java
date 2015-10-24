@@ -35,11 +35,10 @@ import com.barrybecker4.mapland.screens.support.LocationAddHandler;
 import com.barrybecker4.mapland.screens.support.LocationsRetrievalHandler;
 import com.barrybecker4.mapland.screens.support.UserAccounts;
 import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
-import com.barrybecker4.mapland.server.LocationAdder;
-import com.barrybecker4.mapland.server.LocationRetriever;
-import com.barrybecker4.mapland.server.LocationTransferer;
-import com.barrybecker4.mapland.server.UserRetriever;
-import com.barrybecker4.mapland.server.UserUpdater;
+import com.barrybecker4.mapland.server.tasks.LocationAdder;
+import com.barrybecker4.mapland.server.tasks.LocationRetriever;
+import com.barrybecker4.mapland.server.tasks.LocationTransferer;
+import com.barrybecker4.mapland.server.tasks.UserRetriever;
 import com.barrybecker4.mapland.server.ViewPort;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -135,6 +134,7 @@ public class LandGrabMapActivity extends FragmentActivity
      */
     private void retrieveVisibleLocations() {
         VisibleRegion region = theMap.getVisibleRegion();
+        System.out.println("The visible region is " + region.toString());
         ViewPort viewport = new ViewPort(region);
         LocationRetriever.getLocations(viewport, this, new LocationsRetrievalHandler(this, state));
     }
@@ -169,8 +169,6 @@ public class LandGrabMapActivity extends FragmentActivity
                     // This does 3 things: User has this location added, location has its owner set to user,
                     // and the old owner has this location removed from its list.
                     LocationTransferer.transferLocationOwnership(loc, user, this);
-                    //user.getLocations().add(loc.getId());
-                    //UserUpdater.updateUser(user, this, null);
                 }
             }
         }

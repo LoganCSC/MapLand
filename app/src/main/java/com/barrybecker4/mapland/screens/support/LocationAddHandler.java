@@ -4,14 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBeanCollection;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.server.IResponseHandler;
-import com.barrybecker4.mapland.server.UserUpdater;
+import com.barrybecker4.mapland.server.tasks.UserUpdater;
 import com.google.api.client.json.GenericJson;
-
-import java.util.List;
 
 /**
  * @author Barry Becker
@@ -38,7 +35,7 @@ public class LocationAddHandler implements IResponseHandler {
 
         // add this new location to the list of locations owned by the currnt user
         UserBean user = state.getCurrentUser();
-        user.getLocations().add(location.getId());
+        user.getLocations().add(location.getLocationId());
         UserUpdater.updateUser(user, context, null);
 
     }

@@ -17,6 +17,7 @@ import com.barrybecker4.mapland.backend.datamodel.UserBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import java.util.Map;
 public class UserAccess extends DataStoreAccess {
 
     public static final String KIND = "User";
+    private static final Long INITAIL_CREDITS = 100L;
 
     /**
      * Get the specified user if they are in the database.
@@ -99,14 +101,14 @@ public class UserAccess extends DataStoreAccess {
 
         Entity entity;
         if (lresp.getFoundCount() > 0) {
-            System.out.println("Found a user entity");
+            System.out.println("Found a user entity with id = " + name);
             entity = lresp.getFound(0).getEntity();
         } else {
-            System.out.println("No user entity found. Adding one.");
+            System.out.println("No user entity found for name = " + name + ". Adding one.");
             // If no entity was found, create a new one.
-            Long credits = (long) (100 * Math.random());
-            List<Long> locations = Arrays.asList(34L, 45L, 67L);
-            entity = createUserEntity(key, name, credits, locations);
+
+            List<Long> locations = new LinkedList<>();
+            entity = createUserEntity(key, name, INITAIL_CREDITS, locations);
             // Insert the entity in the commit request mutation.
             creq.getMutationBuilder().addInsert(entity);
         }
