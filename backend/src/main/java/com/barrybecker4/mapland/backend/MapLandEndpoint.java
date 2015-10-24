@@ -23,7 +23,7 @@ import java.util.Random;
 import javax.inject.Named;
 
 /**
- * Define the endpoint class we are exposing
+ * Define the mapLand API endpoints
  */
 @Api(
     name = "mapLandApi",
@@ -40,20 +40,6 @@ import javax.inject.Named;
  *  https://console.developers.google.com/project/maplandbackend
  */
 public class MapLandEndpoint {
-
-    //private Map<Long, LocationBean> locationInfoMap = new HashMap<>();
-
-    private static final String GUEST = "guest";
-    private static final UserBean GUEST_INFO = new UserBean();
-    static {
-        GUEST_INFO.setUserId(GUEST);
-        GUEST_INFO.setCredits(10);
-        List<Long> locations = new ArrayList<>();
-        locations.add(123L);
-        GUEST_INFO.setLocations(locations);
-    }
-
-    private static final Random RAND = new Random();
 
     /**
      * endpoint method that takes a userId and returns persisted information about that user.

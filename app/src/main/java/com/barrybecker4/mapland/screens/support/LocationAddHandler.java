@@ -10,6 +10,9 @@ import com.barrybecker4.mapland.server.IResponseHandler;
 import com.barrybecker4.mapland.server.tasks.UserUpdater;
 import com.google.api.client.json.GenericJson;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Barry Becker
  */
@@ -33,10 +36,18 @@ public class LocationAddHandler implements IResponseHandler {
         System.out.println(message);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 
-        // add this new location to the list of locations owned by the currnt user
+        // Update user with new location
         UserBean user = state.getCurrentUser();
-        user.getLocations().add(location.getLocationId());
-        UserUpdater.updateUser(user, context, null);
 
+        if (user.getLocations() == null) {
+            List<Long> locs = new LinkedList<>();
+            locs.add(location.getLocationId());
+            user.setLocations(locs);
+        } else {
+            user.getLocations().add(location.getLocationId());
+        }
+
+        // This should not be necessary. They should already have this new location.
+        // UserUpdater.updateUser(user, context, null);
     }
 }

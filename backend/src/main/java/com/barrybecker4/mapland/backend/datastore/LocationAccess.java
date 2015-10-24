@@ -49,8 +49,8 @@ public class LocationAccess extends DataStoreAccess {
         try {
             Entity entity = getEntity(KIND, locationId);
             location = new LocationBean(entity);
-
-        } catch (DatastoreException exception) {
+        }
+        catch (DatastoreException exception) {
             // Catch all Datastore rpc errors.
             System.err.println("Error while doing location datastore operation");
             // Log the exception, the name of the method called and the error code.
@@ -83,8 +83,8 @@ public class LocationAccess extends DataStoreAccess {
         Entity locationEntity = createLocationEntity(key, owner, cost, income,
                 nwLat, nwLong, seLat, seLong);
 
-        addLocationWithOwner(locationEntity, owner);
-        return new LocationBean(locationEntity);
+        Long newId = addLocationWithOwner(locationEntity, owner);
+        return new LocationBean(locationEntity, newId);
     }
 
     /**
@@ -163,7 +163,7 @@ public class LocationAccess extends DataStoreAccess {
      * @param owner user that will initially own this new location.
      * @throws DatastoreException
      */
-    private void addLocationWithOwner(Entity locationEntity, String owner) throws DatastoreException {
+    private Long addLocationWithOwner(Entity locationEntity, String owner) throws DatastoreException {
         UserAccess userAcces = new UserAccess();
         UserBean ownerBean = userAcces.getUserById(owner);
 
@@ -177,6 +177,7 @@ public class LocationAccess extends DataStoreAccess {
         else {
             System.out.printf("Failed to add " + newId + " to " + owner);
         }
+        return newId;
     }
 
     /**
@@ -304,7 +305,7 @@ public class LocationAccess extends DataStoreAccess {
 
     /** @return new Location entity with specified info */
     private Entity createLocationEntity(
-            Key.Builder key,  String ownerId, Long cost, Integer income,
+            Key.Builder key, String ownerId, Long cost, Integer income,
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();

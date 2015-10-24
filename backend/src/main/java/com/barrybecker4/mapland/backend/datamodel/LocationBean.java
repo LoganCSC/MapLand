@@ -38,6 +38,12 @@ public class LocationBean {
 
     public LocationBean() {}
 
+    public LocationBean(Entity locationEntity, Long id) {
+        this(locationEntity);
+        this.setLocationId(id);
+        System.out.println("created Location: " + this);
+    }
+
     public LocationBean(Entity locationEntity) {
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
@@ -71,7 +77,6 @@ public class LocationBean {
          location.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
          location.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
          */
-        System.out.println("created Location: " + this);
     }
 
 
@@ -176,6 +181,6 @@ public class LocationBean {
     public String toString() {
         return "{locationId: " + this.locationId + " owner: " + this.ownerId + " cost: " + this.cost
                 + " nw["+this.nwLatitudeCoord +", " + this.nwLongitudeCoord+"] sw["
-                + this.seLatitudeCoord +", " + this.seLongitudeCoord+"] + notes: "+ notes + "}";
+                + this.seLatitudeCoord +", " + this.seLongitudeCoord+"] notes: "+ notes + "}";
     }
 }

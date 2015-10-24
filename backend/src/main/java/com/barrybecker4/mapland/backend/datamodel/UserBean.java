@@ -4,6 +4,7 @@ import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.client.DatastoreHelper;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,11 @@ public class UserBean {
     }
 
     public List<Long> getLocations() {
+        // for some reason the datastore makes empty lists null.
+        if (locations == null) {
+            locations = new LinkedList<>();
+        }
+
         return locations;
     }
 
