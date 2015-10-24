@@ -53,18 +53,6 @@ public class MapLandEndpoint {
         locations.add(123L);
         GUEST_INFO.setLocations(locations);
     }
-    /*
-    private static final LocationBean LOCATION_123_INFO = new LocationBean();
-    static {
-        LOCATION_123_INFO.setId(123L);
-        LOCATION_123_INFO.setOwnerId(GUEST);
-        LOCATION_123_INFO.setCost(1234);
-        LOCATION_123_INFO.setIncome(3);
-        LOCATION_123_INFO.setNwLatitudeCoord(123.45);
-        LOCATION_123_INFO.setNwLongitudeCoord(124.45);
-        LOCATION_123_INFO.setSeLatitudeCoord(125.45);
-        LOCATION_123_INFO.setSeLongitudeCoord(126.45);
-    }*/
 
     private static final Random RAND = new Random();
 
@@ -77,6 +65,20 @@ public class MapLandEndpoint {
         UserAccess access = new UserAccess();
         UserBean user = access.getUserById(userId);
         System.out.println("returning user = " + user);
+        return user;
+    }
+
+
+    /**
+     * endpoint method that takes a userId and returns persisted information about that user.
+     */
+    @ApiMethod(name = "updateUserInfo")
+    public UserBean updateUserInfo(UserBean user) throws DatastoreException {
+
+        UserAccess access = new UserAccess();
+        //UserBean user = access.getUserById(userId);
+        access.updateUser(user);
+        System.out.println("updating user = " + user);
         return user;
     }
 
@@ -102,7 +104,7 @@ public class MapLandEndpoint {
     }
 
     /**
-     * endpoint method that adds a new location with specified information.
+     * Endpoint method that adds a new location with specified information.
      */
     @ApiMethod(name = "addLocationInfo")
     public LocationBean addLocationInfo(@Named("owner") String owner,

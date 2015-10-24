@@ -25,6 +25,8 @@ import java.util.Map;
  */
 public class UserAccess extends DataStoreAccess {
 
+    public static final String KIND = "User";
+
     /**
      * Get the specified user if they are in the database.
      * If they are not in the database, add a new record for them.
@@ -50,6 +52,31 @@ public class UserAccess extends DataStoreAccess {
         }
 
         return user;
+    }
+
+    public boolean updateUser(UserBean user) throws DatastoreException {
+
+        // Set the entity key with only one `path_element`: no parent.
+        Key.Builder key = Key.newBuilder().addPathElement(
+                Key.PathElement.newBuilder().setKind(KIND).setName(user.getUserId()));
+
+        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
+        ByteString tx = createTransaction();
+
+        // Create an RPC request to commit the transaction.
+        CommitRequest.Builder creq = CommitRequest.newBuilder();
+        // Set the transaction to commit.
+        creq.setTransaction(tx);
+
+        Entity entity = createUserEntity(key, user.getUserId(), user.getCredits(), user.getLocations());
+        // Insert the entity in the commit request mutation.
+        creq.getMutationBuilder().addUpdate(entity);
+
+        // Execute the Commit RPC synchronously and ignore the response.
+        // Apply the insert mutation if the entity was not found and close
+        // the transaction.
+        datastore.commit(creq.build());
+        return true;
     }
 
     /** get the user entity, and if its not there create one */
