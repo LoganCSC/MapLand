@@ -56,10 +56,6 @@ public class UserAccess extends DataStoreAccess {
 
     public boolean updateUser(UserBean user) throws DatastoreException {
 
-        // Set the entity key with only one `path_element`: no parent.
-        Key.Builder key = Key.newBuilder().addPathElement(
-                Key.PathElement.newBuilder().setKind(KIND).setName(user.getUserId()));
-
         // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
         ByteString tx = createTransaction();
 
@@ -68,7 +64,7 @@ public class UserAccess extends DataStoreAccess {
         // Set the transaction to commit.
         creq.setTransaction(tx);
 
-        Entity entity = createUserEntity(key, user.getUserId(), user.getCredits(), user.getLocations());
+        Entity entity = createUserEntity(user);
         // Insert the entity in the commit request mutation.
         creq.getMutationBuilder().addUpdate(entity);
 
@@ -120,6 +116,15 @@ public class UserAccess extends DataStoreAccess {
         // the transaction.
         datastore.commit(creq.build());
         return entity;
+    }
+
+    private Entity createUserEntity(UserBean user) {
+
+        // Set the entity key with only one `path_element`: no parent.
+        Key.Builder key = Key.newBuilder().addPathElement(
+                Key.PathElement.newBuilder().setKind(KIND).setName(user.getUserId()));
+
+        return createUserEntity(key, user.getUserId(), user.getCredits(), user.getLocations());
     }
 
     /** @return new User entity with specified info */

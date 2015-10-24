@@ -6,6 +6,7 @@
 
 package com.barrybecker4.mapland.backend;
 
+import com.barrybecker4.mapland.backend.datamodel.LocationAndUserBean;
 import com.barrybecker4.mapland.backend.datamodel.UserBean;
 import com.barrybecker4.mapland.backend.datastore.LocationAccess;
 import com.barrybecker4.mapland.backend.datastore.UserAccess;
@@ -16,9 +17,7 @@ import com.barrybecker4.mapland.backend.datamodel.LocationBean;
 import com.google.api.services.datastore.client.DatastoreException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.inject.Named;
@@ -76,7 +75,6 @@ public class MapLandEndpoint {
     public UserBean updateUserInfo(UserBean user) throws DatastoreException {
 
         UserAccess access = new UserAccess();
-        //UserBean user = access.getUserById(userId);
         access.updateUser(user);
         System.out.println("updating user = " + user);
         return user;
@@ -104,7 +102,8 @@ public class MapLandEndpoint {
     }
 
     /**
-     * Endpoint method that adds a new location with specified information.
+     * Endpoint method that adds a new location with specified information and owner.
+     * The owner must also be updatd with this new location as part of an atomic transaction.
      */
     @ApiMethod(name = "addLocationInfo")
     public LocationBean addLocationInfo(@Named("owner") String owner,
@@ -113,5 +112,16 @@ public class MapLandEndpoint {
 
         LocationAccess access = new LocationAccess();
         return access.addNewLocation(owner, nwLat, nwLong, seLat, seLong);
+    }
+
+    /**
+     * Endpoint method that adds a new location with specified information and owner.
+     * The owner must also be updatd with this new location as part of an atomic transaction.
+     */
+    @ApiMethod(name = "transferLocationOwnership")
+    public LocationAndUserBean transferLocationOwnership(
+            LocationAndUserBean locationAndUser) throws DatastoreException {
+        LocationAccess access = new LocationAccess();
+        return access.transferLocationOwnership(locationAndUser);
     }
 }

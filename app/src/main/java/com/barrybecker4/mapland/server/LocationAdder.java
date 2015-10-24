@@ -6,13 +6,14 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBeanCollection;
+
 
 import java.io.IOException;
 
 /**
  * Used to communicate with the backend endpoints (REST service running
- * in the cloud on Google App Engine) to ad new locations.
+ * in the cloud on Google App Engine) to add a new location with a certain user as owner.
+ * Note: The user also needs to have the id for this location added to their list of owned locations.
  */
 public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, LocationBean> {
 
@@ -22,7 +23,7 @@ public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, 
     /**
      * Asynchronously retrieve the user (or add if not there)
      */
-    public static void addLocation(LocationBean loc, Context context, IResponseHandler callback) {
+    public static void addLocationForUser(LocationBean loc, Context context, IResponseHandler callback) {
 
         // call the backend server
         AsyncTask<Pair<Context, LocationBean>, Void, LocationBean> task =
@@ -50,7 +51,8 @@ public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, 
         try {
             return MapLandApiService.getInstance()
                     .addLocationInfo(loc.getOwnerId(),
-                            loc.getNwLatitudeCoord(), loc.getNwLongitudeCoord(), loc.getSeLatitudeCoord(), loc.getSeLongitudeCoord())
+                            loc.getNwLatitudeCoord(), loc.getNwLongitudeCoord(),
+                            loc.getSeLatitudeCoord(), loc.getSeLongitudeCoord())
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();

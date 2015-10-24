@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * Used to communicate with the backend endpoints (REST service running
- * in the cloud on Google App Engine) to ad new locations.
+ * in the cloud on Google App Engine) to add or update users.
  */
 public class UserUpdater extends AsyncTask<Pair<Context, UserBean>, Void, UserBean> {
 

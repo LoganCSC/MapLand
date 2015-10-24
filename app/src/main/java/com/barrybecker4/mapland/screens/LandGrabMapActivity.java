@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.barrybecker4.mapland.screens;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -39,22 +37,16 @@ import com.barrybecker4.mapland.screens.support.UserAccounts;
 import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
 import com.barrybecker4.mapland.server.LocationAdder;
 import com.barrybecker4.mapland.server.LocationRetriever;
+import com.barrybecker4.mapland.server.LocationTransferer;
 import com.barrybecker4.mapland.server.UserRetriever;
 import com.barrybecker4.mapland.server.UserUpdater;
 import com.barrybecker4.mapland.server.ViewPort;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Lang Grab is a game where you try to acquire as much land as you can in a certain time interval.
@@ -81,14 +73,14 @@ public class LandGrabMapActivity extends FragmentActivity
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // user droplist  (for when there are more than one user on the device)
+        // user droplist (for when there are more than one user on the device)
         userDropList = (Spinner) findViewById(R.id.user_select);
         ArrayAdapter userSelectAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, UserAccounts.getAccountNames(this));
         userDropList.setAdapter(userSelectAdapter);
         userDropList.setOnItemSelectedListener(this);
 
-        // map type droplist
+        // map type droplist (for selecting terrain, satellite, normal, etc)
         mapTypeDropList = (Spinner) findViewById(R.id.map_type_select);
         ArrayAdapter mapTypeAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, LandMap.MAP_TYPE_VALUES);
@@ -98,13 +90,6 @@ public class LandGrabMapActivity extends FragmentActivity
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
 
         retrieveActiveUser();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-        theMap = new LandMap(map);
-        state.setCurrentPosition(theMap.getCurrentLocation());
-        retrieveVisibleLocations();
     }
 
     /**
@@ -130,8 +115,15 @@ public class LandGrabMapActivity extends FragmentActivity
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap map) {
+        theMap = new LandMap(map);
+        state.setCurrentPosition(theMap.getCurrentLocation());
+        retrieveVisibleLocations();
+    }
+
     /**
-     * Retrieve the user (asynchronously) specified in the droplist.
+     * Retrieve the user (asynchronously) specified in the droplist (if more than one on device).
      */
     private void retrieveActiveUser() {
         String username = (String)userDropList.getSelectedItem();
@@ -154,14 +146,14 @@ public class LandGrabMapActivity extends FragmentActivity
     /**
      * Called when the game state is initialized
      * Locations are only added as needed. Initially there are no locations in a game
-     * When a user occupies a spot for the first time, a location is created and the
-     * user gets ownership of it.
+     * When a user occupies a location for the first time, that rectangular location is created and
+     * the user immediately gets ownership of it.
      * If a user moves into a location owned by someone else, then they get ownership.
+     * That transfer of ownership is immediate right now, but really they should be prompted to buy it.
      */
     @Override
     public void initialized(GameState state) {
 
-        //LocationBean currentLocation = null;
         UserBean user = state.getCurrentUser();
 
         // if the user owns the current location, then set it as current
@@ -171,17 +163,23 @@ public class LandGrabMapActivity extends FragmentActivity
                 state.setCurrentLocation(loc);
                 if (!loc.getOwnerId().equals(user.getUserId())) {
                     // then need to change ownership on this location to the current user!
-                    System.out.println("The location you are in is owned by " + loc.getOwnerId());
+                    System.out.println("The location you are in is owned by " + loc.getOwnerId()
+                            + " Transferring ownership...");
 
-                    user.getLocations().add(loc.getId());
-                    UserUpdater.updateUser(user, this, null);
+                    // This does 3 things: User has this location added, location has its owner set to user,
+                    // and the old owner has this location removed from its list.
+                    LocationTransferer.transferLocationOwnership(loc, user, this);
+                    //user.getLocations().add(loc.getId());
+                    //UserUpdater.updateUser(user, this, null);
                 }
             }
         }
         if (state.getCurrentLocation() == null) {
             // otherwise, add this new location to the datastore, and to the users list of owned locations
+            // Both must be done at the same time as part of a single atomic transaction
             LocationBean loc = LocationUtil.createLocationAtPosition(user.getUserId(), state.getCurrentPosition());
-            LocationAdder.addLocation(loc, this, new LocationAddHandler(this, state));
+            LocationAdder.addLocationForUser(loc, this, new LocationAddHandler(this, state));
+            state.setCurrentLocation(loc);
         }
     }
 }
