@@ -154,12 +154,15 @@ public class LandGrabMapActivity extends FragmentActivity
     @Override
     public void initialized(GameState state) {
 
+        System.out.println("Game state initialized.");
         UserBean user = state.getCurrentUser();
 
         // if the user owns the current location, then set it as current
         List<LocationBean> locations = state.getVisibleLocations();
+        System.out.println("About to search in " + locations.size() + " visible locations.");
         for (LocationBean loc : locations) {
             if (LocationUtil.contains(state.getCurrentPosition(), loc)) {
+                System.out.println("The current position " + state.getCurrentPosition() + " is within " + loc);
                 state.setCurrentLocation(loc);
                 if (!loc.getOwnerId().equals(user.getUserId())) {
                     // then need to change ownership on this location to the current user!
@@ -170,6 +173,9 @@ public class LandGrabMapActivity extends FragmentActivity
                     // and the old owner has this location removed from its list.
                     LocationTransferer.transferLocationOwnership(loc, user, this);
                 }
+            }
+            else {
+                System.out.println("The current position " + state.getCurrentPosition() + " is not within " + loc);
             }
         }
         if (state.getCurrentLocation() == null) {

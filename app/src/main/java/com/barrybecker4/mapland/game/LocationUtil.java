@@ -10,10 +10,11 @@ public class LocationUtil {
 
     private static final int PRECISION = 3;
     private static final double SCALE = Math.pow(10, PRECISION);
+    private static final double EPS = 0.00001;
 
     public static boolean contains(LatLng point, LocationBean location) {
-        return (point.latitude >= location.getNwLatitudeCoord()
-                && point.latitude < location.getSeLatitudeCoord()
+        return (point.latitude < location.getNwLatitudeCoord()
+                && point.latitude >= location.getSeLatitudeCoord()
                 && point.longitude >= location.getNwLongitudeCoord()
                 && point.longitude < location.getSeLongitudeCoord());
     }
@@ -21,10 +22,10 @@ public class LocationUtil {
     public static LocationBean createLocationAtPosition(String owner, LatLng here) {
         LocationBean loc = new LocationBean();
         loc.setOwnerId(owner);
-        loc.setNwLatitudeCoord(roundDown(here.latitude));
+        loc.setNwLatitudeCoord(roundUp(here.latitude + EPS));
         loc.setNwLongitudeCoord(roundDown(here.longitude));
-        loc.setSeLatitudeCoord(roundUp(here.latitude));
-        loc.setSeLongitudeCoord(roundUp(here.longitude));
+        loc.setSeLatitudeCoord(roundDown(here.latitude));
+        loc.setSeLongitudeCoord(roundUp(here.longitude + EPS));
         return loc;
     }
 

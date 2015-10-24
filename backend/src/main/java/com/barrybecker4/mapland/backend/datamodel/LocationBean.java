@@ -47,10 +47,11 @@ public class LocationBean {
     public LocationBean(Entity locationEntity) {
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
-        System.out.println("location propertyMap = " + propertyMap);
+        //System.out.println("location propertyMap = " + propertyMap);
 
         DatastoreV1.Value idVal = propertyMap.get("locationId");
-        Long locationId = idVal == null ?  null : idVal.getIntegerValue();
+        Long id = locationEntity.getKey().getPathElement(0).getId();
+        //Long locationId = id; //idVal == null ?  null : idVal.getIntegerValue();
         String ownerId = propertyMap.get("ownerId").getStringValue();
         Long cost = propertyMap.get("cost").getIntegerValue();
         Integer income = (int) propertyMap.get("income").getIntegerValue();
@@ -65,7 +66,7 @@ public class LocationBean {
             locations.add(value.getIntegerValue());
         }*/
 
-        this.setLocationId(locationId);
+        this.setLocationId(id);
         this.setOwnerId(ownerId);
         this.setCost(cost);
         this.setIncome(income);

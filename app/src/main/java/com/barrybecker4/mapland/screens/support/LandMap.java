@@ -24,7 +24,7 @@ public class LandMap {
 
     // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
-    private static final LatLng DEFAULT_POSITION = new LatLng(37.640, -122.0761);
+    private static final LatLng DEFAULT_POSITION = new LatLng(37.64478, -122.07612);
     private static final int INITIAL_ZOOM_LEVEL = 11;
 
     private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
