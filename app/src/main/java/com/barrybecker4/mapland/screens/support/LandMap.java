@@ -24,10 +24,11 @@ public class LandMap {
     public static final List<String> MAP_TYPE_VALUES = Arrays.asList(
             "Normal", "Terrain", "Hybrid", "Satellite");
 
+    // 37.6017602,-122.074174 - house
     // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
     /** This is used if the position cannot be retrieved from the map - such as when the emulator is used */
-    private static final LatLng DEFAULT_POSITION = new LatLng(37.64478, -122.07612);
+    private static final LatLng DEFAULT_POSITION = new LatLng(37.601768, -122.07412);
     private static final int INITIAL_ZOOM_LEVEL = 11;
 
     private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
@@ -38,11 +39,16 @@ public class LandMap {
         MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
     }
 
-
     private GoogleMap theMap;
-    //private GoogleMap.OnCameraChangeListener readyCallback
 
-    public LandMap(GoogleMap map, GoogleMap.OnCameraChangeListener readyCallback) {
+    GoogleMap.OnCameraChangeListener cameraChangeListener;
+    GoogleMap.OnMyLocationChangeListener locationChangeListener;
+
+    /**
+     *
+     * @param map the google map used internally
+     */
+    public LandMap(GoogleMap map) {
         theMap = map;
         //this.readyCallback = readyCallback;
         map.setMyLocationEnabled(true);
@@ -53,10 +59,24 @@ public class LandMap {
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, INITIAL_ZOOM_LEVEL));
 
-        map.setOnCameraChangeListener(readyCallback);
-
         // This adds a transparent marker at the specified position.
         //map.addMarker(new MarkerOptions().position(center).alpha(0.5f).title("Start"));
+    }
+
+    /**
+     * @param listener Called whenever the camera is done changing. IOW when the user has changed the viewport.
+     *    need to use this because it can take some time for the map to initialize
+     *                     before its safe to call the getViewport method.
+     */
+    public void setCameraChangeListener(GoogleMap.OnCameraChangeListener listener) {
+        cameraChangeListener = listener;
+    }
+
+    /**
+     * @param listener called when the users location changes
+     */
+    public void setLocationChangeListener(GoogleMap.OnMyLocationChangeListener listener) {
+        locationChangeListener = listener;
     }
 
     public LatLng getCurrentLocation() {

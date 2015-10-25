@@ -14,28 +14,29 @@ public class GameState {
     /** user playing the game on this client device */
     private UserBean currentUser;
 
-    /** best guess as to current position on the map */
+    /** best guess as to the user's current position on the map */
     private LatLng currentPosition;
 
-    /** location containing the current position */
+    /** location containing the current position. Perhaps rename location to region to reduce confusion. */
     private LocationBean currentLocation;
 
     /** All visible locations. Changes with view port navigation. */
     private List<LocationBean> visibleLocations;
+    private List<LocationBean> previousVisibleLocations;
 
-    private GameStateInitializedListener listener;
+    private GameStateChangededListener listener;
 
-    private boolean initialized;
+    private boolean changed;
 
-    public GameState(GameStateInitializedListener listener) {
+    public GameState(GameStateChangededListener listener) {
         this.listener = listener;
-        this.initialized = false;
+        this.changed = false;
     }
 
     /** call this before changing the current user */
     public void reset() {
         currentUser = null;
-        initialized = false;
+        changed = false;
     }
 
     public UserBean getCurrentUser() {
@@ -70,18 +71,26 @@ public class GameState {
     }
 
     public void setVisibleLocations(List<LocationBean> visibleLocations) {
+        this.previousVisibleLocations = this.visibleLocations;
         this.visibleLocations = visibleLocations;
-        checkIfInitialized();
+        if (this.previousVisibleLocations == null) {
+            // After the first update, we do not want to call statChanged when the visible locations change.
+            checkIfInitialized();
+        }
     }
 
+    /**
+     * Called when first initialized, and whenever the current user or her position changes.
+     */
     private void checkIfInitialized() {
-        if (initialized) return;
-        initialized = (currentUser != null
+        if (changed) return;
+        changed = (currentUser != null
                 && currentPosition != null
                 && visibleLocations != null);
 
-        if (initialized && listener != null) {
-            listener.initialized(this);
+        if (changed && listener != null) {
+            listener.stateChanged(this);
+            changed = false;
         }
     }
 

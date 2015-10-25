@@ -30,12 +30,6 @@ public class UserRetriever extends AsyncTask<Pair<Context, String>, Void, UserBe
         task.execute(new Pair<>(context, username));
 
         Log.i("TASK", "user retriever status = " + task.getStatus());
-        /*
-        try {
-            Log.i("TASK", "value = " + task.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
