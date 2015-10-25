@@ -43,6 +43,7 @@ import com.barrybecker4.mapland.server.ViewPort;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.List;
@@ -116,9 +117,15 @@ public class LandGrabMapActivity extends FragmentActivity
 
     @Override
     public void onMapReady(GoogleMap map) {
-        theMap = new LandMap(map);
+        theMap = new LandMap(map,  new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                System.out.println("Camera changed. position ready.");
+                retrieveVisibleLocations();
+            }
+        });
         state.setCurrentPosition(theMap.getCurrentLocation());
-        retrieveVisibleLocations();
+
     }
 
     /**

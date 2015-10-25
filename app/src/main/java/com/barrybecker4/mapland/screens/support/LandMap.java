@@ -2,9 +2,11 @@ package com.barrybecker4.mapland.screens.support;
 
 import android.location.Location;
 
+import com.barrybecker4.mapland.game.GameState;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
@@ -24,6 +26,7 @@ public class LandMap {
 
     // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
+    /** This is used if the position cannot be retrieved from the map - such as when the emulator is used */
     private static final LatLng DEFAULT_POSITION = new LatLng(37.64478, -122.07612);
     private static final int INITIAL_ZOOM_LEVEL = 11;
 
@@ -35,10 +38,13 @@ public class LandMap {
         MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
     }
 
-    private GoogleMap theMap;
 
-    public LandMap(GoogleMap map) {
+    private GoogleMap theMap;
+    //private GoogleMap.OnCameraChangeListener readyCallback
+
+    public LandMap(GoogleMap map, GoogleMap.OnCameraChangeListener readyCallback) {
         theMap = map;
+        //this.readyCallback = readyCallback;
         map.setMyLocationEnabled(true);
         configureMapSettings(map);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -46,7 +52,11 @@ public class LandMap {
         LatLng center = getCurrentLocation();
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, INITIAL_ZOOM_LEVEL));
-        map.addMarker(new MarkerOptions().position(center).alpha(0.5f).title("Start"));
+
+        map.setOnCameraChangeListener(readyCallback);
+
+        // This adds a transparent marker at the specified position.
+        //map.addMarker(new MarkerOptions().position(center).alpha(0.5f).title("Start"));
     }
 
     public LatLng getCurrentLocation() {
@@ -58,6 +68,7 @@ public class LandMap {
         return pos;
     }
 
+    /** @return the current camera viewport */
     public VisibleRegion getVisibleRegion() {
         return theMap.getProjection().getVisibleRegion();
     }

@@ -22,6 +22,7 @@ import static com.google.api.services.datastore.client.DatastoreHelper.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/
@@ -36,6 +37,8 @@ public class LocationAccess extends DataStoreAccess {
     private static final Long MAX_INITIAL_COST = 200L;
     private static final Integer MIN_INITIAL_INCOME = 0;
     private static final Integer MAX_INITIAL_INCOME = 20;
+
+    private static final Logger LOG = Logger.getLogger(LocationAccess.class.getName());
 
 
     /**
@@ -107,6 +110,7 @@ public class LocationAccess extends DataStoreAccess {
         LocationBean location = locationAndUser.getLocation();
         UserBean oldOwner = userAccess.getUserById(location.getOwnerId());
         UserBean newOwner = locationAndUser.getUser();
+        long time = System.currentTimeMillis();
 
         if (newOwner.getLocations().contains(location.getLocationId())) {
             throw new IllegalStateException(newOwner.getUserId() + " already owns location " + location.getLocationId());
@@ -123,6 +127,11 @@ public class LocationAccess extends DataStoreAccess {
         userAccess.updateUser(oldOwner);
         userAccess.updateUser(newOwner);
         this.updateLocation(location);
+
+        long duration = System.currentTimeMillis() - time;
+        String msg = "time to transfer ownership = " + duration +" ms.";
+        System.out.println(msg);
+        LOG.warning(msg);
 
         return locationAndUser;
     }
@@ -172,10 +181,11 @@ public class LocationAccess extends DataStoreAccess {
 
         boolean success = userAcces.updateUser(ownerBean);
         if (success) {
-            System.out.println(owner + " just had location " + newId + " added.");
+            LOG.info(owner + " just had location " + newId + " added.");
+            System.out.println();
         }
         else {
-            System.out.printf("Failed to add " + newId + " to " + owner);
+            LOG.severe("Failed to add " + newId + " to " + owner);
         }
         return newId;
     }
@@ -236,7 +246,8 @@ public class LocationAccess extends DataStoreAccess {
         catch (  DatastoreException e) {
             e.printStackTrace();
         }
-        System.out.println("returning " + list.size() + " locations");
+        LOG.info("returning " + list.size() + " locations in viewport");
+        System.out.println("returning " + list.size() + " locations in viewport");
 
         return list;
     }
