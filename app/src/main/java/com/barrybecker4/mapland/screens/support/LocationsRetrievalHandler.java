@@ -20,7 +20,6 @@ public class LocationsRetrievalHandler implements IResponseHandler {
     private GameState state;
 
     public LocationsRetrievalHandler(Context context, GameState state) {
-
         this.context = context;
         this.state = state;
     }

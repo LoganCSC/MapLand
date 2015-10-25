@@ -64,7 +64,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
     private LandMap theMap;
     private GameState state;
-    /** remember the last position of the user, so we can tell when their location has changed */
+    /** remember the last position of the user, so we can tell when their location has positionChanged */
     private LatLng lastPosition;
 
 
@@ -93,8 +93,7 @@ public class LandGrabMapActivity extends FragmentActivity
         mapTypeDropList.setOnItemSelectedListener(this);
 
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
-
-        retrieveActiveUser();
+        //retrieveActiveUser(); called when droplist selected
     }
 
     /**
@@ -126,7 +125,7 @@ public class LandGrabMapActivity extends FragmentActivity
         theMap.setCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                Log.v("MAP", "Camera changed.");
+                Log.v("MAP", "Camera positionChanged.");
                 retrieveVisibleLocations();
             }
         });
@@ -134,12 +133,12 @@ public class LandGrabMapActivity extends FragmentActivity
         theMap.setLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location position) {
-                Log.i("MAP", "Users location changed: " + position);
-                state.setCurrentPosition(theMap.getCurrentLocation());
+                Log.i("MAP", "Users location positionChanged: " + position);
+                state.setCurrentPosition(theMap.getCurrentPosition());
             }
         });
 
-        state.setCurrentPosition(theMap.getCurrentLocation());
+        state.setCurrentPosition(theMap.getCurrentPosition());
     }
 
     /**
@@ -166,7 +165,7 @@ public class LandGrabMapActivity extends FragmentActivity
     }
 
     /**
-     * Called when the game state is initialized, or when the user is changed, or when the user changes their location.
+     * Called when the game state is initialized, or when the user is positionChanged, or when the user changes their location.
      * Locations are only added as needed. Initially there are no locations in a game
      * When a user occupies a location for the first time, that rectangular location is created and
      * the user immediately gets ownership of it.
@@ -179,10 +178,12 @@ public class LandGrabMapActivity extends FragmentActivity
         System.out.println("Game state initialized.");
         Log.i("INITIALIZE", "Game state initialized.");
         UserBean user = state.getCurrentUser();
-        if (lastPosition != null && !lastPosition.equals(state.getCurrentPosition())) {
+        if (LocationUtil.positionChanged(state.getCurrentPosition(), lastPosition)) {
             Toast.makeText(this,
-                    "The users position has changed from " + lastPosition + " to " + state.getCurrentPosition(),
+                    "The users position has positionChanged from " + lastPosition + " to " + state.getCurrentPosition()
+                     + " dist=" + LocationUtil.distance(state.getCurrentPosition(), lastPosition),
                     Toast.LENGTH_LONG).show();
+            lastPosition = state.getCurrentPosition();
         }
 
         // if the user owns the current location, then set it as current
@@ -200,7 +201,7 @@ public class LandGrabMapActivity extends FragmentActivity
                     // This does 3 things: User has this location added, location has its owner set to user,
                     // and the old owner has this location removed from its list.
                     LocationTransferer.transferLocationOwnership(loc, user, this);
-                    Toast.makeText(this, "Transferring ownership of " + loc.getOwnerId() + " from " + loc.getOwnerId()
+                    Toast.makeText(this, "Transferring ownership of " + loc.getLocationId() + " from " + loc.getOwnerId()
                             + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -216,6 +217,7 @@ public class LandGrabMapActivity extends FragmentActivity
             LocationAdder.addLocationForUser(loc, this, new LocationAddHandler(this, state));
             state.setCurrentLocation(loc);
         }
-        lastPosition = state.getCurrentPosition();
+
+        theMap.showLocations(state.getVisibleLocations());
     }
 }

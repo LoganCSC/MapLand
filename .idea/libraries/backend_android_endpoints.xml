@@ -4,6 +4,8 @@
       <root url="jar://$PROJECT_DIR$/backend/build/libs/backend-android-endpoints.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/backend/src/main/java" />
+    </SOURCES>
   </library>
 </component>

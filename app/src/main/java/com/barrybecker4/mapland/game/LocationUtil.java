@@ -10,7 +10,8 @@ public class LocationUtil {
 
     private static final int PRECISION = 3;
     private static final double SCALE = Math.pow(10, PRECISION);
-    private static final double EPS = 0.00001;
+    private static final double TOLERANCE = Math.pow(10, -(PRECISION + 1));
+    private static final double EPS = Math.pow(10, -(PRECISION + 2));
 
     public static boolean contains(LatLng point, LocationBean location) {
         return (point.latitude < location.getNwLatitudeCoord()
@@ -27,6 +28,23 @@ public class LocationUtil {
         loc.setSeLatitudeCoord(roundDown(here.latitude));
         loc.setSeLongitudeCoord(roundUp(here.longitude + EPS));
         return loc;
+    }
+
+    /**
+     * @return true if old location is not null and newLocation is different from oldLocation within PRECISION + 1.
+     *   Using the precision avoids frequent updates
+     */
+    public static boolean positionChanged(LatLng newPosition, LatLng oldPosition) {
+        return oldPosition != null && distance(newPosition, oldPosition) > TOLERANCE;
+    }
+
+    /**
+     * @return the distance between the two positions (in degrees).
+     */
+    public static double distance(LatLng newPosition, LatLng oldPosition) {
+        double deltaLat =  newPosition.latitude - oldPosition.latitude;
+        double deltaLong = newPosition.longitude - oldPosition.longitude;
+        return deltaLat * deltaLat + deltaLong * deltaLong;
     }
 
     private static double roundDown(double coord) {
