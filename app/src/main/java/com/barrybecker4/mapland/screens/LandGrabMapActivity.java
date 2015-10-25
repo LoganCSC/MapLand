@@ -201,6 +201,7 @@ public class LandGrabMapActivity extends FragmentActivity
                     // This does 3 things: User has this location added, location has its owner set to user,
                     // and the old owner has this location removed from its list.
                     LocationTransferer.transferLocationOwnership(loc, user, this);
+                    user.getLocations().add(loc.getLocationId());
                     Toast.makeText(this, "Transferring ownership of " + loc.getLocationId() + " from " + loc.getOwnerId()
                             + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
                 }

@@ -6,5 +6,5 @@ This application makes use of the map capabilities in the Google Play SDK. It st
 
 ## To Build
 
- 1 Install the latest version of Android Studio and the google play SDK. See https://developers.google.com/maps/documentation/android-api/
- 2 (optional) To run the backend component, you will need authorization via a private key (p12 file). You can get this key through your appEngine account. If you are just working on the front end component, you do not need this.
+1. Install the latest version of Android Studio and the google play SDK. See https://developers.google.com/maps/documentation/android-api/
+2. (optional) To run the backend component, you will need authorization via a private key (p12 file). You can get this key through your appEngine account. If you are just working on the front end component, you do not need this.

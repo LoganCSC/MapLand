@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
+import android.location.Location;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
@@ -9,6 +10,7 @@ import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.server.IResponseHandler;
 import com.google.api.client.json.GenericJson;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,8 +32,18 @@ public class LocationsRetrievalHandler implements IResponseHandler {
         List<LocationBean> locations = ((LocationBeanCollection)result).getItems();
         state.setVisibleLocations(locations);
 
-        String message = "Locations retrieved to client = " + locations;
+        String message = "Locations retrieved to client = " + listIds(locations);
         System.out.println(message);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    private List<Long> listIds(List<LocationBean> locations) {
+        List<Long> idList = new LinkedList<>();
+        if (locations != null) {
+            for (LocationBean loc : locations) {
+                idList.add(loc.getLocationId());
+            }
+        }
+        return idList;
     }
 }
