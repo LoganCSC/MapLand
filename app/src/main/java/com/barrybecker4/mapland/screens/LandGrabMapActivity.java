@@ -179,10 +179,12 @@ public class LandGrabMapActivity extends FragmentActivity
         Log.i("INITIALIZE", "Game state initialized.");
         UserBean user = state.getCurrentUser();
         if (LocationUtil.positionChanged(state.getCurrentPosition(), lastPosition)) {
-            Toast.makeText(this,
-                    "The users position has positionChanged from " + lastPosition + " to " + state.getCurrentPosition()
-                     + " dist=" + LocationUtil.distance(state.getCurrentPosition(), lastPosition),
-                    Toast.LENGTH_LONG).show();
+            if (lastPosition != null) {
+                Toast.makeText(this,
+                        "The users position has positionChanged from " + lastPosition + " to " + state.getCurrentPosition()
+                                + " dist=" + LocationUtil.distance(state.getCurrentPosition(), lastPosition),
+                        Toast.LENGTH_LONG).show();
+            }
             lastPosition = state.getCurrentPosition();
         }
 
