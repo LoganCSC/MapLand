@@ -35,7 +35,7 @@ public class LocationUtil {
      *   Using the precision avoids frequent updates
      */
     public static boolean positionChanged(LatLng newPosition, LatLng oldPosition) {
-        return oldPosition != null && distance(newPosition, oldPosition) > TOLERANCE;
+        return oldPosition == null && distance(newPosition, oldPosition) > TOLERANCE;
     }
 
     /**

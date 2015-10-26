@@ -219,6 +219,6 @@ public class LandGrabMapActivity extends FragmentActivity
             state.setCurrentLocation(loc);
         }
 
-        theMap.showLocations(state.getVisibleLocations());
+        theMap.showLocations(state.getVisibleLocations()); // updates too much?
     }
 }
