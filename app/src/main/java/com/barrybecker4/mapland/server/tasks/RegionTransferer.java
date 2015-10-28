@@ -5,9 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationAndUserBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionAndUserBean;
 import com.barrybecker4.mapland.server.MapLandApiService;
 
 import java.io.IOException;
@@ -16,25 +16,25 @@ import java.io.IOException;
  * Used to communicate with the backend endpoints (REST service running
  * in the cloud on Google App Engine) to transfer locations to new owner.
  */
-public class LocationTransferer
-        extends AsyncTask<Pair<Context, LocationAndUserBean>, Void, LocationAndUserBean> {
+public class RegionTransferer
+        extends AsyncTask<Pair<Context, RegionAndUserBean>, Void, RegionAndUserBean> {
 
     private Context context;
 
     /**
      * Asynchronously retrieve the user (or add if not there)
      */
-    public static void transferLocationOwnership(LocationBean location, UserBean newOwner, Context context) {
+    public static void transferRegionOwnership(RegionBean region, UserBean newOwner, Context context) {
 
         // call the backend server
-        AsyncTask<Pair<Context, LocationAndUserBean>, Void, LocationAndUserBean> task =
-                new LocationTransferer();
+        AsyncTask<Pair<Context, RegionAndUserBean>, Void, RegionAndUserBean> task =
+                new RegionTransferer();
 
-        LocationAndUserBean locationAndNewOwner = new LocationAndUserBean();
-        locationAndNewOwner.setLocation(location);
-        locationAndNewOwner.setUser(newOwner);
+        RegionAndUserBean regionAndNewOwner = new RegionAndUserBean();
+        regionAndNewOwner.setRegion(region);
+        regionAndNewOwner.setUser(newOwner);
 
-        task.execute(new Pair<>(context, locationAndNewOwner));
+        task.execute(new Pair<>(context, regionAndNewOwner));
 
         Log.i("TASK", "transferring ownership status: = " + task.getStatus());
     }
@@ -42,18 +42,18 @@ public class LocationTransferer
     /**
      * Constructor
      */
-    private LocationTransferer() {
+    private RegionTransferer() {
     }
 
     @Override
-    protected LocationAndUserBean doInBackground(Pair<Context, LocationAndUserBean>... params) {
+    protected RegionAndUserBean doInBackground(Pair<Context, RegionAndUserBean>... params) {
 
         context = params[0].first;
-        LocationAndUserBean locAndOwner = params[0].second;
+        RegionAndUserBean regAndOwner = params[0].second;
 
         try {
             return MapLandApiService.getInstance()
-                    .transferLocationOwnership(locAndOwner)
+                    .transferRegionOwnership(regAndOwner)
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();

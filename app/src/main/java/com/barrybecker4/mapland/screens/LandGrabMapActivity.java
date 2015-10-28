@@ -27,19 +27,19 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.R;
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.game.GameStateChangededListener;
-import com.barrybecker4.mapland.game.LocationUtil;
+import com.barrybecker4.mapland.game.RegionUtil;
 import com.barrybecker4.mapland.screens.support.LandMap;
-import com.barrybecker4.mapland.screens.support.LocationAddHandler;
-import com.barrybecker4.mapland.screens.support.LocationsRetrievalHandler;
+import com.barrybecker4.mapland.screens.support.RegionAddHandler;
+import com.barrybecker4.mapland.screens.support.RegionsRetrievalHandler;
 import com.barrybecker4.mapland.screens.support.UserAccounts;
 import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
-import com.barrybecker4.mapland.server.tasks.LocationAdder;
-import com.barrybecker4.mapland.server.tasks.LocationRetriever;
-import com.barrybecker4.mapland.server.tasks.LocationTransferer;
+import com.barrybecker4.mapland.server.tasks.RegionAdder;
+import com.barrybecker4.mapland.server.tasks.RegionRetriever;
+import com.barrybecker4.mapland.server.tasks.RegionTransferer;
 import com.barrybecker4.mapland.server.tasks.UserRetriever;
 import com.barrybecker4.mapland.server.ViewPort;
 import com.google.android.gms.maps.GoogleMap;
@@ -126,7 +126,7 @@ public class LandGrabMapActivity extends FragmentActivity
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
                 Log.v("MAP", "Camera positionChanged.");
-                retrieveVisibleLocations();
+                retrieveVisibleRegions();
             }
         });
 
@@ -152,12 +152,12 @@ public class LandGrabMapActivity extends FragmentActivity
     /**
      * Retrieve the locations that are in the current map viewport.
      */
-    private void retrieveVisibleLocations() {
+    private void retrieveVisibleRegions() {
         VisibleRegion region = theMap.getVisibleRegion();
         System.out.println("The visible region is " + region.toString());
         Log.i("MAP", "The visible region is " + region.toString());
         ViewPort viewport = new ViewPort(region);
-        LocationRetriever.getLocations(viewport, this, new LocationsRetrievalHandler(this, state));
+        RegionRetriever.getRegions(viewport, this, new RegionsRetrievalHandler(this, state));
     }
 
     @Override
@@ -166,7 +166,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
     /**
      * Called when the game state is initialized, or when the user is positionChanged, or when the user changes their location.
-     * Locations are only added as needed. Initially there are no locations in a game
+     * Regions are only added as needed. Initially there are no locations in a game
      * When a user occupies a location for the first time, that rectangular location is created and
      * the user immediately gets ownership of it.
      * If a user moves into a location owned by someone else, then they get ownership.
@@ -178,23 +178,23 @@ public class LandGrabMapActivity extends FragmentActivity
         System.out.println("Game state initialized.");
         Log.i("INITIALIZE", "Game state initialized.");
         UserBean user = state.getCurrentUser();
-        if (LocationUtil.positionChanged(state.getCurrentPosition(), lastPosition)) {
+        if (RegionUtil.positionChanged(state.getCurrentPosition(), lastPosition)) {
             if (lastPosition != null) {
                 Toast.makeText(this,
                         "The users position has positionChanged from " + lastPosition + " to " + state.getCurrentPosition()
-                                + " dist=" + LocationUtil.distance(state.getCurrentPosition(), lastPosition),
+                                + " dist=" + RegionUtil.distance(state.getCurrentPosition(), lastPosition),
                         Toast.LENGTH_LONG).show();
             }
             lastPosition = state.getCurrentPosition();
         }
 
         // if the user owns the current location, then set it as current
-        List<LocationBean> locations = state.getVisibleLocations();
+        List<RegionBean> locations = state.getVisibleRegions();
         System.out.println("About to search in " + locations.size() + " visible locations.");
-        for (LocationBean loc : locations) {
-            if (LocationUtil.contains(state.getCurrentPosition(), loc)) {
+        for (RegionBean loc : locations) {
+            if (RegionUtil.contains(state.getCurrentPosition(), loc)) {
                 System.out.println("The current position " + state.getCurrentPosition() + " is within " + loc);
-                state.setCurrentLocation(loc);
+                state.setCurrentRegion(loc);
                 if (!loc.getOwnerId().equals(user.getUserId())) {
                     // then need to change ownership on this location to the current user!
                     Log.i("STATE_CHANGE", "The location you are in is owned by " + loc.getOwnerId()
@@ -202,9 +202,9 @@ public class LandGrabMapActivity extends FragmentActivity
 
                     // This does 3 things: User has this location added, location has its owner set to user,
                     // and the old owner has this location removed from its list.
-                    LocationTransferer.transferLocationOwnership(loc, user, this);
-                    user.getLocations().add(loc.getLocationId());
-                    Toast.makeText(this, "Transferring ownership of " + loc.getLocationId() + " from " + loc.getOwnerId()
+                    RegionTransferer.transferRegionOwnership(loc, user, this);
+                    user.getRegions().add(loc.getRegionId());
+                    Toast.makeText(this, "Transferring ownership of " + loc.getRegionId() + " from " + loc.getOwnerId()
                             + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -213,14 +213,14 @@ public class LandGrabMapActivity extends FragmentActivity
                 Log.i("STATE_CHANGE", "The current position " + state.getCurrentPosition() + " is not within " + loc);
             }
         }
-        if (state.getCurrentLocation() == null) {
+        if (state.getCurrentRegion() == null) {
             // otherwise, add this new location to the datastore, and to the users list of owned locations
             // Both must be done at the same time as part of a single atomic transaction
-            LocationBean loc = LocationUtil.createLocationAtPosition(user.getUserId(), state.getCurrentPosition());
-            LocationAdder.addLocationForUser(loc, this, new LocationAddHandler(this, state));
-            state.setCurrentLocation(loc);
+            RegionBean loc = RegionUtil.createRegionAtPosition(user.getUserId(), state.getCurrentPosition());
+            RegionAdder.addRegionForUser(loc, this, new RegionAddHandler(this, state));
+            state.setCurrentRegion(loc);
         }
 
-        theMap.showLocations(state.getVisibleLocations()); // updates too much?
+        theMap.showRegions(state.getVisibleRegions()); // updates too much?
     }
 }

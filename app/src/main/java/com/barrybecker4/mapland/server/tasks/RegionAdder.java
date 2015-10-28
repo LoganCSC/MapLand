@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.server.IResponseHandler;
 import com.barrybecker4.mapland.server.MapLandApiService;
 
@@ -17,7 +17,7 @@ import java.io.IOException;
  * in the cloud on Google App Engine) to add a new location with a certain user as owner.
  * Note: The user also needs to have the id for this location added to their list of owned locations.
  */
-public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, LocationBean> {
+public class RegionAdder extends AsyncTask<Pair<Context, RegionBean>, Void, RegionBean> {
 
     private Context context;
     private IResponseHandler callback;
@@ -25,11 +25,11 @@ public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, 
     /**
      * Asynchronously retrieve the user (or add if not there)
      */
-    public static void addLocationForUser(LocationBean loc, Context context, IResponseHandler callback) {
+    public static void addRegionForUser(RegionBean loc, Context context, IResponseHandler callback) {
 
         // call the backend server
-        AsyncTask<Pair<Context, LocationBean>, Void, LocationBean> task =
-                new LocationAdder(callback);
+        AsyncTask<Pair<Context, RegionBean>, Void, RegionBean> task =
+                new RegionAdder(callback);
 
         task.execute(new Pair<>(context, loc));
 
@@ -40,19 +40,19 @@ public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, 
      * Constructor
      * @param callback called when the user entity has been retrieved
      */
-    private LocationAdder(IResponseHandler callback) {
+    private RegionAdder(IResponseHandler callback) {
         this.callback = callback;
     }
 
     @Override
-    protected LocationBean doInBackground(Pair<Context, LocationBean>... params) {
+    protected RegionBean doInBackground(Pair<Context, RegionBean>... params) {
 
         context = params[0].first;
-        LocationBean loc = params[0].second;
+        RegionBean loc = params[0].second;
 
         try {
             return MapLandApiService.getInstance()
-                    .addLocationInfo(loc.getOwnerId(),
+                    .addRegionInfo(loc.getOwnerId(),
                             loc.getNwLatitudeCoord(), loc.getNwLongitudeCoord(),
                             loc.getSeLatitudeCoord(), loc.getSeLongitudeCoord())
                     .execute();
@@ -63,7 +63,7 @@ public class LocationAdder extends AsyncTask<Pair<Context, LocationBean>, Void, 
     }
 
     @Override
-    protected void onPostExecute(LocationBean result) {
+    protected void onPostExecute(RegionBean result) {
         if (callback != null) {
             callback.jsonRetrieved(result);
         }

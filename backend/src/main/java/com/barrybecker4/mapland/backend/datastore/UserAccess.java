@@ -107,8 +107,8 @@ public class UserAccess extends DataStoreAccess {
             System.out.println("No user entity found for name = " + name + ". Adding one.");
             // If no entity was found, create a new one.
 
-            List<Long> locations = new LinkedList<>();
-            entity = createUserEntity(key, name, INITAIL_CREDITS, locations);
+            List<Long> regions = new LinkedList<>();
+            entity = createUserEntity(key, name, INITAIL_CREDITS, regions);
             // Insert the entity in the commit request mutation.
             creq.getMutationBuilder().addInsert(entity);
         }
@@ -126,12 +126,12 @@ public class UserAccess extends DataStoreAccess {
         Key.Builder key = Key.newBuilder().addPathElement(
                 Key.PathElement.newBuilder().setKind(KIND).setName(user.getUserId()));
 
-        return createUserEntity(key, user.getUserId(), user.getCredits(), user.getLocations());
+        return createUserEntity(key, user.getUserId(), user.getCredits(), user.getRegions());
     }
 
     /** @return new User entity with specified info */
     private Entity createUserEntity(
-            Key.Builder key, String userId, Long credits, List<Long> locations) {
+            Key.Builder key, String userId, Long credits, List<Long> regions) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();
         // Set the entity key.
@@ -146,16 +146,16 @@ public class UserAccess extends DataStoreAccess {
                 .setName("credits")
                 .setValue(Value.newBuilder().setIntegerValue(credits)));
 
-        // - a list of 64bit integers: `locations`
+        // - a list of 64bit integers: `regions`
         // See http://stackoverflow.com/questions/23858208/how-to-add-array-property-value-in-google-cloud-datastore
 
-        Value.Builder[] valueArray = new Value.Builder[locations.size()];
+        Value.Builder[] valueArray = new Value.Builder[regions.size()];
         int i = 0;
-        for (Long loc : locations) {
+        for (Long loc : regions) {
             valueArray[i++] = DatastoreHelper.makeValue(loc);
         }
         entityBuilder.addProperty(
-                DatastoreHelper.makeProperty("locations", DatastoreHelper.makeValue(valueArray)));
+                DatastoreHelper.makeProperty("regions", DatastoreHelper.makeValue(valueArray)));
 
         // Build the entity.
         entity = entityBuilder.build();

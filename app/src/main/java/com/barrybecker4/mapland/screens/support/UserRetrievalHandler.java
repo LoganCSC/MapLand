@@ -29,8 +29,8 @@ public class UserRetrievalHandler implements IResponseHandler {
         state.setCurrentUser(user);
 
         String locs = "null locations!";
-        if (user.getLocations() != null) {
-            locs = user.getLocations().toString();
+        if (user.getRegions() != null) {
+            locs = user.getRegions().toString();
         }
         System.out.println("User = " + user.toString());
         String message = user.getUserId() + " owns " + user.getCredits() + " credits, and these locations: " + locs;

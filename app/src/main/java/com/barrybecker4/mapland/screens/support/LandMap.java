@@ -2,7 +2,7 @@ package com.barrybecker4.mapland.screens.support;
 
 import android.location.Location;
 
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
@@ -77,17 +77,17 @@ public class LandMap {
 
     /**
      * Brian, make this show rectangles color-coded by owner instead of the default marker.
-     * @param locations the list of currently visible locations to show
+     * @param regions the list of currently visible regions to show
      */
-    public void showLocations(List<LocationBean> locations) {
+    public void showRegions(List<RegionBean> regions) {
         theMap.clear();
-        for (LocationBean location : locations) {
+        for (RegionBean region : regions) {
             // for now just put a marker at the center of each region.
-            double latitude = (location.getNwLatitudeCoord() + location.getSeLatitudeCoord()) / 2.0;
-            double longitude = (location.getNwLongitudeCoord() + location.getSeLongitudeCoord()) / 2.0;
+            double latitude = (region.getNwLatitudeCoord() + region.getSeLatitudeCoord()) / 2.0;
+            double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
             LatLng center = new LatLng(latitude, longitude);
             System.out.println("Adding maker at "+ center +" current = " + this.getCurrentPosition() );
-            theMap.addMarker(new MarkerOptions().position(center).alpha(0.5f).title(location.getOwnerId()));
+            theMap.addMarker(new MarkerOptions().position(center).alpha(0.5f).title(region.getOwnerId()));
         }
     }
 

@@ -57,7 +57,7 @@ public class DataStoreAccess {
 
     /**
      * @param entity the entity to add
-     * @return the location of the added entity that was added (will now have its ID)
+     * @return the region of the added entity that was added (will now have its ID)
      * DatastoreException if problem accessing the datastore
      */
     protected Long insertEntity(Entity entity) throws DatastoreException {
@@ -76,7 +76,7 @@ public class DataStoreAccess {
         DatastoreV1.CommitResponse resp = datastore.commit(creq.build());
         Key key = resp.getMutationResult().getInsertAutoIdKey(0);
         Long id = key.getPathElement(0).getId();
-        System.out.println("id generated for location just added : " + id);
+        System.out.println("id generated for region just added : " + id);
         return id;
     }
 

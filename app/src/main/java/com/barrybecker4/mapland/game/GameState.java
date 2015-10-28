@@ -1,6 +1,6 @@
 package com.barrybecker4.mapland.game;
 
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -18,11 +18,11 @@ public class GameState {
     private LatLng currentPosition;
 
     /** location containing the current position. Perhaps rename location to region to reduce confusion. */
-    private LocationBean currentLocation;
+    private RegionBean currentRegion;
 
     /** All visible locations. Changes with view port navigation. */
-    private List<LocationBean> visibleLocations;
-    private List<LocationBean> previousVisibleLocations;
+    private List<RegionBean> visibleRegions;
+    private List<RegionBean> previousVisibleRegions;
 
     private GameStateChangededListener listener;
 
@@ -57,23 +57,23 @@ public class GameState {
         checkIfInitialized();
     }
 
-    public LocationBean getCurrentLocation() {
-        return currentLocation;
+    public RegionBean getCurrentRegion() {
+        return currentRegion;
     }
 
-    public void setCurrentLocation(LocationBean currentLocation) {
-        this.currentLocation = currentLocation;
+    public void setCurrentRegion(RegionBean currentRegion) {
+        this.currentRegion = currentRegion;
         checkIfInitialized();
     }
 
-    public List<LocationBean> getVisibleLocations() {
-        return visibleLocations;
+    public List<RegionBean> getVisibleRegions() {
+        return visibleRegions;
     }
 
-    public void setVisibleLocations(List<LocationBean> visibleLocations) {
-        this.previousVisibleLocations = this.visibleLocations;
-        this.visibleLocations = visibleLocations;
-        if (this.previousVisibleLocations == null) {
+    public void setVisibleRegions(List<RegionBean> visibleRegions) {
+        this.previousVisibleRegions = this.visibleRegions;
+        this.visibleRegions = visibleRegions;
+        if (this.previousVisibleRegions == null) {
             // After the first update, we do not want to call statChanged when the visible locations change.
             checkIfInitialized();
         }
@@ -86,7 +86,7 @@ public class GameState {
         if (changed) return;
         changed = (currentUser != null
                 && currentPosition != null
-                && visibleLocations != null);
+                && visibleRegions != null);
 
         if (changed && listener != null) {
             listener.stateChanged(this);

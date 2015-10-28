@@ -6,19 +6,17 @@
 
 package com.barrybecker4.mapland.backend;
 
-import com.barrybecker4.mapland.backend.datamodel.LocationAndUserBean;
+import com.barrybecker4.mapland.backend.datamodel.RegionAndUserBean;
+import com.barrybecker4.mapland.backend.datamodel.RegionBean;
 import com.barrybecker4.mapland.backend.datamodel.UserBean;
-import com.barrybecker4.mapland.backend.datastore.LocationAccess;
+import com.barrybecker4.mapland.backend.datastore.RegionAccess;
 import com.barrybecker4.mapland.backend.datastore.UserAccess;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-import com.barrybecker4.mapland.backend.datamodel.LocationBean;
 import com.google.api.services.datastore.client.DatastoreException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Named;
 
@@ -67,47 +65,47 @@ public class MapLandEndpoint {
     }
 
     /**
-     * endpoint method that takes a locationId and returns persisted information about that location.
+     * endpoint method that takes a regionId and returns persisted information about that region.
      */
-    @ApiMethod(name = "getLocationsInViewPort")
-    public List<LocationBean> getLocationsInViewPort(
+    @ApiMethod(name = "getRegionsInViewPort")
+    public List<RegionBean> getRegionsInViewPort(
             @Named("nwLat") Double nwLat, @Named("nwLong") Double nwLong,
             @Named("seLat") Double seLat, @Named("seLong") Double seLong) {
 
-        LocationAccess access = new LocationAccess();
-        return access.getAllLocationsInViewPort(nwLat, nwLong, seLat, seLong);
+        RegionAccess access = new RegionAccess();
+        return access.getAllRegionsInViewPort(nwLat, nwLong, seLat, seLong);
     }
 
     /**
-     * endpoint method that takes a locationId and returns persisted information about that location.
+     * endpoint method that takes a regionId and returns persisted information about that region.
      */
-    @ApiMethod(name = "getLocationInfo")
-    public LocationBean getLocationInfo(@Named("locationId") Long locationId) {
-        LocationAccess access = new LocationAccess();
-        return access.getLocationById(locationId);
+    @ApiMethod(name = "getRegionInfo")
+    public RegionBean getRegionInfo(@Named("regionId") Long regionId) {
+        RegionAccess access = new RegionAccess();
+        return access.getRegionById(regionId);
     }
 
     /**
-     * Endpoint method that adds a new location with specified information and owner.
-     * The owner must also be updatd with this new location as part of an atomic transaction.
+     * Endpoint method that adds a new region with specified information and owner.
+     * The owner must also be updatd with this new region as part of an atomic transaction.
      */
-    @ApiMethod(name = "addLocationInfo")
-    public LocationBean addLocationInfo(@Named("owner") String owner,
+    @ApiMethod(name = "addRegionInfo")
+    public RegionBean addRegionInfo(@Named("owner") String owner,
             @Named("nwLat") Double nwLat, @Named("nwLong") Double nwLong,
             @Named("seLat") Double seLat, @Named("seLong") Double seLong) throws DatastoreException {
 
-        LocationAccess access = new LocationAccess();
-        return access.addNewLocation(owner, nwLat, nwLong, seLat, seLong);
+        RegionAccess access = new RegionAccess();
+        return access.addNewRegion(owner, nwLat, nwLong, seLat, seLong);
     }
 
     /**
-     * Endpoint method that adds a new location with specified information and owner.
-     * The owner must also be updatd with this new location as part of an atomic transaction.
+     * Endpoint method that adds a new region with specified information and owner.
+     * The owner must also be updatd with this new region as part of an atomic transaction.
      */
-    @ApiMethod(name = "transferLocationOwnership")
-    public LocationAndUserBean transferLocationOwnership(
-            LocationAndUserBean locationAndUser) throws DatastoreException {
-        LocationAccess access = new LocationAccess();
-        return access.transferLocationOwnership(locationAndUser);
+    @ApiMethod(name = "transferRegionOwnership")
+    public RegionAndUserBean transferRegionOwnership(
+            RegionAndUserBean regionAndUser) throws DatastoreException {
+        RegionAccess access = new RegionAccess();
+        return access.transferRegionOwnership(regionAndUser);
     }
 }

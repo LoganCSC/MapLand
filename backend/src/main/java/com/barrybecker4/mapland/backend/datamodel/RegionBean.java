@@ -8,10 +8,10 @@ import com.google.api.services.datastore.DatastoreV1.Entity;
 import java.util.Map;
 
 /**
- * Used to transfer information about a specific map location
+ * Used to transfer information about a specific map region
  * The rectangular region is defined by north-west (nw) and south-east (se) geo coordinates.
  *
- * Locations are square grid cells on a map where the coordinates of the corner vertices
+ * Regions are square grid cells on a map where the coordinates of the corner vertices
  * are simply the lat/long degree coordinates rounded to 3 decimal places.
  * Since 1 degree of latitude ~= 69 miles,
  * this means the edge length of a grid cell is about 364 feet in the horizontal direction.
@@ -20,11 +20,11 @@ import java.util.Map;
  *
  * @author Barry Becker
  */
-public class LocationBean {
+public class RegionBean {
 
-    private Long locationId;
+    private Long regionId;
 
-    /** Id of the user who owns this location */
+    /** Id of the user who owns this region */
     private String ownerId;
     /* switch to using GeoPt when its ready for prime time
     private GeoPt northWestCorner;
@@ -36,22 +36,22 @@ public class LocationBean {
     private double seLatitudeCoord;
     private double seLongitudeCoord;
 
-    public LocationBean() {}
+    public RegionBean() {}
 
-    public LocationBean(Entity locationEntity, Long id) {
-        this(locationEntity);
-        this.setLocationId(id);
-        System.out.println("created Location: " + this);
+    public RegionBean(Entity regionEntity, Long id) {
+        this(regionEntity);
+        this.setRegionId(id);
+        System.out.println("created Region: " + this);
     }
 
-    public LocationBean(Entity locationEntity) {
+    public RegionBean(Entity regionEntity) {
 
-        Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(locationEntity);
-        //System.out.println("location propertyMap = " + propertyMap);
+        Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(regionEntity);
+        //System.out.println("region propertyMap = " + propertyMap);
 
-        DatastoreV1.Value idVal = propertyMap.get("locationId");
-        Long id = locationEntity.getKey().getPathElement(0).getId();
-        //Long locationId = id; //idVal == null ?  null : idVal.getIntegerValue();
+        DatastoreV1.Value idVal = propertyMap.get("regionId");
+        Long id = regionEntity.getKey().getPathElement(0).getId();
+        //Long regionId = id; //idVal == null ?  null : idVal.getIntegerValue();
         String ownerId = propertyMap.get("ownerId").getStringValue();
         Long cost = propertyMap.get("cost").getIntegerValue();
         Integer income = (int) propertyMap.get("income").getIntegerValue();
@@ -60,13 +60,13 @@ public class LocationBean {
         Double seLat = propertyMap.get("seLatitude").getDoubleValue();
         Double seLong = propertyMap.get("seLongitude").getDoubleValue();
         /*
-        List<Long> locations = new ArrayList<>();
-        for (Value value : propertyMap.get("locations").getListValueList()) {
+        List<Long> regions = new ArrayList<>();
+        for (Value value : propertyMap.get("regions").getListValueList()) {
             System.out.println(value.getIntegerValue());
-            locations.add(value.getIntegerValue());
+            regions.add(value.getIntegerValue());
         }*/
 
-        this.setLocationId(id);
+        this.setRegionId(id);
         this.setOwnerId(ownerId);
         this.setCost(cost);
         this.setIncome(income);
@@ -75,18 +75,18 @@ public class LocationBean {
         this.setSeLatitudeCoord(seLat);
         this.setSeLongitudeCoord(seLong);
         /** GeoPt not yet ready for prime time unfortunately
-         location.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
-         location.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
+         region.setNorthWestCorner(new GeoPt(nwLat.floatValue(), nwLong.floatValue()));
+         region.setSouthEastCorner(new GeoPt(seLat.floatValue(), seLong.floatValue()));
          */
     }
 
 
-    public Long getLocationId() {
-        return locationId;
+    public Long getRegionId() {
+        return regionId;
     }
 
-    public void setLocationId(Long id) {
-        this.locationId = id;
+    public void setRegionId(Long id) {
+        this.regionId = id;
     }
 
     public String getOwnerId() {
@@ -97,13 +97,13 @@ public class LocationBean {
         this.ownerId = ownerId;
     }
 
-    /** the number of credits needed to buy this location */
+    /** the number of credits needed to buy this region */
     private long cost;
 
     /** the amount of daily income that this property provides the owner */
     private int income;
 
-    /** additional info about the location. Probably added by ownwer(s) */
+    /** additional info about the region. Probably added by ownwer(s) */
     private String notes;
 
     /*
@@ -180,7 +180,7 @@ public class LocationBean {
     }
 
     public String toString() {
-        return "{locationId: " + this.locationId + " owner: " + this.ownerId + " cost: " + this.cost
+        return "{regionId: " + this.regionId + " owner: " + this.ownerId + " cost: " + this.cost
                 + " nw["+this.nwLatitudeCoord +", " + this.nwLongitudeCoord+"] sw["
                 + this.seLatitudeCoord +", " + this.seLongitudeCoord+"] notes: "+ notes + "}";
     }

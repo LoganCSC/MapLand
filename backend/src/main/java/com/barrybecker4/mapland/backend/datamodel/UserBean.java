@@ -18,7 +18,7 @@ public class UserBean {
     /** probably the users email address */
     private String userId;
     private long credits = 0;
-    private List<Long> locations = new ArrayList<>();
+    private List<Long> regions = new ArrayList<>();
 
     public UserBean() {}
 
@@ -35,22 +35,22 @@ public class UserBean {
 
         String username = propertyMap.get("name").getStringValue();
         Long credits = propertyMap.get("credits").getIntegerValue();
-        List<Long> locations = new ArrayList<>();
-        for (DatastoreV1.Value value : propertyMap.get("locations").getListValueList()) {
-            System.out.println("location: " + value.getIntegerValue());
-            locations.add(value.getIntegerValue());
+        List<Long> regions = new ArrayList<>();
+        for (DatastoreV1.Value value : propertyMap.get("regions").getListValueList()) {
+            System.out.println("region: " + value.getIntegerValue());
+            regions.add(value.getIntegerValue());
         }
 
         /*
-        int numLocations = locsValue.getListValueCount();
-        List<Long> locations = new ArrayList<>(numLocations);
-        for (int i = 0; i < numLocations; i++) {
-           locations.add(locsValue.getListValue(i).getIntegerValue());
+        int numRegions = locsValue.getListValueCount();
+        List<Long> regions = new ArrayList<>(numRegions);
+        for (int i = 0; i < numRegions; i++) {
+           regions.add(locsValue.getListValue(i).getIntegerValue());
         }*/
 
         this.setUserId(username);
         this.setCredits(credits);
-        this.setLocations(locations);
+        this.setRegions(regions);
         System.out.println("created User:"  + this);
     }
 
@@ -69,20 +69,20 @@ public class UserBean {
         this.credits = credits;
     }
 
-    public List<Long> getLocations() {
+    public List<Long> getRegions() {
         // for some reason the datastore makes empty lists null.
-        if (locations == null) {
-            locations = new LinkedList<>();
+        if (regions == null) {
+            regions = new LinkedList<>();
         }
 
-        return locations;
+        return regions;
     }
 
-    public void setLocations(List<Long> locations) {
-        this.locations = locations;
+    public void setRegions(List<Long> regions) {
+        this.regions = regions;
     }
 
     public String toString() {
-        return "{userId: " + this.userId + " credits: " + this.credits + " location: " + this.locations + "}";
+        return "{userId: " + this.userId + " credits: " + this.credits + " region: " + this.regions + "}";
     }
 }

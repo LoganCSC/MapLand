@@ -1,11 +1,10 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
-import android.location.Location;
 import android.widget.Toast;
 
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBeanCollection;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBeanCollection;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.server.IResponseHandler;
 import com.google.api.client.json.GenericJson;
@@ -16,12 +15,12 @@ import java.util.List;
 /**
  * @author Barry Becker
  */
-public class LocationsRetrievalHandler implements IResponseHandler {
+public class RegionsRetrievalHandler implements IResponseHandler {
 
     private Context context;
     private GameState state;
 
-    public LocationsRetrievalHandler(Context context, GameState state) {
+    public RegionsRetrievalHandler(Context context, GameState state) {
         this.context = context;
         this.state = state;
     }
@@ -29,19 +28,19 @@ public class LocationsRetrievalHandler implements IResponseHandler {
     /** Show a popup with the user info */
     @Override
     public void jsonRetrieved(GenericJson result) {
-        List<LocationBean> locations = ((LocationBeanCollection)result).getItems();
-        state.setVisibleLocations(locations);
+        List<RegionBean> regions = ((RegionBeanCollection)result).getItems();
+        state.setVisibleRegions(regions);
 
-        String message = "Locations retrieved to client = " + listIds(locations);
+        String message = "Regions retrieved to client = " + listIds(regions);
         System.out.println(message);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    private List<Long> listIds(List<LocationBean> locations) {
+    private List<Long> listIds(List<RegionBean> regions) {
         List<Long> idList = new LinkedList<>();
-        if (locations != null) {
-            for (LocationBean loc : locations) {
-                idList.add(loc.getLocationId());
+        if (regions != null) {
+            for (RegionBean region : regions) {
+                idList.add(region.getRegionId());
             }
         }
         return idList;

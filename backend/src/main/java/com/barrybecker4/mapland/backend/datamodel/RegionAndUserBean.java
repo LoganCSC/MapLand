@@ -1,20 +1,20 @@
 package com.barrybecker4.mapland.backend.datamodel;
 
 /**
- * Combine location and owner together.
+ * Combine region and owner together.
  * Endpoints are only allowed to pass maximum of one entity.
  */
-public class LocationAndUserBean {
+public class RegionAndUserBean {
 
-    private LocationBean location;
+    private RegionBean region;
     private UserBean user;
 
-    public LocationBean getLocation() {
-        return location;
+    public RegionBean getRegion() {
+        return region;
     }
 
-    public void setLocation(LocationBean location) {
-        this.location = location;
+    public void setRegion(RegionBean region) {
+        this.region = region;
     }
 
     public UserBean getUser() {

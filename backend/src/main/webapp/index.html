@@ -116,12 +116,12 @@
     function init() {
       var apiName = 'mapLandApi';
       var apiVersion = 'v1';
-      var apiRoot = 'https://' + window.location.host + '/_ah/api';
-      if (window.location.hostname == 'localhost'
-          || window.location.hostname == '127.0.0.1'
-          || ((window.location.port != "") && (window.location.port > 1023))) {
+      var apiRoot = 'https://' + window.region.host + '/_ah/api';
+      if (window.region.hostname == 'localhost'
+          || window.region.hostname == '127.0.0.1'
+          || ((window.region.port != "") && (window.region.port > 1023))) {
             // We're probably running against the DevAppServer
-            apiRoot = 'http://' + window.location.host + '/_ah/api';
+            apiRoot = 'http://' + window.region.host + '/_ah/api';
       }
       var callback = function() {
         enableClick();

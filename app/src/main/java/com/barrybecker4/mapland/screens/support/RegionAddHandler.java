@@ -3,7 +3,7 @@ package com.barrybecker4.mapland.screens.support;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.barrybecker4.mapland.backend.mapLandApi.model.LocationBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.server.IResponseHandler;
@@ -16,12 +16,12 @@ import java.util.List;
 /**
  * @author Barry Becker
  */
-public class LocationAddHandler implements IResponseHandler {
+public class RegionAddHandler implements IResponseHandler {
 
     private Context context;
     private GameState state;
 
-    public LocationAddHandler(Context context, GameState state) {
+    public RegionAddHandler(Context context, GameState state) {
         this.context = context;
         this.state = state;
     }
@@ -29,25 +29,25 @@ public class LocationAddHandler implements IResponseHandler {
     /** Called when the new location has ben added the datastore */
     @Override
     public void jsonRetrieved(GenericJson result) {
-        LocationBean location = (LocationBean)result;
-        state.setCurrentLocation(location);
+        RegionBean region = (RegionBean)result;
+        state.setCurrentRegion(region);
 
-        String message = "Added new location = " + location;
+        String message = "Added new region = " + region;
         System.out.println(message);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 
-        // Update user with new location
+        // Update user with new region
         UserBean user = state.getCurrentUser();
 
-        if (user.getLocations() == null) {
+        if (user.getRegions() == null) {
             List<Long> locs = new LinkedList<>();
-            locs.add(location.getLocationId());
-            user.setLocations(locs);
+            locs.add(region.getRegionId());
+            user.setRegions(locs);
         } else {
-            user.getLocations().add(location.getLocationId());
+            user.getRegions().add(region.getRegionId());
         }
 
-        // This should not be necessary. They should already have this new location.
+        // This should not be necessary. They should already have this new region.
         // UserUpdater.updateUser(user, context, null);
     }
 }
