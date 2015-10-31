@@ -64,7 +64,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
     private LandMap theMap;
     private GameState state;
-    /** remember the last position of the user, so we can tell when their location has positionChanged */
+    /** remember the last position of the user, so we can tell when their region has positionChanged */
     private LatLng lastPosition;
 
 
@@ -133,7 +133,7 @@ public class LandGrabMapActivity extends FragmentActivity
         theMap.setLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location position) {
-                Log.i("MAP", "Users location positionChanged: " + position);
+                Log.i("MAP", "User's positionChanged: " + position);
                 state.setCurrentPosition(theMap.getCurrentPosition());
             }
         });
@@ -150,14 +150,14 @@ public class LandGrabMapActivity extends FragmentActivity
     }
 
     /**
-     * Retrieve the locations that are in the current map viewport.
+     * Retrieve the regions that are in the current map viewport.
      */
     private void retrieveVisibleRegions() {
         VisibleRegion region = theMap.getVisibleRegion();
         System.out.println("The visible region is " + region.toString());
         Log.i("MAP", "The visible region is " + region.toString());
         ViewPort viewport = new ViewPort(region);
-        RegionRetriever.getRegions(viewport, this, new RegionsRetrievalHandler(this, state));
+        RegionRetriever.getRegions(viewport, this, new RegionsRetrievalHandler(this, state, theMap));
     }
 
     @Override
@@ -165,11 +165,11 @@ public class LandGrabMapActivity extends FragmentActivity
     }
 
     /**
-     * Called when the game state is initialized, or when the user is positionChanged, or when the user changes their location.
-     * Regions are only added as needed. Initially there are no locations in a game
-     * When a user occupies a location for the first time, that rectangular location is created and
+     * Called when the game state is initialized, or when the user is positionChanged, or when the user changes their region.
+     * Regions are only added as needed. Initially there are no regions in a game
+     * When a user occupies a region for the first time, that rectangular region is created and
      * the user immediately gets ownership of it.
-     * If a user moves into a location owned by someone else, then they get ownership.
+     * If a user moves into a region owned by someone else, then they get ownership.
      * That transfer of ownership is immediate right now, but really they should be prompted to buy it.
      */
     @Override
@@ -188,37 +188,38 @@ public class LandGrabMapActivity extends FragmentActivity
             lastPosition = state.getCurrentPosition();
         }
 
-        // if the user owns the current location, then set it as current
-        List<RegionBean> locations = state.getVisibleRegions();
-        System.out.println("About to search in " + locations.size() + " visible locations.");
-        for (RegionBean loc : locations) {
-            if (RegionUtil.contains(state.getCurrentPosition(), loc)) {
-                System.out.println("The current position " + state.getCurrentPosition() + " is within " + loc);
-                state.setCurrentRegion(loc);
-                if (!loc.getOwnerId().equals(user.getUserId())) {
-                    // then need to change ownership on this location to the current user!
-                    Log.i("STATE_CHANGE", "The location you are in is owned by " + loc.getOwnerId()
+        // if the user owns the current region, then set it as current
+        List<RegionBean> regions = state.getVisibleRegions();
+        System.out.println("About to search in " + regions.size() + " visible regions.");
+        for (RegionBean region : regions) {
+            if (RegionUtil.contains(state.getCurrentPosition(), region)) {
+                System.out.println("The current position " + state.getCurrentPosition() + " is within " + region);
+                state.setCurrentRegion(region);
+                if (!region.getOwnerId().equals(user.getUserId())) {
+                    // then need to change ownership on this region to the current user!
+                    Log.i("STATE_CHANGE", "The region you are in is owned by " + region.getOwnerId()
                             + " Transferring ownership...");
 
-                    // This does 3 things: User has this location added, location has its owner set to user,
-                    // and the old owner has this location removed from its list.
-                    RegionTransferer.transferRegionOwnership(loc, user, this);
-                    user.getRegions().add(loc.getRegionId());
-                    Toast.makeText(this, "Transferring ownership of " + loc.getRegionId() + " from " + loc.getOwnerId()
+                    // This does 3 things: User has this region added, region has its owner set to user,
+                    // and the old owner has this region removed from its list.
+                    RegionTransferer.transferRegionOwnership(region, user, this);
+                    user.getRegions().add(region.getRegionId());
+                    Toast.makeText(this, "Transferring ownership of " + region.getRegionId() + " from " + region.getOwnerId()
                             + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
                 }
             }
             else {
-                System.out.println("The current position " + state.getCurrentPosition() + " is not within " + loc);
-                Log.i("STATE_CHANGE", "The current position " + state.getCurrentPosition() + " is not within " + loc);
+                System.out.println("The current position " + state.getCurrentPosition() + " is not within " + region);
+                Log.i("STATE_CHANGE", "The current position " + state.getCurrentPosition() + " is not within " + region);
             }
         }
         if (state.getCurrentRegion() == null) {
-            // otherwise, add this new location to the datastore, and to the users list of owned locations
+            // otherwise, add this new region to the datastore, and to the users list of owned regions
             // Both must be done at the same time as part of a single atomic transaction
-            RegionBean loc = RegionUtil.createRegionAtPosition(user.getUserId(), state.getCurrentPosition());
-            RegionAdder.addRegionForUser(loc, this, new RegionAddHandler(this, state));
-            state.setCurrentRegion(loc);
+            RegionBean region = RegionUtil.createRegionAtPosition(user.getUserId(), state.getCurrentPosition());
+            RegionAdder.addRegionForUser(region, this, new RegionAddHandler(this, state));
+            state.setCurrentRegion(region);
+            retrieveVisibleRegions();
         }
 
         theMap.showRegions(state.getVisibleRegions()); // updates too much?

@@ -27,7 +27,8 @@ public class LandMap {
     // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
     /** This is used if the position cannot be retrieved from the map - such as when the emulator is used */
-    private static final LatLng DEFAULT_POSITION = new LatLng(37.607768, -122.07912);
+    //private static final LatLng DEFAULT_POSITION = new LatLng(37.607768, -122.07912);
+    private static final LatLng DEFAULT_POSITION = new LatLng(37.609768, -122.0812);
     private static final int INITIAL_ZOOM_LEVEL = 11;
 
     private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
@@ -41,7 +42,6 @@ public class LandMap {
     private GoogleMap theMap;
 
     /**
-     *
      * @param map the google map used internally
      */
     public LandMap(GoogleMap map) {

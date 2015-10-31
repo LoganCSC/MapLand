@@ -4,7 +4,7 @@ import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * The bean class is just for the data so location related methods go here.
+ * The bean class is just for the data so region related methods go here.
  */
 public class RegionUtil {
 
@@ -31,7 +31,7 @@ public class RegionUtil {
     }
 
     /**
-     * @return true if old location is not null and newRegion is different from oldRegion within PRECISION + 1.
+     * @return true if old region is not null and newRegion is different from oldRegion within PRECISION + 1.
      *   Using the precision avoids frequent updates
      */
     public static boolean positionChanged(LatLng newPosition, LatLng oldPosition) {

@@ -17,10 +17,10 @@ public class GameState {
     /** best guess as to the user's current position on the map */
     private LatLng currentPosition;
 
-    /** location containing the current position. Perhaps rename location to region to reduce confusion. */
+    /** region containing the current position. Perhaps rename region to region to reduce confusion. */
     private RegionBean currentRegion;
 
-    /** All visible locations. Changes with view port navigation. */
+    /** All visible regions. Changes with view port navigation. */
     private List<RegionBean> visibleRegions;
     private List<RegionBean> previousVisibleRegions;
 
@@ -74,7 +74,7 @@ public class GameState {
         this.previousVisibleRegions = this.visibleRegions;
         this.visibleRegions = visibleRegions;
         if (this.previousVisibleRegions == null) {
-            // After the first update, we do not want to call statChanged when the visible locations change.
+            // After the first update, we do not want to call statChanged when the visible regions change.
             checkIfInitialized();
         }
     }

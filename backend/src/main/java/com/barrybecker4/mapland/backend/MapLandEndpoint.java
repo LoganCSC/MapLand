@@ -51,7 +51,6 @@ public class MapLandEndpoint {
         return user;
     }
 
-
     /**
      * endpoint method that takes a userId and returns persisted information about that user.
      */

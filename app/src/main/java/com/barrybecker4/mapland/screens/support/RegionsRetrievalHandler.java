@@ -19,10 +19,12 @@ public class RegionsRetrievalHandler implements IResponseHandler {
 
     private Context context;
     private GameState state;
+    private LandMap map;
 
-    public RegionsRetrievalHandler(Context context, GameState state) {
+    public RegionsRetrievalHandler(Context context, GameState state, LandMap map) {
         this.context = context;
         this.state = state;
+        this.map = map;
     }
 
     /** Show a popup with the user info */
@@ -30,9 +32,9 @@ public class RegionsRetrievalHandler implements IResponseHandler {
     public void jsonRetrieved(GenericJson result) {
         List<RegionBean> regions = ((RegionBeanCollection)result).getItems();
         state.setVisibleRegions(regions);
+        map.showRegions(regions);
 
         String message = "Regions retrieved to client = " + listIds(regions);
-        System.out.println(message);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
