@@ -52,9 +52,11 @@ public class GameState {
         return currentPosition;
     }
 
-    public void setCurrentPosition(LatLng currentPosition) {
-        this.currentPosition = currentPosition;
-        checkIfInitialized();
+    public void setCurrentPosition(LatLng newCurrentPosition) {
+        if (RegionUtil.positionChanged(newCurrentPosition, currentPosition)) {
+            currentPosition = newCurrentPosition;
+            checkIfInitialized();
+        }
     }
 
     public RegionBean getCurrentRegion() {

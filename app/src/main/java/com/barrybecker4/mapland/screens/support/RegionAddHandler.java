@@ -34,7 +34,7 @@ public class RegionAddHandler implements IResponseHandler {
 
         String message = "Added new region = " + region;
         System.out.println(message);
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
         // Update user with new region
         UserBean user = state.getCurrentUser();

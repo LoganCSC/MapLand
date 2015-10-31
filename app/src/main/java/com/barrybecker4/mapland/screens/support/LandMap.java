@@ -81,19 +81,21 @@ public class LandMap {
      */
     public void showRegions(List<RegionBean> regions) {
         theMap.clear();
-        for (RegionBean region : regions) {
-            // for now just put a marker at the center of each region.
-            double latitude = (region.getNwLatitudeCoord() + region.getSeLatitudeCoord()) / 2.0;
-            double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
-            LatLng center = new LatLng(latitude, longitude);
-            System.out.println("Adding maker at "+ center +" current = " + this.getCurrentPosition() );
-            theMap.addMarker(new MarkerOptions().position(center).alpha(0.5f).title(region.getOwnerId()));
+        if (regions != null) {
+            for (RegionBean region : regions) {
+                // for now just put a marker at the center of each region.
+                double latitude = (region.getNwLatitudeCoord() + region.getSeLatitudeCoord()) / 2.0;
+                double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
+                LatLng center = new LatLng(latitude, longitude);
+                System.out.println("Adding maker at " + center + " current = " + this.getCurrentPosition());
+                theMap.addMarker(new MarkerOptions().position(center).alpha(0.5f).title(region.getOwnerId()));
+            }
         }
     }
 
     public LatLng getCurrentPosition() {
         Location loc = theMap.getMyLocation();
-        LatLng pos = DEFAULT_POSITION;;
+        LatLng pos = DEFAULT_POSITION;
         if (loc != null) {
             pos =  new LatLng(loc.getLatitude(), loc.getLongitude());
         }

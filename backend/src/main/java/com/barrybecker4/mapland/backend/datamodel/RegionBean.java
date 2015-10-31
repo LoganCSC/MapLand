@@ -182,6 +182,6 @@ public class RegionBean {
     public String toString() {
         return "{regionId: " + this.regionId + " owner: " + this.ownerId + " cost: " + this.cost
                 + " nw["+this.nwLatitudeCoord +", " + this.nwLongitudeCoord+"] sw["
-                + this.seLatitudeCoord +", " + this.seLongitudeCoord+"] notes: "+ notes + "}";
+                + this.seLatitudeCoord +", " + this.seLongitudeCoord + "] notes: "+ notes + "}";
     }
 }

@@ -15,6 +15,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.services.datastore.client.DatastoreException;
+import com.google.appengine.api.datastore.DatastoreServiceConfig;
 
 import java.util.List;
 
@@ -38,6 +39,10 @@ import javax.inject.Named;
  *  https://console.developers.google.com/project/maplandbackend
  */
 public class MapLandEndpoint {
+
+    static {
+        System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
+    }
 
     /**
      * endpoint method that takes a userId and returns persisted information about that user.

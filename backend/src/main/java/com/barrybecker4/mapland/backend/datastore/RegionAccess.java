@@ -310,7 +310,7 @@ public class RegionAccess extends DataStoreAccess {
 
         return createRegionEntity(key, region.getOwnerId(), region.getCost(), region.getIncome(),
                 region.getNwLatitudeCoord(), region.getNwLongitudeCoord(),
-                region.getSeLatitudeCoord(), region.getSeLatitudeCoord());
+                region.getSeLatitudeCoord(), region.getSeLongitudeCoord());
     }
 
     /** @return new Region entity with specified info */

@@ -26,14 +26,19 @@ public class UserRetrievalHandler implements IResponseHandler {
     @Override
     public void jsonRetrieved(GenericJson result) {
         UserBean user = (UserBean) result;
+
+        if (user == null) {
+            Toast.makeText(context, "user unexpectedly null", Toast.LENGTH_SHORT).show();
+            return;
+        }
         state.setCurrentUser(user);
 
-        String locs = "null locations!";
+        String regions = "null regions!";
         if (user.getRegions() != null) {
-            locs = user.getRegions().toString();
+            regions = user.getRegions().toString();
         }
         System.out.println("User = " + user.toString());
-        String message = user.getUserId() + " owns " + user.getCredits() + " credits, and these locations: " + locs;
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        String message = user.getUserId() + " owns " + user.getCredits() + " credits, and these locations: " + regions;
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

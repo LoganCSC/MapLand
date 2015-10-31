@@ -5,6 +5,7 @@ import com.google.api.services.datastore.client.Datastore;
 import com.google.api.services.datastore.client.DatastoreFactory;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.api.services.datastore.client.DatastoreOptions;
+import com.google.appengine.api.datastore.DatastoreServiceConfig;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +23,7 @@ public class DataStorage {
     private static Datastore instance;
 
     public DataStorage() {
+        System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
     }
 
     public static Datastore getInstance() {

@@ -36,11 +36,13 @@ public class UserBean {
         String username = propertyMap.get("name").getStringValue();
         Long credits = propertyMap.get("credits").getIntegerValue();
         List<Long> regions = new ArrayList<>();
-        for (DatastoreV1.Value value : propertyMap.get("regions").getListValueList()) {
-            System.out.println("region: " + value.getIntegerValue());
-            regions.add(value.getIntegerValue());
+        DatastoreV1.Value regionList = propertyMap.get("regions");
+        if (regionList != null) {
+            for (DatastoreV1.Value value : regionList.getListValueList()) {
+                System.out.println("region: " + value.getIntegerValue());
+                regions.add(value.getIntegerValue());
+            }
         }
-
         /*
         int numRegions = locsValue.getListValueCount();
         List<Long> regions = new ArrayList<>(numRegions);

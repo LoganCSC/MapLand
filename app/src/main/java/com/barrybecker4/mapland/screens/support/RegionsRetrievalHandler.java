@@ -9,6 +9,7 @@ import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.server.IResponseHandler;
 import com.google.api.client.json.GenericJson;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,12 +31,20 @@ public class RegionsRetrievalHandler implements IResponseHandler {
     /** Show a popup with the user info */
     @Override
     public void jsonRetrieved(GenericJson result) {
+        if (result == null) {
+            Toast.makeText(context, "unexpected null set of regions", Toast.LENGTH_SHORT).show();
+            return;
+        }
         List<RegionBean> regions = ((RegionBeanCollection)result).getItems();
+        // we should not need this if seeting DATASTORE_EMPTY_LIST_SUPPORT would work
+        if (regions == null) {
+            regions = new ArrayList<RegionBean>();
+        }
         state.setVisibleRegions(regions);
         map.showRegions(regions);
 
         String message = "Regions retrieved to client = " + listIds(regions);
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     private List<Long> listIds(List<RegionBean> regions) {

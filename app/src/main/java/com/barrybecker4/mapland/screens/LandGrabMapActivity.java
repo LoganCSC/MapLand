@@ -49,6 +49,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,8 +65,6 @@ public class LandGrabMapActivity extends FragmentActivity
 
     private LandMap theMap;
     private GameState state;
-    /** remember the last position of the user, so we can tell when their region has positionChanged */
-    private LatLng lastPosition;
 
 
     @Override
@@ -134,7 +133,8 @@ public class LandGrabMapActivity extends FragmentActivity
             @Override
             public void onMyLocationChange(Location position) {
                 Log.i("MAP", "User's positionChanged: " + position);
-                state.setCurrentPosition(theMap.getCurrentPosition());
+                state.setCurrentPosition(new LatLng(position.getLatitude(), position.getLongitude()));
+                //theMap.getCurrentPosition());
             }
         });
 
@@ -175,18 +175,10 @@ public class LandGrabMapActivity extends FragmentActivity
     @Override
     public void stateChanged(GameState state) {
 
-        System.out.println("Game state initialized.");
-        Log.i("INITIALIZE", "Game state initialized.");
+        System.out.println("Game state changed. User position = " + state.getCurrentPosition());
+        Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
+        //Log.i("INITIALIZE", "Game state changed.");
         UserBean user = state.getCurrentUser();
-        if (RegionUtil.positionChanged(state.getCurrentPosition(), lastPosition)) {
-            if (lastPosition != null) {
-                Toast.makeText(this,
-                        "The users position has positionChanged from " + lastPosition + " to " + state.getCurrentPosition()
-                                + " dist=" + RegionUtil.distance(state.getCurrentPosition(), lastPosition),
-                        Toast.LENGTH_LONG).show();
-            }
-            lastPosition = state.getCurrentPosition();
-        }
 
         // if the user owns the current region, then set it as current
         List<RegionBean> regions = state.getVisibleRegions();
@@ -203,9 +195,14 @@ public class LandGrabMapActivity extends FragmentActivity
                     // This does 3 things: User has this region added, region has its owner set to user,
                     // and the old owner has this region removed from its list.
                     RegionTransferer.transferRegionOwnership(region, user, this);
+
+                    // this should not be needed
+                    if (user.getRegions() == null) {
+                        user.setRegions(new ArrayList<Long>());
+                    }
                     user.getRegions().add(region.getRegionId());
                     Toast.makeText(this, "Transferring ownership of " + region.getRegionId() + " from " + region.getOwnerId()
-                            + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
+                            + " to " + user.getUserId(), Toast.LENGTH_SHORT).show();
                 }
             }
             else {
