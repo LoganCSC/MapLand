@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.R;
@@ -62,6 +63,7 @@ public class LandGrabMapActivity extends FragmentActivity
     private Spinner userDropList;
     private Spinner mapTypeDropList;
     private CompoundButton mTrafficCheckbox;
+    private TextView mLocationTextView;
 
     private LandMap theMap;
     private GameState state;
@@ -92,6 +94,7 @@ public class LandGrabMapActivity extends FragmentActivity
         mapTypeDropList.setOnItemSelectedListener(this);
 
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
+        mLocationTextView = (TextView) findViewById(R.id.location_text);
         //retrieveActiveUser(); called when droplist selected
     }
 
@@ -133,6 +136,8 @@ public class LandGrabMapActivity extends FragmentActivity
             @Override
             public void onMyLocationChange(Location position) {
                 Log.i("MAP", "User's positionChanged: " + position);
+                String formattedLoc = "lat:" + position.getLatitude() + "long:"+ position.getLongitude();
+                mLocationTextView.setText(formattedLoc);
                 state.setCurrentPosition(new LatLng(position.getLatitude(), position.getLongitude()));
                 //theMap.getCurrentPosition());
             }

@@ -32,7 +32,7 @@
         </TableRow>
         <TableRow>
             <Spinner android:id="@+id/map_type_select"
-                android:layout_width="150dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"/>
             <CheckBox
                 android:id="@+id/traffic_toggle"
@@ -40,6 +40,13 @@
                 android:layout_height="wrap_content"
                 android:onClick="onToggleTraffic"
                 android:text="@string/toggle_traffic"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/location_text"
+                android:text="@string/move_to_new_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </TableRow>
     </TableLayout>
 
