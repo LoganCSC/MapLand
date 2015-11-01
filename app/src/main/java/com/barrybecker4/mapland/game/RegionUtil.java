@@ -16,9 +16,10 @@ public class RegionUtil {
 
     private static final int PRECISION = 3;
     private static final double REGION_SIZE = Math.pow(10, -PRECISION);
-    //private static final double SCALE = Math.pow(10, PRECISION);
+    private static final double REGION_SCALE = Math.pow(10, PRECISION);
     private static final double TOLERANCE = Math.pow(10, -(PRECISION + 1));
     private static final double EPS = Math.pow(10, -(PRECISION + 2));
+    private static final double EPS_SCALE = Math.pow(10, PRECISION + 2);
     private static final Random RND = new Random();
 
     public static boolean contains(LatLng point, RegionBean region) {
@@ -89,14 +90,14 @@ public class RegionUtil {
     }
 
     private static float roundToEPS(double coord) {
-        return (float) (Math.round(coord / EPS) * EPS);
+        return (float) (Math.round(coord * EPS_SCALE) / EPS_SCALE);
     }
 
     private static double roundDown(double coord) {
-        return Math.floor(coord / REGION_SIZE) * REGION_SIZE;
+        return Math.floor(coord * REGION_SCALE) / REGION_SCALE;
     }
 
     private static double roundUp(double coord) {
-        return Math.ceil(coord / REGION_SIZE) * REGION_SIZE;
+        return Math.ceil(coord * REGION_SCALE) / REGION_SCALE;
     }
 }

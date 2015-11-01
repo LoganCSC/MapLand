@@ -88,7 +88,7 @@ public class LandMap {
                 double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
                 LatLng center = new LatLng(latitude, longitude);
                 System.out.println("Adding maker at " + center + " current = " + this.getCurrentPosition());
-                theMap.addMarker(new MarkerOptions().position(center).alpha(0.5f).title(region.getOwnerId()));
+                theMap.addMarker(new MarkerOptions().position(center).alpha(0.3f).title(region.getOwnerId()));
             }
         }
     }

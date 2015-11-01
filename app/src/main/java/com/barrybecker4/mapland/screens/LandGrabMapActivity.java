@@ -213,12 +213,13 @@ public class LandGrabMapActivity extends FragmentActivity
                     RegionTransferer.transferRegionOwnership(region, user, this);
 
                     // this should not be needed
-                    if (user.getRegions() == null) {
-                        user.setRegions(new ArrayList<Long>());
-                    }
+                    //if (user.getRegions() == null) {
+                    //    user.setRegions(new ArrayList<Long>());
+                    //}
                     user.getRegions().add(region.getRegionId());
                     Toast.makeText(this, "Transferring ownership of " + region.getRegionId() + " from " + region.getOwnerId()
                             + " to " + user.getUserId(), Toast.LENGTH_SHORT).show();
+                    region.setOwnerId(user.getUserId());
                 }
             }
             else {

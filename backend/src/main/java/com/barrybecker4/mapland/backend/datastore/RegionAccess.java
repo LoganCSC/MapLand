@@ -91,9 +91,9 @@ public class RegionAccess extends DataStoreAccess {
 
     /**
      * Transferring ownership of a region involves 3 things:
-     * 1) The user needs to have this region added to its list of regions
-     * 2) The region needs to have its owner property set to user
-     * 3) The old owner needs to have this region removed from its list.
+     * 1) The user needs to have this region added to her list of regions.
+     * 2) The region needs to have its owner property set to user.
+     * 3) The old owner needs to have this region removed from her list.
      * All these things need to happen as part of a single atomic transaction, and right now they are not.
      * In order to work as a single transaction, we may need to change the datamodel to have
      * users parents of regions. In that case, changing ownership will probably involve
@@ -119,8 +119,10 @@ public class RegionAccess extends DataStoreAccess {
         region.setOwnerId(newOwner.getUserId());
         boolean removed = oldOwner.getRegions().remove(region.getRegionId());
         if (!removed) {
-            String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId();
-           throw new IllegalStateException(msg);
+            String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
+                    + "with these regions: "+ oldOwner.getRegions();
+            LOG.severe(msg);
+            //throw new IllegalStateException(msg);
         }
 
         // this should happen as part of a single transaction (but its not right now)
@@ -129,7 +131,7 @@ public class RegionAccess extends DataStoreAccess {
         this.updateRegion(region);
 
         long duration = System.currentTimeMillis() - time;
-        String msg = "time to transfer ownership = " + duration +" ms.";
+        String msg = "time to transfer ownership = " + duration +"ms.";
         System.out.println(msg);
         LOG.warning(msg);
 
