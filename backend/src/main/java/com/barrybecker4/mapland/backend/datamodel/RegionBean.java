@@ -47,7 +47,6 @@ public class RegionBean {
     public RegionBean(Entity regionEntity) {
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(regionEntity);
-        //System.out.println("region propertyMap = " + propertyMap);
 
         DatastoreV1.Value idVal = propertyMap.get("regionId");
         Long id = regionEntity.getKey().getPathElement(0).getId();

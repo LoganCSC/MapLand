@@ -85,6 +85,6 @@ public class UserBean {
     }
 
     public String toString() {
-        return "{userId: " + this.userId + " credits: " + this.credits + " region: " + this.regions + "}";
+        return "{userId: " + this.userId + " credits: " + this.credits + " regions: " + this.regions + "}";
     }
 }

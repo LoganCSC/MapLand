@@ -6,11 +6,13 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBeanCollection;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionAndUserBean;
 import com.barrybecker4.mapland.server.MapLandApiService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Used to communicate with the backend endpoints (REST service running
@@ -31,12 +33,20 @@ public class RegionTransferer
                 new RegionTransferer();
 
         RegionAndUserBean regionAndNewOwner = new RegionAndUserBean();
-        regionAndNewOwner.setRegion(region);
-        regionAndNewOwner.setUser(newOwner);
+        regionAndNewOwner.setRegion(region.clone());
+        regionAndNewOwner.setUser(newOwner.clone());
 
         task.execute(new Pair<>(context, regionAndNewOwner));
 
         Log.i("TASK", "transferring ownership status: = " + task.getStatus());
+
+        // update on client as well as server
+        // this should not be needed
+        if (newOwner.getRegions() == null) {
+            newOwner.setRegions(new ArrayList<Long>());
+        }
+        newOwner.getRegions().add(region.getRegionId());
+        region.setOwnerId(newOwner.getUserId());
     }
 
     /**
@@ -60,5 +70,4 @@ public class RegionTransferer
             return null;
         }
     }
-
 }

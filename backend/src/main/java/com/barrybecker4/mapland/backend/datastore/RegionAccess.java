@@ -110,14 +110,19 @@ public class RegionAccess extends DataStoreAccess {
         UserBean oldOwner = userAccess.getUserById(region.getOwnerId());
         UserBean newOwner = regionAndUser.getUser();
         long time = System.currentTimeMillis();
+        LOG.warning("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
+                + " region:"+ region.getRegionId());
 
         if (newOwner.getRegions().contains(region.getRegionId())) {
             LOG.severe(newOwner.getUserId() + " already owns region " + region.getRegionId());
             //throw new IllegalStateException(newOwner.getUserId() + " already owns region " + region.getRegionId());
         }
-        newOwner.getRegions().add(region.getRegionId());
+        else {
+            newOwner.getRegions().add(region.getRegionId());
+        }
         region.setOwnerId(newOwner.getUserId());
         boolean removed = oldOwner.getRegions().remove(region.getRegionId());
+        LOG.warning("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
         if (!removed) {
             String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
                     + "with these regions: "+ oldOwner.getRegions();

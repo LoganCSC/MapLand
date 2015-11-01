@@ -65,10 +65,12 @@ public class LandGrabMapActivity extends FragmentActivity
     private Spinner mapTypeDropList;
     private CompoundButton mTrafficCheckbox;
     private TextView mLocationTextView;
-    private Button mMoveButton;
 
     private LandMap theMap;
     private GameState state;
+
+    /** location tolerance in meters. More that this will not be accepted */
+    private static final float GPS_TOL = 12;
 
 
     @Override
@@ -97,14 +99,14 @@ public class LandGrabMapActivity extends FragmentActivity
 
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
         mLocationTextView = (TextView) findViewById(R.id.location_text);
-        mMoveButton = (Button) findViewById(R.id.move_position);
+        Button mMoveButton = (Button) findViewById(R.id.move_position);
         mMoveButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 LatLng cpos = RegionUtil.jitter(theMap.getCurrentPosition());
                 Location loc = new Location(RegionUtil.createLocation(cpos));
                 locationChanged(loc);
-           }
+            }
         });
     }
 
@@ -149,13 +151,15 @@ public class LandGrabMapActivity extends FragmentActivity
             }
         });
 
-        state.setCurrentPosition(theMap.getCurrentPosition());
+        //state.setCurrentPosition(theMap.getCurrentPosition());
     }
 
     private void locationChanged(Location loc) {
-        Log.i("MAP", "User's positionChanged: " + loc);
-        mLocationTextView.setText(RegionUtil.formatLocation(loc));
-        state.setCurrentPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
+        Log.i("MAP", "User's positionChanged: " + loc + " accuracy =" + loc.getAccuracy());
+        if (loc.getAccuracy() <= GPS_TOL) {
+            mLocationTextView.setText(RegionUtil.formatLocation(loc));
+            state.setCurrentPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
+        }
     }
 
     /**
@@ -207,19 +211,13 @@ public class LandGrabMapActivity extends FragmentActivity
                     // then need to change ownership on this region to the current user!
                     Log.i("STATE_CHANGE", "The region you are in is owned by " + region.getOwnerId()
                             + " Transferring ownership...");
+                    String oldOwner = region.getOwnerId();
 
                     // This does 3 things: User has this region added, region has its owner set to user,
                     // and the old owner has this region removed from its list.
                     RegionTransferer.transferRegionOwnership(region, user, this);
-
-                    // this should not be needed
-                    //if (user.getRegions() == null) {
-                    //    user.setRegions(new ArrayList<Long>());
-                    //}
-                    user.getRegions().add(region.getRegionId());
-                    Toast.makeText(this, "Transferring ownership of " + region.getRegionId() + " from " + region.getOwnerId()
+                    Toast.makeText(this, "Transferring ownership of " + region.getRegionId() + " from " + oldOwner
                             + " to " + user.getUserId(), Toast.LENGTH_SHORT).show();
-                    region.setOwnerId(user.getUserId());
                 }
             }
             else {

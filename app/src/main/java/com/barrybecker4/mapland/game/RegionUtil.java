@@ -86,7 +86,7 @@ public class RegionUtil {
     public static String formatLocation(Location loc) {
         float lat = RegionUtil.roundToEPS(loc.getLatitude());
         float lng = RegionUtil.roundToEPS(loc.getLongitude());
-        return "[" + lat + ", " + lng + "]";
+        return "[" + lat + ", " + lng + "]("+loc.getAccuracy()+")";
     }
 
     private static float roundToEPS(double coord) {
