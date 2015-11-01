@@ -150,8 +150,6 @@ public class LandGrabMapActivity extends FragmentActivity
                 locationChanged(position);
             }
         });
-
-        //state.setCurrentPosition(theMap.getCurrentPosition());
     }
 
     private void locationChanged(Location loc) {
@@ -168,6 +166,10 @@ public class LandGrabMapActivity extends FragmentActivity
     private void retrieveActiveUser() {
         String username = (String)userDropList.getSelectedItem();
         UserRetriever.getUser(username, this, new UserRetrievalHandler(this, state));
+        //if ("guest".equals(username)) {
+        //    //when running in the emulator (as guest), there is no current location, so fake it
+        //    state.setCurrentPosition(theMap.getCurrentPosition());
+        //}
     }
 
     /**

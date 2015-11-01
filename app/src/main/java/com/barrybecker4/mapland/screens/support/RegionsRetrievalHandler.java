@@ -31,14 +31,13 @@ public class RegionsRetrievalHandler implements IResponseHandler {
     /** Show a popup with the user info */
     @Override
     public void jsonRetrieved(GenericJson result) {
-        if (result == null) {
-            Toast.makeText(context, "unexpected null set of regions", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        //if (result == null) {
+        //    Toast.makeText(context, "unexpected null set of regions", Toast.LENGTH_SHORT).show();
+        //}
         List<RegionBean> regions = ((RegionBeanCollection)result).getItems();
-        // we should not need this if seeting DATASTORE_EMPTY_LIST_SUPPORT would work
+        // we should not need this if setting DATASTORE_EMPTY_LIST_SUPPORT would work
         if (regions == null) {
-            regions = new ArrayList<RegionBean>();
+            regions = new ArrayList<>();
         }
         state.setVisibleRegions(regions);
         map.showRegions(regions);
