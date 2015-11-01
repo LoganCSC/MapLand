@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -64,6 +65,7 @@ public class LandGrabMapActivity extends FragmentActivity
     private Spinner mapTypeDropList;
     private CompoundButton mTrafficCheckbox;
     private TextView mLocationTextView;
+    private Button mMoveButton;
 
     private LandMap theMap;
     private GameState state;
@@ -95,7 +97,15 @@ public class LandGrabMapActivity extends FragmentActivity
 
         mTrafficCheckbox = (CompoundButton) findViewById(R.id.traffic_toggle);
         mLocationTextView = (TextView) findViewById(R.id.location_text);
-        //retrieveActiveUser(); called when droplist selected
+        mMoveButton = (Button) findViewById(R.id.move_position);
+        mMoveButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+                LatLng cpos = RegionUtil.jitter(theMap.getCurrentPosition());
+                Location loc = new Location(RegionUtil.createLocation(cpos));
+                locationChanged(loc);
+           }
+        });
     }
 
     /**
@@ -135,15 +145,17 @@ public class LandGrabMapActivity extends FragmentActivity
         theMap.setLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location position) {
-                Log.i("MAP", "User's positionChanged: " + position);
-                String formattedLoc = "lat:" + position.getLatitude() + "long:"+ position.getLongitude();
-                mLocationTextView.setText(formattedLoc);
-                state.setCurrentPosition(new LatLng(position.getLatitude(), position.getLongitude()));
-                //theMap.getCurrentPosition());
+                locationChanged(position);
             }
         });
 
         state.setCurrentPosition(theMap.getCurrentPosition());
+    }
+
+    private void locationChanged(Location loc) {
+        Log.i("MAP", "User's positionChanged: " + loc);
+        mLocationTextView.setText(RegionUtil.formatLocation(loc));
+        state.setCurrentPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
     }
 
     /**
@@ -182,7 +194,6 @@ public class LandGrabMapActivity extends FragmentActivity
 
         System.out.println("Game state changed. User position = " + state.getCurrentPosition());
         Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
-        //Log.i("INITIALIZE", "Game state changed.");
         UserBean user = state.getCurrentUser();
 
         // if the user owns the current region, then set it as current
@@ -215,9 +226,11 @@ public class LandGrabMapActivity extends FragmentActivity
                 Log.i("STATE_CHANGE", "The current position " + state.getCurrentPosition() + " is not within " + region);
             }
         }
-        if (state.getCurrentRegion() == null) {
+        if (state.getCurrentRegion() == null
+                || !RegionUtil.contains(state.getCurrentPosition(), state.getCurrentRegion())) {
             // otherwise, add this new region to the datastore, and to the users list of owned regions
             // Both must be done at the same time as part of a single atomic transaction
+            Toast.makeText(this, "no region at this position. Creating.", Toast.LENGTH_SHORT).show();
             RegionBean region = RegionUtil.createRegionAtPosition(user.getUserId(), state.getCurrentPosition());
             RegionAdder.addRegionForUser(region, this, new RegionAddHandler(this, state));
             state.setCurrentRegion(region);

@@ -6,6 +6,10 @@ import com.google.api.services.datastore.client.DatastoreFactory;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.api.services.datastore.client.DatastoreOptions;
 import com.google.appengine.api.datastore.DatastoreServiceConfig;
+import static com.google.appengine.api.datastore.DatastoreServiceConfig.Builder.*;
+
+import com.google.appengine.api.datastore.ReadPolicy;
+import com.google.appengine.api.datastore.ReadPolicy.Consistency;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,12 +26,13 @@ public class DataStorage {
 
     private static Datastore instance;
 
-    public DataStorage() {
-        System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
+
+    private DataStorage() {
     }
 
     public static Datastore getInstance() {
         if (instance == null) {
+            System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
             instance = getDatastore();
         }
         return instance;

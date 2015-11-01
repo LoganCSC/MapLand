@@ -112,7 +112,8 @@ public class RegionAccess extends DataStoreAccess {
         long time = System.currentTimeMillis();
 
         if (newOwner.getRegions().contains(region.getRegionId())) {
-            throw new IllegalStateException(newOwner.getUserId() + " already owns region " + region.getRegionId());
+            LOG.severe(newOwner.getUserId() + " already owns region " + region.getRegionId());
+            //throw new IllegalStateException(newOwner.getUserId() + " already owns region " + region.getRegionId());
         }
         newOwner.getRegions().add(region.getRegionId());
         region.setOwnerId(newOwner.getUserId());
@@ -169,14 +170,21 @@ public class RegionAccess extends DataStoreAccess {
      * It would need to be cloned, deleted, then added to the new user owner.
      * @param regionEntity new region to add
      * @param owner user that will initially own this new region.
-     * @throws DatastoreException
+     * @throws DatastoreException if error accessing the datastore
      */
     private Long addRegionWithOwner(Entity regionEntity, String owner) throws DatastoreException {
         UserAccess userAcces = new UserAccess();
         UserBean ownerBean = userAcces.getUserById(owner);
 
         Long newId = insertEntity(regionEntity);
-        ownerBean.getRegions().add(newId);
+        List<Long> regionList = ownerBean.getRegions();
+        // should not be needed if DATASTORE_EMPTY_LIST_SUPPORT would work
+        if (regionList == null) {
+            regionList = new LinkedList<>();
+        }
+
+        regionList.add(newId);
+        ownerBean.setRegions(regionList);
 
         boolean success = userAcces.updateUser(ownerBean);
         if (success) {

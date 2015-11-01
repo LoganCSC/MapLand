@@ -1,7 +1,13 @@
 package com.barrybecker4.mapland.game;
 
+import android.location.Location;
+
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Date;
+import java.util.IllegalFormatCodePointException;
+import java.util.Random;
 
 /**
  * The bean class is just for the data so region related methods go here.
@@ -9,9 +15,11 @@ import com.google.android.gms.maps.model.LatLng;
 public class RegionUtil {
 
     private static final int PRECISION = 3;
-    private static final double SCALE = Math.pow(10, PRECISION);
+    private static final double REGION_SIZE = Math.pow(10, -PRECISION);
+    //private static final double SCALE = Math.pow(10, PRECISION);
     private static final double TOLERANCE = Math.pow(10, -(PRECISION + 1));
     private static final double EPS = Math.pow(10, -(PRECISION + 2));
+    private static final Random RND = new Random();
 
     public static boolean contains(LatLng point, RegionBean region) {
         return (point.latitude < region.getNwLatitudeCoord()
@@ -21,13 +29,13 @@ public class RegionUtil {
     }
 
     public static RegionBean createRegionAtPosition(String owner, LatLng here) {
-        RegionBean loc = new RegionBean();
-        loc.setOwnerId(owner);
-        loc.setNwLatitudeCoord(roundUp(here.latitude + EPS));
-        loc.setNwLongitudeCoord(roundDown(here.longitude));
-        loc.setSeLatitudeCoord(roundDown(here.latitude));
-        loc.setSeLongitudeCoord(roundUp(here.longitude + EPS));
-        return loc;
+        RegionBean region = new RegionBean();
+        region.setOwnerId(owner);
+        region.setNwLatitudeCoord(roundUp(here.latitude + EPS));
+        region.setNwLongitudeCoord(roundDown(here.longitude));
+        region.setSeLatitudeCoord(roundDown(here.latitude));
+        region.setSeLongitudeCoord(roundUp(here.longitude + EPS));
+        return region;
     }
 
     /**
@@ -44,14 +52,51 @@ public class RegionUtil {
     public static double distance(LatLng newPosition, LatLng oldPosition) {
         double deltaLat =  newPosition.latitude - oldPosition.latitude;
         double deltaLong = newPosition.longitude - oldPosition.longitude;
-        return deltaLat * deltaLat + deltaLong * deltaLong;
+        return Math.sqrt(deltaLat * deltaLat + deltaLong * deltaLong);
+    }
+
+    /**
+     * Move the specified position randomly in one of the compass directions by one region edge unit.
+     * @param position the position to jitter
+     * @return changed position
+     */
+    public static LatLng jitter(LatLng position) {
+        // move it a random amount.
+        int rnd = RND.nextInt(4);
+        LatLng newPosition;
+        switch (rnd) {
+            case 0: newPosition = new LatLng(position.latitude + REGION_SIZE, position.longitude); break;
+            case 1: newPosition = new LatLng(position.latitude - REGION_SIZE, position.longitude); break;
+            case 2: newPosition = new LatLng(position.latitude, position.longitude + REGION_SIZE); break;
+            case 3: newPosition = new LatLng(position.latitude, position.longitude - REGION_SIZE); break;
+            default: throw new IllegalStateException("Unexpected rnd:"+ rnd);
+        }
+        return newPosition;
+    }
+
+    public static Location createLocation(LatLng pos) {
+        Location location = new Location("Test");
+        location.setLatitude(pos.latitude);
+        location.setLongitude(pos.longitude);
+        location.setTime(new Date().getTime());
+        return location;
+    }
+
+    public static String formatLocation(Location loc) {
+        float lat = RegionUtil.roundToEPS(loc.getLatitude());
+        float lng = RegionUtil.roundToEPS(loc.getLongitude());
+        return "[" + lat + ", " + lng + "]";
+    }
+
+    private static float roundToEPS(double coord) {
+        return (float) (Math.round(coord / EPS) * EPS);
     }
 
     private static double roundDown(double coord) {
-        return Math.floor(coord * SCALE) / SCALE;
+        return Math.floor(coord / REGION_SIZE) * REGION_SIZE;
     }
 
     private static double roundUp(double coord) {
-        return Math.ceil(coord * SCALE) / SCALE;
+        return Math.ceil(coord / REGION_SIZE) * REGION_SIZE;
     }
 }
