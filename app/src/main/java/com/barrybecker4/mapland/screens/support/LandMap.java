@@ -1,5 +1,6 @@
 package com.barrybecker4.mapland.screens.support;
 
+import android.graphics.Color;
 import android.location.Location;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
@@ -8,12 +9,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.Object;
 
 /**
  * Encapsulate the google map instance used by the game.
@@ -88,10 +92,18 @@ public class LandMap {
                 double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
                 LatLng center = new LatLng(latitude, longitude);
                 System.out.println("Adding maker at " + center + " current = " + this.getCurrentPosition());
-                theMap.addMarker(new MarkerOptions().position(center).alpha(0.3f).title(region.getOwnerId()));
+                PolygonOptions options = new PolygonOptions();
+                options.add(new LatLng(region.getNwLatitudeCoord(),region.getSeLatitudeCoord()),
+                        new LatLng(region.getNwLatitudeCoord(),  region.getSeLongitudeCoord()),
+                        new LatLng(region.getNwLongitudeCoord(), region.getSeLatitudeCoord()),
+                        new LatLng(region.getNwLongitudeCoord(),  region.getSeLongitudeCoord()))
+                        .strokeColor(Color.BLUE).fillColor(Color.RED);
+                Polygon polygon = theMap.addPolygon(options);
             }
         }
     }
+
+
 
     public LatLng getCurrentPosition() {
         Location loc = theMap.getMyLocation();
