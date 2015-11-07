@@ -1,26 +1,19 @@
 package com.barrybecker4.mapland.screens.support;
 
-import android.graphics.Color;
 import android.location.Location;
-import android.support.annotation.ColorInt;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Encapsulate the google map instance used by the game.
@@ -46,8 +39,9 @@ public class LandMap {
         MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
     }
 
-    private static final int CURRENT_USER_COLOR = 0xAA0055EE;
-    private static final int OTHER_USER_COLOR = 0xAAAA5500;
+    private static final int CURRENT_USER_COLOR = 0x880055EE;
+    private static final int OTHER_USER_COLOR = 0x66BB4400;
+    private static final int BORDER_COLOR = 0xAA000055;
 
     private GoogleMap theMap;
 
@@ -105,7 +99,8 @@ public class LandMap {
                         new LatLng(region.getSeLatitudeCoord(), region.getNwLongitudeCoord()),
                         new LatLng(region.getSeLatitudeCoord(), region.getSeLongitudeCoord()),
                         new LatLng(region.getNwLatitudeCoord(), region.getSeLongitudeCoord()))
-                        .strokeColor(Color.BLUE).strokeWidth(2f).fillColor(hue);
+                        .strokeColor(BORDER_COLOR).strokeWidth(1f)
+                        .fillColor(hue);
                 theMap.addPolygon(options);
             }
         }

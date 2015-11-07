@@ -219,15 +219,18 @@ public class RegionAccess extends DataStoreAccess {
 
         // first query by latitude
         Query.Builder query = Query.newBuilder();
+        double regionHeight = nwLat - seLat;
 
         // One degree of latitude = about 69 miles, so 0.01 degrees is less than a mile.
         DatastoreV1.Filter nwLatFilter =
-                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.LESS_THAN_OR_EQUAL, makeValue(nwLat))
+                makeFilter("nwLatitude",
+                        DatastoreV1.PropertyFilter.Operator.LESS_THAN_OR_EQUAL, makeValue(nwLat + regionHeight))
                 .build();
         // I really want this to be seLattitude, but cannot query on more than one attribute
         // Switch to using GeoPt when feasable.
         DatastoreV1.Filter seLatFilter =
-                makeFilter("nwLatitude", DatastoreV1.PropertyFilter.Operator.GREATER_THAN_OR_EQUAL, makeValue(seLat))
+                makeFilter("nwLatitude",
+                        DatastoreV1.PropertyFilter.Operator.GREATER_THAN_OR_EQUAL, makeValue(seLat))
                 .build();
 
         query.setFilter(makeFilter(nwLatFilter, seLatFilter));
@@ -250,9 +253,8 @@ public class RegionAccess extends DataStoreAccess {
                 RegionBean regionBean = new RegionBean(regionEntity);
                 // only add it to the list if it also meets the longitude filter.
                 // This must be done manually be because of bigTable query limitations.
-                if (regionBean.getNwLongitudeCoord() >= nwLong &&
-                        regionBean.getSeLongitudeCoord() <= seLong) {
-                    System.out.println("adding " + regionBean);
+                if (regionBean.getSeLongitudeCoord() >= nwLong &&
+                        regionBean.getNwLongitudeCoord() <= seLong) {
                     list.add(regionBean);
                 }
             }
@@ -261,8 +263,6 @@ public class RegionAccess extends DataStoreAccess {
             e.printStackTrace();
         }
         LOG.info("returning " + list.size() + " regions in viewport");
-        System.out.println("returning " + list.size() + " regions in viewport");
-
         return list;
     }
 
