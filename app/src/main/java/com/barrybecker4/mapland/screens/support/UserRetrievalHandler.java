@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
@@ -39,6 +40,7 @@ public class UserRetrievalHandler implements IResponseHandler {
         }
         System.out.println("User = " + user.toString());
         String message = user.getUserId() + " owns " + user.getCredits() + " credits, and these locations: " + regions;
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Log.i("USER RETRIEVAL", message);
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

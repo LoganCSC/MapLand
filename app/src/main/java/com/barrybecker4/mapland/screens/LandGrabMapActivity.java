@@ -199,12 +199,11 @@ public class LandGrabMapActivity extends FragmentActivity
     public void stateChanged(GameState state) {
 
         System.out.println("Game state changed. User position = " + state.getCurrentPosition());
-        Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
         UserBean user = state.getCurrentUser();
 
         // if the user owns the current region, then set it as current
         List<RegionBean> regions = state.getVisibleRegions();
-        System.out.println("About to search in " + regions.size() + " visible regions.");
         for (RegionBean region : regions) {
             if (RegionUtil.contains(state.getCurrentPosition(), region)) {
                 System.out.println("The current position " + state.getCurrentPosition() + " is within " + region);
@@ -238,6 +237,6 @@ public class LandGrabMapActivity extends FragmentActivity
             retrieveVisibleRegions();
         }
 
-        theMap.showRegions(state.getVisibleRegions()); // updates too much?
+        theMap.showRegions(state.getVisibleRegions(), user.getUserId()); // updates too often?
     }
 }

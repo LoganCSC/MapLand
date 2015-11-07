@@ -2,6 +2,7 @@ package com.barrybecker4.mapland.screens.support;
 
 import android.graphics.Color;
 import android.location.Location;
+import android.support.annotation.ColorInt;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,10 +45,9 @@ public class LandMap {
         MAP_TYPE_MAP.put("Hybrid", GoogleMap.MAP_TYPE_HYBRID);
         MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
     }
-    private static final Map<String, Float>COLORMAP = new HashMap<>();
-    static {
-        COLORMAP.put("guest", 60f);
-    }
+
+    private static final int CURRENT_USER_COLOR = 0xAA0055EE;
+    private static final int OTHER_USER_COLOR = 0xAAAA5500;
 
     private GoogleMap theMap;
 
@@ -89,7 +89,7 @@ public class LandMap {
      * Brian, make this show rectangles color-coded by owner instead of the default marker.
      * @param regions the list of currently visible regions to show
      */
-    public void showRegions(List<RegionBean> regions) {
+    public void showRegions(List<RegionBean> regions, String currentUserId) {
         theMap.clear();
         if (regions != null) {
             for (RegionBean region : regions) {
@@ -98,31 +98,18 @@ public class LandMap {
                 double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
                 LatLng center = new LatLng(latitude, longitude);
                 System.out.println("Adding marker at " + center + " current = " + this.getCurrentPosition());
-                float hue = getHueForUserId(region.getOwnerId());
+                int hue = region.getOwnerId().equals(currentUserId) ? CURRENT_USER_COLOR : OTHER_USER_COLOR;
                 
                 PolygonOptions options = new PolygonOptions();
-                options.add(new LatLng(region.getNwLatitudeCoord(),region.getSeLatitudeCoord()),
-                        new LatLng(region.getNwLatitudeCoord(),  region.getSeLongitudeCoord()),
-                        new LatLng(region.getNwLongitudeCoord(), region.getSeLatitudeCoord()),
-                        new LatLng(region.getNwLongitudeCoord(),  region.getSeLongitudeCoord()))
-                        .strokeColor(Color.BLUE).fillColor(Color.RED);
-                Polygon polygon = theMap.addPolygon(options);
+                options.add(new LatLng(region.getNwLatitudeCoord(), region.getNwLongitudeCoord()),
+                        new LatLng(region.getSeLatitudeCoord(), region.getNwLongitudeCoord()),
+                        new LatLng(region.getSeLatitudeCoord(), region.getSeLongitudeCoord()),
+                        new LatLng(region.getNwLatitudeCoord(), region.getSeLongitudeCoord()))
+                        .strokeColor(Color.BLUE).strokeWidth(2f).fillColor(hue);
+                theMap.addPolygon(options);
             }
         }
     }
-
-    private float getHueForUserId(String userId) {
-        if (!COLORMAP.containsKey(userId)) {
-            float newHue = (int)(Math.random() * 25) * 10.0f;
-            while (COLORMAP.containsValue(newHue)) {
-                newHue = (int)(Math.random() * 25) * 10.0f;
-            }
-            COLORMAP.put(userId, newHue);
-        }
-        return COLORMAP.get(userId);
-    }
-
-
 
     public LatLng getCurrentPosition() {
         Location loc = theMap.getMyLocation();

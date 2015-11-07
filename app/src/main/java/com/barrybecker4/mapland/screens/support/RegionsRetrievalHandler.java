@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
@@ -40,10 +41,10 @@ public class RegionsRetrievalHandler implements IResponseHandler {
             regions = new ArrayList<>();
         }
         state.setVisibleRegions(regions);
-        map.showRegions(regions);
+        map.showRegions(regions, state.getCurrentUser().getUserId());
 
         String message = "Regions retrieved to client = " + listIds(regions);
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Log.i("REGION RETRIEVAL", message);
     }
 
     private List<Long> listIds(List<RegionBean> regions) {
