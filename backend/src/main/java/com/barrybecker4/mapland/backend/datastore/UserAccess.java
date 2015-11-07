@@ -1,7 +1,5 @@
 package com.barrybecker4.mapland.backend.datastore;
 
-import com.google.api.services.datastore.DatastoreV1.BeginTransactionRequest;
-import com.google.api.services.datastore.DatastoreV1.BeginTransactionResponse;
 import com.google.api.services.datastore.DatastoreV1.CommitRequest;
 import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.api.services.datastore.DatastoreV1.Key;
@@ -9,17 +7,14 @@ import com.google.api.services.datastore.DatastoreV1.LookupRequest;
 import com.google.api.services.datastore.DatastoreV1.LookupResponse;
 import com.google.api.services.datastore.DatastoreV1.Property;
 import com.google.api.services.datastore.DatastoreV1.Value;
-import com.google.api.services.datastore.client.Datastore;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.protobuf.ByteString;
 import com.barrybecker4.mapland.backend.datamodel.UserBean;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/
@@ -145,6 +140,11 @@ public class UserAccess extends DataStoreAccess {
         entityBuilder.addProperty(Property.newBuilder()
                 .setName("credits")
                 .setValue(Value.newBuilder().setDoubleValue(credits)));
+
+        Date now = new Date();
+        entityBuilder.addProperty(Property.newBuilder()
+                .setName("lastUpdated")
+                .setValue(Value.newBuilder().setTimestampMicrosecondsValue(now.getTime() * 1000)));
 
         // - a list of 64bit integers: `regions`
         // See http://stackoverflow.com/questions/23858208/how-to-add-array-property-value-in-google-cloud-datastore

@@ -4,6 +4,7 @@ import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.client.DatastoreHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class UserBean {
     private String userId;
     private double credits = 0;
     private List<Long> regions = new ArrayList<>();
+    private Date lastUpdated;
 
     public UserBean() {}
 
@@ -35,6 +37,9 @@ public class UserBean {
 
         String username = propertyMap.get("name").getStringValue();
         Long credits = propertyMap.get("credits").getIntegerValue();
+        System.out.println("lastUpdate = " + propertyMap.get("lastUpdated"));
+        Long micros = propertyMap.get("lastUpdated").getTimestampMicrosecondsValue();
+        Date lastUpdate = new Date(micros / 1000);
         List<Long> regions = new ArrayList<>();
         DatastoreV1.Value regionList = propertyMap.get("regions");
         if (regionList != null) {
@@ -53,6 +58,7 @@ public class UserBean {
         this.setUserId(username);
         this.setCredits(credits);
         this.setRegions(regions);
+        this.setLastUpdated(lastUpdate);
         System.out.println("created User:"  + this);
     }
 
@@ -82,6 +88,14 @@ public class UserBean {
 
     public void setRegions(List<Long> regions) {
         this.regions = regions;
+    }
+
+    public void setLastUpdated(Date timestamp) {
+        this.lastUpdated = timestamp;
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
     }
 
     public String toString() {
