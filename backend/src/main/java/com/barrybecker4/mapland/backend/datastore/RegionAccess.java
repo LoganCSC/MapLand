@@ -32,10 +32,10 @@ public class RegionAccess extends DataStoreAccess {
     public static final String KIND = "Region";
     private static final Random RND = new Random();
 
-    private static final Long MIN_INITIAL_COST = 100L;
-    private static final Long MAX_INITIAL_COST = 200L;
-    private static final Integer MIN_INITIAL_INCOME = 0;
-    private static final Integer MAX_INITIAL_INCOME = 20;
+    private static final double MIN_INITIAL_COST = 100L;
+    private static final double MAX_INITIAL_COST = 200L;
+    private static final double MIN_INITIAL_INCOME = 0;
+    private static final double MAX_INITIAL_INCOME = 2.0;
 
     private static final Logger LOG = Logger.getLogger(RegionAccess.class.getName());
 
@@ -79,8 +79,10 @@ public class RegionAccess extends DataStoreAccess {
                 Key.PathElement.newBuilder().setKind(KIND)); //.setId(id));
 
         // Random cost and income assigned
-        Long cost = MIN_INITIAL_COST + RND.nextInt((int)(MAX_INITIAL_COST - MIN_INITIAL_COST));
-        Integer income = MIN_INITIAL_INCOME + RND.nextInt(MAX_INITIAL_INCOME - MIN_INITIAL_INCOME);
+        Double cost = MIN_INITIAL_COST
+                + RND.nextInt((int)(MAX_INITIAL_COST - MIN_INITIAL_COST));
+        Double income = MIN_INITIAL_INCOME
+                + RND.nextDouble() * RND.nextDouble() * (MAX_INITIAL_INCOME - MIN_INITIAL_INCOME);
 
         Entity regionEntity = createRegionEntity(key, owner, cost, income,
                 nwLat, nwLong, seLat, seLong);
@@ -330,7 +332,7 @@ public class RegionAccess extends DataStoreAccess {
 
     /** @return new Region entity with specified info */
     private Entity createRegionEntity(
-            Key.Builder key, String ownerId, Long cost, Integer income,
+            Key.Builder key, String ownerId, double cost, double income,
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();
@@ -349,12 +351,12 @@ public class RegionAccess extends DataStoreAccess {
         // - a 64bit integer: `cost`
         entityBuilder.addProperty(Property.newBuilder()
                 .setName("cost")
-                .setValue(Value.newBuilder().setIntegerValue(cost)));
+                .setValue(Value.newBuilder().setDoubleValue(cost)));
 
         // - a 64bit integer: `income`
         entityBuilder.addProperty(Property.newBuilder()
                 .setName("income")
-                .setValue(Value.newBuilder().setIntegerValue(income)));
+                .setValue(Value.newBuilder().setDoubleValue(income)));
 
 
         // region region bounds

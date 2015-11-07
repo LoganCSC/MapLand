@@ -166,10 +166,6 @@ public class LandGrabMapActivity extends FragmentActivity
     private void retrieveActiveUser() {
         String username = (String)userDropList.getSelectedItem();
         UserRetriever.getUser(username, this, new UserRetrievalHandler(this, state));
-        //if ("guest".equals(username)) {
-        //    //when running in the emulator (as guest), there is no current location, so fake it
-        //    state.setCurrentPosition(theMap.getCurrentPosition());
-        //}
     }
 
     /**
@@ -232,7 +228,7 @@ public class LandGrabMapActivity extends FragmentActivity
             // Both must be done at the same time as part of a single atomic transaction
             Toast.makeText(this, "no region at this position. Creating.", Toast.LENGTH_SHORT).show();
             RegionBean region = RegionUtil.createRegionAtPosition(user.getUserId(), state.getCurrentPosition());
-            RegionAdder.addRegionForUser(region, this, new RegionAddHandler(this, state));
+            RegionAdder.addRegionForUser(region, this, new RegionAddHandler(state));
             state.setCurrentRegion(region);
             retrieveVisibleRegions();
         }

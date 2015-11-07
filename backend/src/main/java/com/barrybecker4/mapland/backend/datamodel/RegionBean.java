@@ -26,10 +26,19 @@ public class RegionBean {
 
     /** Id of the user who owns this region */
     private String ownerId;
+
+    /** the number of credits needed to buy this region */
+    private double cost;
+
+    /** the amount of daily income that this property provides the owner */
+    private double income;
+
+    /** additional info about the region. Probably added by ownwer(s) */
+    private String notes;
+
     /* switch to using GeoPt when its ready for prime time
     private GeoPt northWestCorner;
     private GeoPt southEastCorner; */
-
 
     private double nwLatitudeCoord;
     private double nwLongitudeCoord;
@@ -96,15 +105,6 @@ public class RegionBean {
         this.ownerId = ownerId;
     }
 
-    /** the number of credits needed to buy this region */
-    private long cost;
-
-    /** the amount of daily income that this property provides the owner */
-    private int income;
-
-    /** additional info about the region. Probably added by ownwer(s) */
-    private String notes;
-
     /*
     public GeoPt getNorthWestCorner() {
         return northWestCorner;
@@ -154,7 +154,7 @@ public class RegionBean {
         this.seLongitudeCoord = seLongitudeCoord;
     }
 
-    public long getCost() {
+    public double getCost() {
         return cost;
     }
 
@@ -162,7 +162,7 @@ public class RegionBean {
         this.cost = cost;
     }
 
-    public int getIncome() {
+    public double getIncome() {
         return income;
     }
 

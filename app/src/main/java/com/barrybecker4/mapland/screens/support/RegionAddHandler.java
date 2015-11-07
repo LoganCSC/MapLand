@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
@@ -18,11 +19,9 @@ import java.util.List;
  */
 public class RegionAddHandler implements IResponseHandler {
 
-    private Context context;
     private GameState state;
 
-    public RegionAddHandler(Context context, GameState state) {
-        this.context = context;
+    public RegionAddHandler(GameState state) {
         this.state = state;
     }
 
@@ -33,7 +32,7 @@ public class RegionAddHandler implements IResponseHandler {
         state.setCurrentRegion(region);
 
         String message = "Added new region = " + region;
-        System.out.println(message);
+        Log.i("REGION ADD", message);
         //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
         // Update user with new region

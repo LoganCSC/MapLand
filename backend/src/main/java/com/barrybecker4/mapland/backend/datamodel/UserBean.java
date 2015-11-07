@@ -17,7 +17,7 @@ public class UserBean {
 
     /** probably the users email address */
     private String userId;
-    private long credits = 0;
+    private double credits = 0;
     private List<Long> regions = new ArrayList<>();
 
     public UserBean() {}
@@ -63,7 +63,7 @@ public class UserBean {
     public String getUserId() {
         return this.userId;
     }
-    public long getCredits() {
+    public double getCredits() {
         return credits;
     }
 

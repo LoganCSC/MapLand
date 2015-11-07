@@ -131,7 +131,7 @@ public class UserAccess extends DataStoreAccess {
 
     /** @return new User entity with specified info */
     private Entity createUserEntity(
-            Key.Builder key, String userId, Long credits, List<Long> regions) {
+            Key.Builder key, String userId, double credits, List<Long> regions) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();
         // Set the entity key.
@@ -144,7 +144,7 @@ public class UserAccess extends DataStoreAccess {
         // - a 64bit integer: `credits`
         entityBuilder.addProperty(Property.newBuilder()
                 .setName("credits")
-                .setValue(Value.newBuilder().setIntegerValue(credits)));
+                .setValue(Value.newBuilder().setDoubleValue(credits)));
 
         // - a list of 64bit integers: `regions`
         // See http://stackoverflow.com/questions/23858208/how-to-add-array-property-value-in-google-cloud-datastore
