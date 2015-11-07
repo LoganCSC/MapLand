@@ -1,12 +1,16 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.location.Location;
+import android.text.Html;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
+import com.barrybecker4.mapland.game.RegionUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
@@ -43,14 +47,17 @@ public class LandMap {
     private static final int OTHER_USER_COLOR = 0x66BB4400;
     private static final int BORDER_COLOR = 0xAA000055;
 
+
     private GoogleMap theMap;
+    private Marker currentMarker;
+    private List<RegionBean> currentRegions;
 
     /**
      * @param map the google map used internally
      */
     public LandMap(GoogleMap map) {
         theMap = map;
-        //this.readyCallback = readyCallback;
+
         map.setMyLocationEnabled(true);
         configureMapSettings(map);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -58,6 +65,26 @@ public class LandMap {
         LatLng center = getCurrentPosition();
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, INITIAL_ZOOM_LEVEL));
+
+        //map.setOnMapLoadedCallback(callback); // GoogleMap.OnMapLoadedCallback callback
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (currentMarker != null) {
+                    currentMarker.remove();
+                }
+                RegionBean clickedRegion = RegionUtil.findRegion(latLng, currentRegions);
+                if (clickedRegion != null) {
+                    MarkerOptions opts = new MarkerOptions()
+                            .alpha(0.1f).position(latLng)
+                            .snippet("cost: " + clickedRegion.getCost() + " income: " + clickedRegion.getIncome())
+                            .title(clickedRegion.getOwnerId());
+                    currentMarker = theMap.addMarker(opts);
+                    currentMarker.showInfoWindow();
+                }
+            }
+        });
 
         // This adds a transparent marker at the specified position.
         //map.addMarker(new MarkerOptions().position(center).alpha(0.5f).title("Start"));
@@ -83,17 +110,22 @@ public class LandMap {
      * Brian, make this show rectangles color-coded by owner instead of the default marker.
      * @param regions the list of currently visible regions to show
      */
-    public void showRegions(List<RegionBean> regions, String currentUserId) {
+    public void setVisibleRegions(List<RegionBean> regions, String currentUserId) {
+        currentRegions = regions;
+        drawRegions(currentUserId);
+    }
+
+    private void drawRegions(String currentUserId) {
         theMap.clear();
-        if (regions != null) {
-            for (RegionBean region : regions) {
+        if (currentRegions != null) {
+            for (RegionBean region : currentRegions) {
                 // for now just put a marker at the center of each region.
                 double latitude = (region.getNwLatitudeCoord() + region.getSeLatitudeCoord()) / 2.0;
                 double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
                 LatLng center = new LatLng(latitude, longitude);
                 System.out.println("Adding marker at " + center + " current = " + this.getCurrentPosition());
                 int hue = region.getOwnerId().equals(currentUserId) ? CURRENT_USER_COLOR : OTHER_USER_COLOR;
-                
+
                 PolygonOptions options = new PolygonOptions();
                 options.add(new LatLng(region.getNwLatitudeCoord(), region.getNwLongitudeCoord()),
                         new LatLng(region.getSeLatitudeCoord(), region.getNwLongitudeCoord()),

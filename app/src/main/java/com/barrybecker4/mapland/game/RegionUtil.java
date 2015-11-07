@@ -1,5 +1,6 @@
 package com.barrybecker4.mapland.game;
 
+import android.graphics.Region;
 import android.location.Location;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
@@ -7,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 import java.util.IllegalFormatCodePointException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -88,6 +90,24 @@ public class RegionUtil {
         float lng = RegionUtil.roundToEPS(loc.getLongitude());
         return "[" + lat + ", " + lng + "]("+loc.getAccuracy()+")";
     }
+
+    /**
+     * Find a region that contains a specified point among a list of regions.
+     * There are potentially more efficient ways to find the region 9like a k-d tree etc)
+     * @return the found region or null if not found
+     */
+    public static RegionBean findRegion(LatLng latLng, List<RegionBean> regions) {
+        for (RegionBean region : regions) {
+            if (latLng.latitude >= region.getSeLatitudeCoord()
+                    && latLng.longitude >= region.getNwLongitudeCoord()
+                    && latLng.latitude < region.getNwLatitudeCoord()
+                    && latLng.longitude < region.getSeLongitudeCoord()) {
+                return region;
+            }
+        }
+        return null;
+    }
+
 
     private static float roundToEPS(double coord) {
         return (float) (Math.round(coord * EPS_SCALE) / EPS_SCALE);

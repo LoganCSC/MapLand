@@ -2,7 +2,6 @@ package com.barrybecker4.mapland.screens.support;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBeanCollection;
@@ -41,7 +40,7 @@ public class RegionsRetrievalHandler implements IResponseHandler {
             regions = new ArrayList<>();
         }
         state.setVisibleRegions(regions);
-        map.showRegions(regions, state.getCurrentUser().getUserId());
+        map.setVisibleRegions(regions, state.getCurrentUser().getUserId());
 
         String message = "Regions retrieved to client = " + listIds(regions);
         Log.i("REGION RETRIEVAL", message);

@@ -51,7 +51,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -136,6 +135,7 @@ public class LandGrabMapActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap map) {
         theMap = new LandMap(map);
+
         theMap.setCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -237,6 +237,6 @@ public class LandGrabMapActivity extends FragmentActivity
             retrieveVisibleRegions();
         }
 
-        theMap.showRegions(state.getVisibleRegions(), user.getUserId()); // updates too often?
+        theMap.setVisibleRegions(state.getVisibleRegions(), user.getUserId()); // updates too often?
     }
 }
