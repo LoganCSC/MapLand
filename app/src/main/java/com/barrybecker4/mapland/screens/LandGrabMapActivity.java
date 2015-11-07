@@ -166,6 +166,10 @@ public class LandGrabMapActivity extends FragmentActivity
     private void retrieveActiveUser() {
         String username = (String)userDropList.getSelectedItem();
         UserRetriever.getUser(username, this, new UserRetrievalHandler(this, state));
+        if ("guest".equals(username)) {
+            //when running in the emulator (as guest), there is no current location, so fake it
+            state.setCurrentPosition(theMap.getCurrentPosition());
+        }
     }
 
     /**
@@ -176,7 +180,7 @@ public class LandGrabMapActivity extends FragmentActivity
         System.out.println("The visible region is " + region.toString());
         Log.i("MAP", "The visible region is " + region.toString());
         ViewPort viewport = new ViewPort(region);
-        RegionRetriever.getRegions(viewport, this, new RegionsRetrievalHandler(this, state, theMap));
+        RegionRetriever.getRegions(viewport, this, new RegionsRetrievalHandler(state, theMap));
     }
 
     @Override

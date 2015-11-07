@@ -4,6 +4,7 @@ import android.location.Location;
 import android.text.Html;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
+import com.barrybecker4.mapland.game.FormatUtil;
 import com.barrybecker4.mapland.game.RegionUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -78,7 +79,8 @@ public class LandMap {
                 if (clickedRegion != null) {
                     MarkerOptions opts = new MarkerOptions()
                             .alpha(0.1f).position(latLng)
-                            .snippet("cost: " + clickedRegion.getCost() + " income: " + clickedRegion.getIncome())
+                            .snippet("cost: " + FormatUtil.formatNumber(clickedRegion.getCost())
+                                    + " income: " + FormatUtil.formatNumber(clickedRegion.getIncome()))
                             .title(clickedRegion.getOwnerId());
                     currentMarker = theMap.addMarker(opts);
                     currentMarker.showInfoWindow();

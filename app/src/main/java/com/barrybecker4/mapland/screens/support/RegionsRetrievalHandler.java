@@ -18,12 +18,10 @@ import java.util.List;
  */
 public class RegionsRetrievalHandler implements IResponseHandler {
 
-    private Context context;
     private GameState state;
     private LandMap map;
 
-    public RegionsRetrievalHandler(Context context, GameState state, LandMap map) {
-        this.context = context;
+    public RegionsRetrievalHandler(GameState state, LandMap map) {
         this.state = state;
         this.map = map;
     }
@@ -31,9 +29,6 @@ public class RegionsRetrievalHandler implements IResponseHandler {
     /** Show a popup with the user info */
     @Override
     public void jsonRetrieved(GenericJson result) {
-        //if (result == null) {
-        //    Toast.makeText(context, "unexpected null set of regions", Toast.LENGTH_SHORT).show();
-        //}
         List<RegionBean> regions = ((RegionBeanCollection)result).getItems();
         // we should not need this if setting DATASTORE_EMPTY_LIST_SUPPORT would work
         if (regions == null) {

@@ -61,8 +61,8 @@ public class RegionBean {
         Long id = regionEntity.getKey().getPathElement(0).getId();
         //Long regionId = id; //idVal == null ?  null : idVal.getIntegerValue();
         String ownerId = propertyMap.get("ownerId").getStringValue();
-        Long cost = propertyMap.get("cost").getIntegerValue();
-        Integer income = (int) propertyMap.get("income").getIntegerValue();
+        Double cost = propertyMap.get("cost").getDoubleValue();
+        Double income = propertyMap.get("income").getDoubleValue();
         Double nwLat = propertyMap.get("nwLatitude").getDoubleValue();
         Double nwLong = propertyMap.get("nwLongitude").getDoubleValue();
         Double seLat = propertyMap.get("seLatitude").getDoubleValue();
@@ -158,7 +158,7 @@ public class RegionBean {
         return cost;
     }
 
-    public void setCost(long cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -166,7 +166,7 @@ public class RegionBean {
         return income;
     }
 
-    public void setIncome(int income) {
+    public void setIncome(double income) {
         this.income = income;
     }
 
