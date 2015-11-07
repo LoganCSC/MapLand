@@ -1,5 +1,6 @@
 package com.barrybecker4.mapland.screens.support;
 
+import android.graphics.Color;
 import android.location.Location;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
@@ -9,6 +10,8 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.Arrays;
@@ -95,14 +98,15 @@ public class LandMap {
                 double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
                 LatLng center = new LatLng(latitude, longitude);
                 System.out.println("Adding marker at " + center + " current = " + this.getCurrentPosition());
-
                 float hue = getHueForUserId(region.getOwnerId());
-                MarkerOptions opts = new MarkerOptions()
-                        .position(center)
-                        .alpha(0.3f)
-                        .icon(BitmapDescriptorFactory.defaultMarker(hue))
-                        .title(region.getOwnerId());
-                theMap.addMarker(opts);
+                
+                PolygonOptions options = new PolygonOptions();
+                options.add(new LatLng(region.getNwLatitudeCoord(),region.getSeLatitudeCoord()),
+                        new LatLng(region.getNwLatitudeCoord(),  region.getSeLongitudeCoord()),
+                        new LatLng(region.getNwLongitudeCoord(), region.getSeLatitudeCoord()),
+                        new LatLng(region.getNwLongitudeCoord(),  region.getSeLongitudeCoord()))
+                        .strokeColor(Color.BLUE).fillColor(Color.RED);
+                Polygon polygon = theMap.addPolygon(options);
             }
         }
     }
@@ -117,6 +121,8 @@ public class LandMap {
         }
         return COLORMAP.get(userId);
     }
+
+
 
     public LatLng getCurrentPosition() {
         Location loc = theMap.getMyLocation();
