@@ -6,14 +6,17 @@ import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Encapsulate the google map instance used by the game.
@@ -37,6 +40,10 @@ public class LandMap {
         MAP_TYPE_MAP.put("Terrain", GoogleMap.MAP_TYPE_TERRAIN);
         MAP_TYPE_MAP.put("Hybrid", GoogleMap.MAP_TYPE_HYBRID);
         MAP_TYPE_MAP.put("Satellite", GoogleMap.MAP_TYPE_SATELLITE);
+    }
+    private static final Map<String, Float>COLORMAP = new HashMap<>();
+    static {
+        COLORMAP.put("guest", 60f);
     }
 
     private GoogleMap theMap;
@@ -87,10 +94,28 @@ public class LandMap {
                 double latitude = (region.getNwLatitudeCoord() + region.getSeLatitudeCoord()) / 2.0;
                 double longitude = (region.getNwLongitudeCoord() + region.getSeLongitudeCoord()) / 2.0;
                 LatLng center = new LatLng(latitude, longitude);
-                System.out.println("Adding maker at " + center + " current = " + this.getCurrentPosition());
-                theMap.addMarker(new MarkerOptions().position(center).alpha(0.3f).title(region.getOwnerId()));
+                System.out.println("Adding marker at " + center + " current = " + this.getCurrentPosition());
+
+                float hue = getHueForUserId(region.getOwnerId());
+                MarkerOptions opts = new MarkerOptions()
+                        .position(center)
+                        .alpha(0.3f)
+                        .icon(BitmapDescriptorFactory.defaultMarker(hue))
+                        .title(region.getOwnerId());
+                theMap.addMarker(opts);
             }
         }
+    }
+
+    private float getHueForUserId(String userId) {
+        if (!COLORMAP.containsKey(userId)) {
+            float newHue = (int)(Math.random() * 25) * 10.0f;
+            while (COLORMAP.containsValue(newHue)) {
+                newHue = (int)(Math.random() * 25) * 10.0f;
+            }
+            COLORMAP.put(userId, newHue);
+        }
+        return COLORMAP.get(userId);
     }
 
     public LatLng getCurrentPosition() {
