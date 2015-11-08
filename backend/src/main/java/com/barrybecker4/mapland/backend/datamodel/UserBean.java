@@ -37,7 +37,7 @@ public class UserBean implements Serializable {
         //System.out.println("user propertyMap = "+ propertyMap);
 
         String username = propertyMap.get("name").getStringValue();
-        Long credits = propertyMap.get("credits").getIntegerValue();
+        Double credits = propertyMap.get("credits").getDoubleValue();
         System.out.println("lastUpdate = " + propertyMap.get("lastUpdated"));
         Long micros = propertyMap.get("lastUpdated").getTimestampMicrosecondsValue();
         Date lastUpdate = new Date(micros / 1000);
@@ -74,7 +74,7 @@ public class UserBean implements Serializable {
         return credits;
     }
 
-    public void setCredits(long credits) {
+    public void setCredits(double credits) {
         this.credits = credits;
     }
 

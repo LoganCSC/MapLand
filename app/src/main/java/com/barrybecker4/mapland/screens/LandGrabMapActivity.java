@@ -1,21 +1,8 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/**
+ * Main game screen.
  */
 package com.barrybecker4.mapland.screens;
 
-import android.app.DialogFragment;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -36,6 +23,7 @@ import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.game.GameStateChangededListener;
 import com.barrybecker4.mapland.game.RegionUtil;
 import com.barrybecker4.mapland.screens.dialogs.BuyRegionDialogFragment;
+import com.barrybecker4.mapland.screens.dialogs.OnRegionBoughtHandler;
 import com.barrybecker4.mapland.screens.support.LandMap;
 import com.barrybecker4.mapland.screens.support.RegionAddHandler;
 import com.barrybecker4.mapland.screens.support.RegionsRetrievalHandler;
@@ -60,7 +48,9 @@ import java.util.List;
  * Lang Grab is a game where you try to acquire as much land as you can in a certain time interval.
  */
 public class LandGrabMapActivity extends FragmentActivity
-        implements OnMapReadyCallback, AdapterView.OnItemSelectedListener, GameStateChangededListener {
+        implements OnMapReadyCallback, OnRegionBoughtHandler,
+            AdapterView.OnItemSelectedListener,
+            GameStateChangededListener {
 
     // these spinners/droplists are AdapterViews and passed to onItemSelected.
     private Spinner userDropList;
@@ -234,9 +224,39 @@ public class LandGrabMapActivity extends FragmentActivity
         theMap.setVisibleRegions(state.getVisibleRegions(), user.getUserId()); // updates too often?
     }
 
+    /**
+     * If the user says yes when asked, do the transfer in regionBoughtByCurrentUser
+     */
     private void showBuyRegionDlg() {
         BuyRegionDialogFragment dialog = new BuyRegionDialogFragment();
-        dialog.setData(state.getCurrentUser(), state.getCurrentRegion());
+        Bundle args = new Bundle();
+        UserBean user = state.getCurrentUser();
+        RegionBean region = state.getCurrentRegion();
+        args.putString("oldOwner", region.getOwnerId());
+        args.putString("newOwner", user.getUserId());
+        args.putDouble("cost", region.getCost());
+        args.putDouble("balance", user.getCredits());
+        dialog.setArguments(args);
         dialog.show(getFragmentManager(), "buy-region-dialog");
+    }
+
+    /**
+     * Transfer ownership of the region from the old owner to the current user
+     */
+    @Override
+    public void regionBoughtByCurrentUser() {
+        UserBean user = state.getCurrentUser();
+        RegionBean region = state.getCurrentRegion();
+
+        Log.i("STATE_CHANGE", "The region you are in is owned by " + region.getOwnerId()
+                + " Transferring ownership...");
+        String oldOwner = region.getOwnerId();
+
+        // This does 3 things: User has this region added, region has its owner set to user,
+        // and the old owner has this region removed from its list.
+        RegionTransferer.transferRegionOwnership(region, user, this);
+        Toast.makeText(this, "Transferring ownership of "
+                + region.getRegionId() + " from " + oldOwner
+                + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
     }
 }
