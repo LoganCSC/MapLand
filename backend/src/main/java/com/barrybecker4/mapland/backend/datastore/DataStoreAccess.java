@@ -93,6 +93,14 @@ public class DataStoreAccess {
         return tres.getTransaction();
     }
 
+    protected void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Key.Builder createKey(String kind, Object name) {
         Key.PathElement.Builder pathBuilder = Key.PathElement.newBuilder().setKind(kind);
         if (name instanceof Long) {

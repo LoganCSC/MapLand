@@ -91,7 +91,7 @@ public class MapLandEndpoint {
 
     /**
      * Endpoint method that adds a new region with specified information and owner.
-     * The owner must also be updatd with this new region as part of an atomic transaction.
+     * The owner must also be updated with this new region as part of an atomic transaction.
      */
     @ApiMethod(name = "addRegionInfo")
     public RegionBean addRegionInfo(@Named("owner") String owner,
