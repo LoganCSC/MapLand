@@ -15,6 +15,7 @@
  */
 package com.barrybecker4.mapland.screens;
 
+import android.app.DialogFragment;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -34,6 +35,7 @@ import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.game.GameStateChangededListener;
 import com.barrybecker4.mapland.game.RegionUtil;
+import com.barrybecker4.mapland.screens.dialogs.BuyRegionDialogFragment;
 import com.barrybecker4.mapland.screens.support.LandMap;
 import com.barrybecker4.mapland.screens.support.RegionAddHandler;
 import com.barrybecker4.mapland.screens.support.RegionsRetrievalHandler;
@@ -51,6 +53,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -209,16 +212,7 @@ public class LandGrabMapActivity extends FragmentActivity
                 System.out.println("The current position " + state.getCurrentPosition() + " is within " + region);
                 state.setCurrentRegion(region);
                 if (!region.getOwnerId().equals(user.getUserId())) {
-                    // then need to change ownership on this region to the current user!
-                    Log.i("STATE_CHANGE", "The region you are in is owned by " + region.getOwnerId()
-                            + " Transferring ownership...");
-                    String oldOwner = region.getOwnerId();
-
-                    // This does 3 things: User has this region added, region has its owner set to user,
-                    // and the old owner has this region removed from its list.
-                    RegionTransferer.transferRegionOwnership(region, user, this);
-                    Toast.makeText(this, "Transferring ownership of " + region.getRegionId() + " from " + oldOwner
-                            + " to " + user.getUserId(), Toast.LENGTH_SHORT).show();
+                    showBuyRegionDlg();
                 }
             }
             else {
@@ -238,5 +232,11 @@ public class LandGrabMapActivity extends FragmentActivity
         }
 
         theMap.setVisibleRegions(state.getVisibleRegions(), user.getUserId()); // updates too often?
+    }
+
+    private void showBuyRegionDlg() {
+        BuyRegionDialogFragment dialog = new BuyRegionDialogFragment();
+        dialog.setData(state.getCurrentUser(), state.getCurrentRegion());
+        dialog.show(getFragmentManager(), "buy-region-dialog");
     }
 }

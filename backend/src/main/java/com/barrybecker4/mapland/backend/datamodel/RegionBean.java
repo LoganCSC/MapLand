@@ -5,6 +5,7 @@ import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.api.services.datastore.DatastoreV1.Entity;
 //import com.google.appengine.api.datastore.GeoPt;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Map;
  *
  * @author Barry Becker
  */
-public class RegionBean {
+public class RegionBean implements Serializable {
 
     private Long regionId;
 

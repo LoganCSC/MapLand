@@ -3,6 +3,7 @@ package com.barrybecker4.mapland.backend.datamodel;
 import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.client.DatastoreHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ import java.util.Map;
  * The object model for the data we are sending through endpoints.
  * @author Barry Becker
  */
-public class UserBean {
+public class UserBean implements Serializable {
 
     /** probably the users email address */
     private String userId;
