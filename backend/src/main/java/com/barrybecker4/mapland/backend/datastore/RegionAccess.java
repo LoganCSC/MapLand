@@ -189,32 +189,34 @@ public class RegionAccess extends DataStoreAccess {
                 + " region:"+ region.getRegionId());
 
         if (newOwner.getRegions().contains(region.getRegionId())) {
+            // this should never happen
             LOG.severe(newOwner.getUserId() + " already owns region " + region.getRegionId());
             //throw new IllegalStateException(newOwner.getUserId() + " already owns region " + region.getRegionId());
         }
         else {
             newOwner.getRegions().add(region.getRegionId());
-        }
-        region.setOwnerId(newOwner.getUserId());
-        boolean removed = oldOwner.getRegions().remove(region.getRegionId());
-        LOG.warning("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
-        if (!removed) {
-            String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
-                    + "with these regions: "+ oldOwner.getRegions();
-            LOG.severe(msg);
-            //throw new IllegalStateException(msg);
-        }
 
-        newOwner.setCredits(newOwner.getCredits() - region.getCost());
-        oldOwner.setCredits(oldOwner.getCredits() + region.getCost());
-        Date now = new Date();
-        newOwner.setLastUpdated(now);
-        oldOwner.setLastUpdated(now);
+            region.setOwnerId(newOwner.getUserId());
+            boolean removed = oldOwner.getRegions().remove(region.getRegionId());
+            LOG.warning("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
+            if (!removed) {
+                String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
+                        + "with these regions: " + oldOwner.getRegions();
+                LOG.severe(msg);
+                //throw new IllegalStateException(msg);
+            }
 
-        // this should all happen as part of a single transaction (but it's not right now)
-        userAccess.updateUser(oldOwner);
-        userAccess.updateUser(newOwner);
-        this.updateRegion(region);
+            newOwner.setCredits(newOwner.getCredits() - region.getCost());
+            oldOwner.setCredits(oldOwner.getCredits() + region.getCost());
+            Date now = new Date();
+            newOwner.setLastUpdated(now);
+            oldOwner.setLastUpdated(now);
+
+            // this should all happen as part of a single transaction (but it's not right now)
+            userAccess.updateUser(oldOwner);
+            userAccess.updateUser(newOwner);
+            this.updateRegion(region);
+        }
 
         long duration = System.currentTimeMillis() - time;
         String msg = "time to transfer ownership = " + duration + "ms.";

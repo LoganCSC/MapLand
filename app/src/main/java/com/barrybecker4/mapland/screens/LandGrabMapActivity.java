@@ -199,7 +199,7 @@ public class LandGrabMapActivity extends FragmentActivity
         //Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
         UserBean user = state.getCurrentUser();
 
-        mMoneyTextView.setText("Money: " + FormatUtil.formatNumber(user.getCredits()));
+        showCurrentBalance(user.getCredits());
 
         // if the user owns the current region, then set it as current
         List<RegionBean> regions = state.getVisibleRegions();
@@ -260,8 +260,13 @@ public class LandGrabMapActivity extends FragmentActivity
         // This does 3 things: User has this region added, region has its owner set to user,
         // and the old owner has this region removed from its list.
         RegionTransferer.transferRegionOwnership(region, user, this);
+        showCurrentBalance(user.getCredits() - region.getCost());
         Toast.makeText(this, "Transferring ownership of "
                 + region.getRegionId() + " from " + oldOwner
                 + " to " + user.getUserId(), Toast.LENGTH_LONG).show();
+    }
+
+    private void showCurrentBalance(double balance) {
+        mMoneyTextView.setText("Money: " + FormatUtil.formatNumber(balance));
     }
 }

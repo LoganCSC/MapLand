@@ -28,7 +28,7 @@ public class LandMap {
     public static final List<String> MAP_TYPE_VALUES = Arrays.asList(
             "Normal", "Terrain", "Hybrid", "Satellite");
 
-    // 37.6017602,-122.074174 - house
+    // 37.6021,-122.0758 - house
     // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
     /** This is used if the position cannot be retrieved from the map - such as when the emulator is used */
