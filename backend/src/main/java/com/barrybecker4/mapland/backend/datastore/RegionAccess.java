@@ -19,6 +19,7 @@ import com.google.protobuf.ByteString;
 import static com.google.api.services.datastore.client.DatastoreHelper.*;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -206,6 +207,9 @@ public class RegionAccess extends DataStoreAccess {
 
         newOwner.setCredits(newOwner.getCredits() - region.getCost());
         oldOwner.setCredits(oldOwner.getCredits() + region.getCost());
+        Date now = new Date();
+        newOwner.setLastUpdated(now);
+        oldOwner.setLastUpdated(now);
 
         // this should all happen as part of a single transaction (but it's not right now)
         userAccess.updateUser(oldOwner);
