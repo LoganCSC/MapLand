@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.barrybecker4.mapland.R;
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
+import com.barrybecker4.mapland.game.FormatUtil;
 import com.barrybecker4.mapland.game.GameState;
 import com.barrybecker4.mapland.game.GameStateChangededListener;
 import com.barrybecker4.mapland.game.RegionUtil;
@@ -57,6 +58,7 @@ public class LandGrabMapActivity extends FragmentActivity
     private Spinner mapTypeDropList;
     private CompoundButton mTrafficCheckbox;
     private TextView mLocationTextView;
+    private TextView mMoneyTextView;
 
     private LandMap theMap;
     private GameState state;
@@ -81,6 +83,8 @@ public class LandGrabMapActivity extends FragmentActivity
                 android.R.layout.simple_spinner_item, UserAccounts.getAccountNames(this));
         userDropList.setAdapter(userSelectAdapter);
         userDropList.setOnItemSelectedListener(this);
+
+        mMoneyTextView = (TextView) findViewById(R.id.money_text);
 
         // map type droplist (for selecting terrain, satellite, normal, etc)
         mapTypeDropList = (Spinner) findViewById(R.id.map_type_select);
@@ -194,6 +198,8 @@ public class LandGrabMapActivity extends FragmentActivity
         System.out.println("Game state changed. User position = " + state.getCurrentPosition());
         //Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
         UserBean user = state.getCurrentUser();
+
+        mMoneyTextView.setText("Money: " + FormatUtil.formatNumber(user.getCredits()));
 
         // if the user owns the current region, then set it as current
         List<RegionBean> regions = state.getVisibleRegions();
