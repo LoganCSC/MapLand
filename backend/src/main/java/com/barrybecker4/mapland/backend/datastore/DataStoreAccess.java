@@ -14,6 +14,9 @@ import com.google.api.services.datastore.client.DatastoreException;
 
 import com.google.protobuf.ByteString;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/
@@ -24,10 +27,10 @@ public class DataStoreAccess {
 
 
     /**
-     * Get the specified entity. If its not there, throw an exception
+     * Get the specified entity. If its not there, throw an exception.
      * @param kind the kind of entity to get
      * @param id unique id - either name string or long id.
-     * @throws DatastoreException if proplem accessing the datastore
+     * @throws DatastoreException if problem accessing the datastore
      * @throws IllegalStateException if entity with specified id not found
      */
     protected Entity getEntity(String kind, Object id) throws DatastoreException {
@@ -49,11 +52,47 @@ public class DataStoreAccess {
             System.out.println("Found an entity with id = " + id);
             entity = lresp.getFound(0).getEntity();
         } else {
-            throw new IllegalStateException("No " + kind + " entity found with name " + id);
+            throw new IllegalStateException("No " + kind + " entity found with id " + id);
         }
 
         return entity;
     }
+
+    /**
+     * Get the specified entities. If its not there, throw an exception.
+     * @param kind the kind of entity to get
+     * @param ids unique id - either name string or long id.
+     * @throws DatastoreException if problem accessing the datastore
+     * @throws IllegalStateException if entity with specified id not found
+     */
+    protected List<Entity> getEntities(String kind, List<?> ids) throws DatastoreException {
+
+        // Create an RPC request to get entities by key.
+        LookupRequest.Builder lreq = LookupRequest.newBuilder();
+
+        for (Object id : ids) {
+            Key.Builder key = createKey(kind, id);
+            lreq.addKey(key); // Add one key to the lookup request.
+        }
+
+        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
+        lreq.getReadOptionsBuilder().setTransaction(createTransaction());
+        // Execute the RPC and get the response.
+        LookupResponse lresp = datastore.lookup(lreq.build());
+
+        List<Entity> entities = new LinkedList<>();
+        if (lresp.getFoundCount() > 0) {
+            System.out.println("Found entities with ids = " + ids);
+            for (DatastoreV1.EntityResult e : lresp.getFoundList()) {
+                entities.add(e.getEntity());
+            }
+        } else {
+            throw new IllegalStateException("No " + kind + " entities found for " + ids);
+        }
+
+        return entities;
+    }
+
 
     /**
      * @param entity the entity to add

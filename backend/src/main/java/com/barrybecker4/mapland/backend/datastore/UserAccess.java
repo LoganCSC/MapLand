@@ -1,5 +1,6 @@
 package com.barrybecker4.mapland.backend.datastore;
 
+import com.barrybecker4.mapland.backend.datamodel.RegionBean;
 import com.google.api.services.datastore.DatastoreV1.CommitRequest;
 import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.api.services.datastore.DatastoreV1.Key;
@@ -23,6 +24,8 @@ public class UserAccess extends DataStoreAccess {
 
     public static final String KIND = "User";
     private static final Double INITIAL_CREDITS = 200.0;
+    private static final int MILLIS_PER_MINUTE = 60000;
+
 
     /**
      * Get the specified user if they are in the database.
@@ -36,8 +39,9 @@ public class UserAccess extends DataStoreAccess {
             System.out.println("About to get info for " + userId);
             Entity entity = getUserEntity("User", userId);
             user = new UserBean(entity);
-
-        } catch (DatastoreException exception) {
+            updateCreditsForUser(user);
+        }
+        catch (DatastoreException exception) {
             // Catch all Datastore rpc errors.
             System.err.println("Error while doing user datastore operation");
             // Log the exception, the name of the method called and the error code.
@@ -72,7 +76,10 @@ public class UserAccess extends DataStoreAccess {
         return true;
     }
 
-    /** get the user entity, and if its not there create one */
+    /**
+     * Get the user entity, and if its not there create one.
+     * If the user is there, we need to update their money (credits) from when it was last updated.
+     */
     private Entity getUserEntity(String kind, String name) throws DatastoreException {
 
         // Create an RPC request to get entities by key.
@@ -81,7 +88,6 @@ public class UserAccess extends DataStoreAccess {
         Key.Builder key = Key.newBuilder().addPathElement(
                 Key.PathElement.newBuilder().setKind(kind).setName(name));
         lreq.addKey(key); // Add one key to the lookup request.
-        //key.getPathElement(0).getName()
 
         // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
         ByteString tx = createTransaction();
@@ -160,5 +166,26 @@ public class UserAccess extends DataStoreAccess {
         // Build the entity.
         entity = entityBuilder.build();
         return entity;
+    }
+
+    /**
+     * Retrieve the user's regions and update the users money based on time elapsed
+     * @param user the user to update credits for
+     */
+    private void updateCreditsForUser(UserBean user) {
+        RegionAccess regionAccess = new RegionAccess();
+        List<Long> regionIds = user.getRegions();
+        if (regionIds.size() > 0) {
+            List<RegionBean> ownedRegions = regionAccess.getRegionsByIds(regionIds);
+
+            Date lastUpdate = user.getLastUpdated();
+            Date now = new Date();
+            long minutesElapsed = (now.getTime() - lastUpdate.getTime()) / MILLIS_PER_MINUTE;
+            double earnedIncome = 0;
+            for (RegionBean region : ownedRegions) {
+                earnedIncome += region.getIncome() * minutesElapsed;
+            }
+            user.setCredits(user.getCredits() + earnedIncome);
+        }
     }
 }

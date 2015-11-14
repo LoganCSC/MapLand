@@ -50,7 +50,7 @@ public class RegionAccess extends DataStoreAccess {
     /**
      * Get the specified region if it is in the database.
      * If they are not in the database, throw an error.
-     * @param regionId user id
+     * @param regionId region id
      */
     public RegionBean getRegionById(Long regionId) {
         RegionBean region = null;
@@ -60,17 +60,44 @@ public class RegionAccess extends DataStoreAccess {
             region = new RegionBean(entity);
         }
         catch (DatastoreException exception) {
-            // Catch all Datastore rpc errors.
-            System.err.println("Error while doing region datastore operation");
-            // Log the exception, the name of the method called and the error code.
-            System.err.println(String.format("DatastoreException(%s): %s %s",
-                    exception.getMessage(),
-                    exception.getMethodName(),
-                    exception.getCode()));
-            System.exit(1);
+            fatalError(exception);
         }
 
         return region;
+    }
+
+    /**
+     * Get the specified regions if they are in the database.
+     * If they are not in the database, throw an error.
+     * @param regionIds region ids
+     */
+    public List<RegionBean> getRegionsByIds(List<Long> regionIds) {
+        List<RegionBean> regions = new LinkedList<>();
+
+        if (regionIds.size() > 0) {
+            try {
+                List<Entity> entities = getEntities(KIND, regionIds);
+                for (Entity e : entities) {
+                    regions.add(new RegionBean(e));
+                }
+            }
+            catch (DatastoreException exception) {
+                fatalError(exception);
+            }
+        }
+
+        return regions;
+    }
+
+    private void fatalError(DatastoreException exception) {
+        // Catch all Datastore rpc errors.
+        System.err.println("Error while doing region datastore operation");
+        // Log the exception, the name of the method called and the error code.
+        System.err.println(String.format("DatastoreException(%s): %s %s",
+                exception.getMessage(),
+                exception.getMethodName(),
+                exception.getCode()));
+        System.exit(1);
     }
 
     /**
