@@ -172,7 +172,7 @@ public class UserAccess extends DataStoreAccess {
      * Retrieve the user's regions and update the users money based on time elapsed
      * @param user the user to update credits for
      */
-    private void updateCreditsForUser(UserBean user) {
+    public void updateCreditsForUser(UserBean user) {
         RegionAccess regionAccess = new RegionAccess();
         List<Long> regionIds = user.getRegions();
         if (regionIds.size() > 0) {

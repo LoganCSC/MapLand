@@ -156,10 +156,14 @@ public class RegionAccess extends DataStoreAccess {
     }
 
     /**
-     * Transferring ownership of a region involves 3 things:
-     * 1) The user needs to have this region added to her list of regions.
-     * 2) The region needs to have its owner property set to user.
-     * 3) The old owner needs to have this region removed from her list.
+     * Transferring ownership of a region involves 6 things:
+     * 1) The new and old owners need to have their credit balance updated based on region income from last update.
+     * 2) The user needs to have this region added to her list of regions.
+     * 3) The region needs to have its owner property set to user.
+     * 4) The old owner needs to have this region removed from her list.
+     * 5) The new user needs to pay the cost of the region to the old owner
+     * 6) update the data for old and new user in the datastore
+     *
      * All these things need to happen as part of a single atomic transaction, and right now they are not.
      * In order to work as a single transaction, we may need to change the datamodel to have
      * users parents of regions. In that case, changing ownership will probably involve
@@ -175,6 +179,10 @@ public class RegionAccess extends DataStoreAccess {
         RegionBean region = regionAndUser.getRegion();
         UserBean oldOwner = userAccess.getUserById(region.getOwnerId());
         UserBean newOwner = regionAndUser.getUser();
+
+        userAccess.updateCreditsForUser(oldOwner);
+        userAccess.updateCreditsForUser(newOwner);
+
         long time = System.currentTimeMillis();
         LOG.warning("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
                 + " region:"+ region.getRegionId());
@@ -196,7 +204,10 @@ public class RegionAccess extends DataStoreAccess {
             //throw new IllegalStateException(msg);
         }
 
-        // this should happen as part of a single transaction (but its not right now)
+        newOwner.setCredits(newOwner.getCredits() - region.getCost());
+        oldOwner.setCredits(oldOwner.getCredits() + region.getCost());
+
+        // this should all happen as part of a single transaction (but it's not right now)
         userAccess.updateUser(oldOwner);
         userAccess.updateUser(newOwner);
         this.updateRegion(region);
