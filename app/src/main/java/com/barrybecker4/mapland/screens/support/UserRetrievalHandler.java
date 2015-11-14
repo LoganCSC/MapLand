@@ -39,7 +39,8 @@ public class UserRetrievalHandler implements IResponseHandler {
             regions = user.getRegions().toString();
         }
         System.out.println("User = " + user.toString());
-        String message = user.getUserId() + " owns " + user.getCredits() + " credits, and these locations: " + regions;
+        String message = user.getUserId() + " owns " + user.getCredits()
+                + " credits, and these locations: " + regions;
         Log.i("USER RETRIEVAL", message);
         //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }

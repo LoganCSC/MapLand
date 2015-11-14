@@ -30,7 +30,6 @@ public class BuyRegionDialogFragment extends DialogFragment {
 
         Bundle args = this.getArguments();
         String oldOwner = args.getString("oldOwner");
-        String newOwner = args.getString("newOwner");
         Double cost = args.getDouble("cost");
         Double balance = args.getDouble("balance");
 

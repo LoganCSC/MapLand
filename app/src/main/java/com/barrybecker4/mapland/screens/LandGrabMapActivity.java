@@ -233,7 +233,6 @@ public class LandGrabMapActivity extends FragmentActivity
         UserBean user = state.getCurrentUser();
         RegionBean region = state.getCurrentRegion();
         args.putString("oldOwner", region.getOwnerId());
-        args.putString("newOwner", user.getUserId());
         args.putDouble("cost", region.getCost());
         args.putDouble("balance", user.getCredits());
         dialog.setArguments(args);

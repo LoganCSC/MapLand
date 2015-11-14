@@ -22,7 +22,7 @@ import java.util.List;
 public class UserAccess extends DataStoreAccess {
 
     public static final String KIND = "User";
-    private static final Long INITAIL_CREDITS = 100L;
+    private static final Double INITIAL_CREDITS = 200.0;
 
     /**
      * Get the specified user if they are in the database.
@@ -103,7 +103,7 @@ public class UserAccess extends DataStoreAccess {
             // If no entity was found, create a new one.
 
             List<Long> regions = new LinkedList<>();
-            entity = createUserEntity(key, name, INITAIL_CREDITS, regions);
+            entity = createUserEntity(key, name, INITIAL_CREDITS, regions);
             // Insert the entity in the commit request mutation.
             creq.getMutationBuilder().addInsert(entity);
         }

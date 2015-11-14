@@ -33,7 +33,7 @@ public class LandMap {
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
     /** This is used if the position cannot be retrieved from the map - such as when the emulator is used */
     //private static final LatLng DEFAULT_POSITION = new LatLng(37.607768, -122.07912);
-    private static final LatLng DEFAULT_POSITION = new LatLng(37.607768, -122.0802);
+    private static final LatLng DEFAULT_POSITION = new LatLng(37.603768, -122.0772);
     private static final int INITIAL_ZOOM_LEVEL = 12;
 
     private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
