@@ -185,7 +185,7 @@ public class RegionAccess extends DataStoreAccess {
         userAccess.updateCreditsForUser(newOwner);
 
         long time = System.currentTimeMillis();
-        LOG.warning("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
+        LOG.info("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
                 + " region:"+ region.getRegionId());
 
         if (newOwner.getRegions().contains(region.getRegionId())) {
@@ -198,7 +198,7 @@ public class RegionAccess extends DataStoreAccess {
 
             region.setOwnerId(newOwner.getUserId());
             boolean removed = oldOwner.getRegions().remove(region.getRegionId());
-            LOG.warning("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
+            LOG.info("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
             if (!removed) {
                 String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
                         + "with these regions: " + oldOwner.getRegions();
@@ -220,8 +220,7 @@ public class RegionAccess extends DataStoreAccess {
 
         long duration = System.currentTimeMillis() - time;
         String msg = "time to transfer ownership = " + duration + "ms.";
-        System.out.println(msg);
-        LOG.warning(msg);
+        LOG.info(msg);
 
         return regionAndUser;
     }

@@ -45,7 +45,7 @@ public class BuyRegionDialogFragment extends DialogFragment {
         };
 
         String msg = "It costs " + FormatUtil.formatNumber(cost)
-                + " and you have " + FormatUtil.formatNumber(balance);
+                + " and you have " + FormatUtil.formatNumber(balance) + ".";
 
         if (cost > balance) {
             builder.setMessage("You cannot buy this region from " + oldOwner + ". " + msg)

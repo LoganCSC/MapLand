@@ -50,8 +50,5 @@ public class RegionAddHandler implements IResponseHandler {
         else {
             Log.w("REGION ADD", region.getOwnerId() + " added this region first!");
         }
-
-        // This should not be necessary. They should already have this new region.
-        // UserUpdater.updateUser(user, context, null);
     }
 }

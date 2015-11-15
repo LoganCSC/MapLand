@@ -27,6 +27,7 @@ import com.barrybecker4.mapland.screens.dialogs.BuyRegionDialogFragment;
 import com.barrybecker4.mapland.screens.dialogs.OnRegionBoughtHandler;
 import com.barrybecker4.mapland.screens.support.LandMap;
 import com.barrybecker4.mapland.screens.support.RegionAddHandler;
+import com.barrybecker4.mapland.screens.support.RegionTransferredHandler;
 import com.barrybecker4.mapland.screens.support.RegionsRetrievalHandler;
 import com.barrybecker4.mapland.screens.support.UserAccounts;
 import com.barrybecker4.mapland.screens.support.UserRetrievalHandler;
@@ -195,33 +196,29 @@ public class LandGrabMapActivity extends FragmentActivity
     @Override
     public void stateChanged(GameState state) {
 
-        System.out.println("Game state changed. User position = " + state.getCurrentPosition());
-        //Toast.makeText(this, "Game state changed. User position = " + state.getCurrentPosition(), Toast.LENGTH_SHORT).show();
         UserBean user = state.getCurrentUser();
+        LatLng currentPosition = state.getCurrentPosition();
+        System.out.println("Game state changed. User position = " + currentPosition);
 
         showCurrentBalance(user.getCredits());
 
         // if the user owns the current region, then set it as current
         List<RegionBean> regions = state.getVisibleRegions();
         for (RegionBean region : regions) {
-            if (RegionUtil.contains(state.getCurrentPosition(), region)) {
-                System.out.println("The current position " + state.getCurrentPosition() + " is within " + region);
+            if (RegionUtil.contains(currentPosition, region)) {
+                System.out.println("The current position " + currentPosition + " is within " + region);
                 state.setCurrentRegion(region);
                 if (!region.getOwnerId().equals(user.getUserId())) {
                     showBuyRegionDlg();
                 }
             }
-            else {
-                System.out.println("The current position " + state.getCurrentPosition() + " is not within " + region);
-                Log.i("STATE_CHANGE", "The current position " + state.getCurrentPosition() + " is not within " + region);
-            }
         }
         if (state.getCurrentRegion() == null
-                || !RegionUtil.contains(state.getCurrentPosition(), state.getCurrentRegion())) {
+                || !RegionUtil.contains(currentPosition, state.getCurrentRegion())) {
             // otherwise, add this new region to the datastore, and to the users list of owned regions
             // Both must be done at the same time as part of a single atomic transaction
             Toast.makeText(this, "no region at this position. Creating.", Toast.LENGTH_SHORT).show();
-            RegionBean region = RegionUtil.createRegionAtPosition(user.getUserId(), state.getCurrentPosition());
+            RegionBean region = RegionUtil.createRegionAtPosition(user.getUserId(), currentPosition);
             RegionAdder.addRegionForUser(region, this, new RegionAddHandler(state));
             state.setCurrentRegion(region);
             retrieveVisibleRegions();
@@ -259,7 +256,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
         // This does 3 things: User has this region added, region has its owner set to user,
         // and the old owner has this region removed from its list.
-        RegionTransferer.transferRegionOwnership(region, user, this);
+        RegionTransferer.transferRegionOwnership(region, user, this, new RegionTransferredHandler(theMap));
         showCurrentBalance(user.getCredits() - region.getCost());
         Toast.makeText(this, "Transferring ownership of "
                 + region.getRegionId() + " from " + oldOwner
