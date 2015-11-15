@@ -39,12 +39,12 @@ public final class MainActivity extends ListActivity {
     /**
      * A custom array adapter that shows a {@link FeatureView} containing details about the demo.
      */
-    private static class CustomArrayAdapter extends ArrayAdapter<DemoDetails> {
+    private static class CustomArrayAdapter extends ArrayAdapter<ScreenDetails> {
 
         /**
          * @param demos An array containing the details of the demos to be displayed.
          */
-        public CustomArrayAdapter(Context context, DemoDetails[] demos) {
+        public CustomArrayAdapter(Context context, ScreenDetails[] demos) {
             super(context, R.layout.feature, R.id.title, demos);
         }
 
@@ -57,7 +57,7 @@ public final class MainActivity extends ListActivity {
                 featureView = new FeatureView(getContext());
             }
 
-            DemoDetails demo = getItem(position);
+            ScreenDetails demo = getItem(position);
 
             featureView.setTitleId(demo.titleId);
             featureView.setDescriptionId(demo.descriptionId);
@@ -76,7 +76,7 @@ public final class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        ListAdapter adapter = new CustomArrayAdapter(this, DemoDetailsList.DEMOS);
+        ListAdapter adapter = new CustomArrayAdapter(this, ScreenDetailsList.DEMOS);
 
         setListAdapter(adapter);
     }
@@ -100,7 +100,7 @@ public final class MainActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        DemoDetails demo = (DemoDetails) getListAdapter().getItem(position);
+        ScreenDetails demo = (ScreenDetails) getListAdapter().getItem(position);
         startActivity(new Intent(this, demo.activityClass));
     }
 }

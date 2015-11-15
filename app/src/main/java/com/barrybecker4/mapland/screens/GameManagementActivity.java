@@ -31,9 +31,11 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
 /**
- * This shows how to listen to some {@link GoogleMap} events.
+ * This allows the user to create or join active games.
+ * The can join a game that they or some other user has created.
+ * Or they can configure and create a new game.
  */
-public class EventsDemoActivity extends FragmentActivity
+public class GameManagementActivity extends FragmentActivity
         implements OnMapClickListener, OnMapLongClickListener, OnCameraChangeListener,
                 OnMapReadyCallback {
 
@@ -43,7 +45,7 @@ public class EventsDemoActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.events_demo);
+        setContentView(R.layout.game_management);
 
         mTapTextView = (TextView) findViewById(R.id.tap_text);
         mCameraTextView = (TextView) findViewById(R.id.camera_text);

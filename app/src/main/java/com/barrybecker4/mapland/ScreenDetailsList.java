@@ -17,30 +17,23 @@
 package com.barrybecker4.mapland;
 
 import com.barrybecker4.mapland.screens.LandGrabMapActivity;
-import com.barrybecker4.mapland.screens.EventsDemoActivity;
-import com.barrybecker4.mapland.screens.PolygonDemoActivity;
-import com.barrybecker4.mapland.screens.TileCoordinateDemoActivity;
+import com.barrybecker4.mapland.screens.GameManagementActivity;
+
 
 /**
  * A list of all the demos we have available.
  */
-public final class DemoDetailsList {
+public final class ScreenDetailsList {
 
     /** This class should not be instantiated. */
-    private DemoDetailsList() {}
+    private ScreenDetailsList() {}
 
-    public static final DemoDetails[] DEMOS = {
-        new DemoDetails(R.string.map_land_demo_label,
+    public static final ScreenDetails[] DEMOS = {
+        new ScreenDetails(R.string.map_land_demo_label,
                         R.string.land_grab_description,
                         LandGrabMapActivity.class),
-        new DemoDetails(R.string.events_demo_label,
-                        R.string.events_demo_description,
-                        EventsDemoActivity.class),
-        new DemoDetails(R.string.polygon_demo_label,
-                        R.string.polygon_demo_description,
-                        PolygonDemoActivity.class),
-        new DemoDetails(R.string.tile_coordinate_demo_label,
-                        R.string.tile_coordinate_demo_description,
-                        TileCoordinateDemoActivity.class),
+        new ScreenDetails(R.string.game_management_label,
+                        R.string.game_management_description,
+                        GameManagementActivity.class),
     };
 }
