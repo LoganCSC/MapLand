@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This allows the user to create or join active games.
@@ -103,13 +104,12 @@ public class GameManagementActivity extends ListActivity {
     }*/
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
+    protected void onListItemClick(ListView listView, View view, int position, long id) {
         GameDetails game = (GameDetails) getListAdapter().getItem(position);
+
+        Toast.makeText(this, game.name, Toast.LENGTH_SHORT).show();
         // open a dialog asking the user if they would like to join this game.
         // If they are already in the game, perhaps ask them to leave.
         //startActivity(new Intent(this, game.activityClass));
     }
-
-
-
 }
