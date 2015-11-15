@@ -5,8 +5,6 @@
   <string name="animate">Animate</string>
   <string name="map_land_demo_label">Land Grab Map</string>
   <string name="land_grab_description">Shows regions and allows interation with other players</string>
-  <string name="custom_info_contents">Custom info contents</string>
-  <string name="custom_info_window">Custom info window</string>
   <string name="default_info_window">Default info window</string>
   <string name="down_arrow">\u2193</string>
   <string name="duration">Custom Duration</string>
@@ -14,6 +12,8 @@
   <string name="hue">Hue</string>
   <string name="game_management_label">Games</string>
   <string name="game_management_description">Find a game to join or create a new one</string>
+  <string name="game_management_instructions">Select an open game to play in or create a new one.
+    When a game has the required number of players it will start immediately.</string>
   <string name="tap_instructions">tap here</string>
   <string name="fade_in">Fade In Tiles</string>
   <string name="fill_alpha">Fill Alpha</string>
