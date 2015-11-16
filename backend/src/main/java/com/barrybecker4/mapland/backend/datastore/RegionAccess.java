@@ -90,17 +90,6 @@ public class RegionAccess extends DataStoreAccess {
         return regions;
     }
 
-    private void fatalError(DatastoreException exception) {
-        // Catch all Datastore rpc errors.
-        System.err.println("Error while doing region datastore operation");
-        // Log the exception, the name of the method called and the error code.
-        System.err.println(String.format("DatastoreException(%s): %s %s",
-                exception.getMessage(),
-                exception.getMethodName(),
-                exception.getCode()));
-        System.exit(1);
-    }
-
     /**
      * Add a new region with the specified bounds and owning user.
      * Other info is generated as need.
@@ -231,23 +220,7 @@ public class RegionAccess extends DataStoreAccess {
      * @throws DatastoreException
      */
     public boolean updateRegion(RegionBean region) throws DatastoreException {
-
-        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
-        ByteString tx = createTransaction();
-
-        // Create an RPC request to commit the transaction.
-        DatastoreV1.CommitRequest.Builder creq = DatastoreV1.CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
-
-        Entity entity = createRegionEntity(region);
-        // Insert the entity in the commit request mutation.
-        creq.getMutationBuilder().addUpdate(entity);
-
-        // Execute the Commit RPC synchronously and ignore the response.
-        // Apply the insert mutation if the entity was not found and close the transaction.
-        datastore.commit(creq.build());
-        return true;
+        return updateEntity(createRegionEntity(region));
     }
 
     /**
@@ -399,7 +372,7 @@ public class RegionAccess extends DataStoreAccess {
         return list;
     }*/
 
-    private Entity createRegionEntity(RegionBean region) {
+    public static Entity createRegionEntity(RegionBean region) {
 
         // Set the entity key with only one `path_element`: no parent.
         Key.Builder key = Key.newBuilder().addPathElement(
@@ -411,7 +384,7 @@ public class RegionAccess extends DataStoreAccess {
     }
 
     /** @return new Region entity with specified info */
-    private Entity createRegionEntity(
+    private static Entity createRegionEntity(
             Key.Builder key, String ownerId, double cost, double income,
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
         Entity entity;
