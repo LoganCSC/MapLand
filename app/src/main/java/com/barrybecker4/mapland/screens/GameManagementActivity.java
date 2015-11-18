@@ -14,38 +14,56 @@
  * limitations under the License.
  */
 
-package com.barrybecker4.mapland;
+package com.barrybecker4.mapland.screens;
+
+import com.barrybecker4.mapland.FeatureView;
+import com.barrybecker4.mapland.R;
+import com.barrybecker4.mapland.screens.games.GameDetails;
+import com.barrybecker4.mapland.screens.games.GameDetailsList;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
- * The main activity of the MapLand application.
- * <p>
- * The main layout lists the main activities like viewing the map or managing games.
+ * This allows the user to create or join active games.
+ * The can join a game that they or some other user has created.
+ * Or they can configure and create a new game.
  */
-public final class MainActivity extends ListActivity {
+public class GameManagementActivity extends ListActivity {
+
+    private TextView mInstructionsTextView;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.game_management);
+
+        mInstructionsTextView = (TextView) findViewById(R.id.game_management_instructions);
+        ListAdapter adapter = new CustomArrayAdapter(this, GameDetailsList.GAMES);
+
+        setListAdapter(adapter);
+    }
 
     /**
      * A custom array adapter that shows a {@link FeatureView} containing details about the screen.
      */
-    private static class CustomArrayAdapter extends ArrayAdapter<ScreenDetails> {
+    private static class CustomArrayAdapter extends ArrayAdapter<GameDetails> {
 
         /**
-         * @param demos An array containing the details of the demos to be displayed.
+         * @param games An array containing the details of the open games to be displayed.
          */
-        public CustomArrayAdapter(Context context, ScreenDetails[] demos) {
-            super(context, R.layout.feature, R.id.title, demos);
+        public CustomArrayAdapter(Context context, GameDetails[] games) {
+            super(context, R.layout.feature, R.id.title, games);
         }
 
         @Override
@@ -57,28 +75,15 @@ public final class MainActivity extends ListActivity {
                 featureView = new FeatureView(getContext());
             }
 
-            ScreenDetails demo = getItem(position);
+            GameDetails game = getItem(position);
 
-            featureView.setTitleId(demo.titleId);
-            featureView.setDescriptionId(demo.descriptionId);
-
-            Resources resources = getContext().getResources();
-            String title = resources.getString(demo.titleId);
-            String description = resources.getString(demo.descriptionId);
-            featureView.setContentDescription(title + ". " + description);
+            featureView.setTitleId(game.name);
+            String desc = game.getDescription();
+            featureView.setDescription(desc);
+            featureView.setContentDescription(game.name + ". " + desc);
 
             return featureView;
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-        ListAdapter adapter = new CustomArrayAdapter(this, ScreenDetailsList.DEMOS);
-
-        setListAdapter(adapter);
     }
 
     @Override
@@ -87,7 +92,7 @@ public final class MainActivity extends ListActivity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -96,11 +101,15 @@ public final class MainActivity extends ListActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        ScreenDetails demo = (ScreenDetails) getListAdapter().getItem(position);
-        startActivity(new Intent(this, demo.activityClass));
+    protected void onListItemClick(ListView listView, View view, int position, long id) {
+        GameDetails game = (GameDetails) getListAdapter().getItem(position);
+
+        Toast.makeText(this, game.name, Toast.LENGTH_SHORT).show();
+        // open a dialog asking the user if they would like to join this game.
+        // If they are already in the game, perhaps ask them to leave.
+        //startActivity(new Intent(this, game.activityClass));
     }
 }

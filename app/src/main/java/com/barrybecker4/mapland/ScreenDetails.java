@@ -16,12 +16,12 @@
 
 package com.barrybecker4.mapland;
 
-import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
 
 /**
- * A simple POJO that holds the details about the demo that are used by the List Adapter.
+ * A simple POJO that holds the details about the App that are used by the List Adapter.
  */
-public class DemoDetails {
+public class ScreenDetails {
     /**
      * The resource id of the title of the demo.
      */
@@ -35,10 +35,10 @@ public class DemoDetails {
     /**
      * The demo activity's class.
      */
-    public final Class<? extends FragmentActivity> activityClass;
+    public final Class<? extends Activity> activityClass;
 
-    public DemoDetails(
-            int titleId, int descriptionId, Class<? extends FragmentActivity> activityClass) {
+    public ScreenDetails(
+            int titleId, int descriptionId, Class<? extends Activity> activityClass) {
         this.titleId = titleId;
         this.descriptionId = descriptionId;
         this.activityClass = activityClass;

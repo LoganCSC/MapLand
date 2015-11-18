@@ -60,14 +60,8 @@
             android:name=".screens.LandGrabMapActivity"
             android:label="@string/map_land_demo_label" />
         <activity
-            android:name=".screens.EventsDemoActivity"
-            android:label="@string/events_demo_label" />
-        <activity
-            android:name=".screens.PolygonDemoActivity"
-            android:label="@string/polygon_demo_label" />
-        <activity
-            android:name=".screens.TileCoordinateDemoActivity"
-            android:label="@string/tile_coordinate_demo_label" />
+            android:name=".screens.GameManagementActivity"
+            android:label="@string/game_management_label" />
     </application>
 
 </manifest>

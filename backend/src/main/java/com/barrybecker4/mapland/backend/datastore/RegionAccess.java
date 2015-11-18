@@ -19,6 +19,7 @@ import com.google.protobuf.ByteString;
 import static com.google.api.services.datastore.client.DatastoreHelper.*;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class RegionAccess extends DataStoreAccess {
     /**
      * Get the specified region if it is in the database.
      * If they are not in the database, throw an error.
-     * @param regionId user id
+     * @param regionId region id
      */
     public RegionBean getRegionById(Long regionId) {
         RegionBean region = null;
@@ -60,17 +61,44 @@ public class RegionAccess extends DataStoreAccess {
             region = new RegionBean(entity);
         }
         catch (DatastoreException exception) {
-            // Catch all Datastore rpc errors.
-            System.err.println("Error while doing region datastore operation");
-            // Log the exception, the name of the method called and the error code.
-            System.err.println(String.format("DatastoreException(%s): %s %s",
-                    exception.getMessage(),
-                    exception.getMethodName(),
-                    exception.getCode()));
-            System.exit(1);
+            fatalError(exception);
         }
 
         return region;
+    }
+
+    /**
+     * Get the specified regions if they are in the database.
+     * If they are not in the database, throw an error.
+     * @param regionIds region ids
+     */
+    public List<RegionBean> getRegionsByIds(List<Long> regionIds) {
+        List<RegionBean> regions = new LinkedList<>();
+
+        if (regionIds.size() > 0) {
+            try {
+                List<Entity> entities = getEntities(KIND, regionIds);
+                for (Entity e : entities) {
+                    regions.add(new RegionBean(e));
+                }
+            }
+            catch (DatastoreException exception) {
+                fatalError(exception);
+            }
+        }
+
+        return regions;
+    }
+
+    private void fatalError(DatastoreException exception) {
+        // Catch all Datastore rpc errors.
+        System.err.println("Error while doing region datastore operation");
+        // Log the exception, the name of the method called and the error code.
+        System.err.println(String.format("DatastoreException(%s): %s %s",
+                exception.getMessage(),
+                exception.getMethodName(),
+                exception.getCode()));
+        System.exit(1);
     }
 
     /**
@@ -129,10 +157,14 @@ public class RegionAccess extends DataStoreAccess {
     }
 
     /**
-     * Transferring ownership of a region involves 3 things:
-     * 1) The user needs to have this region added to her list of regions.
-     * 2) The region needs to have its owner property set to user.
-     * 3) The old owner needs to have this region removed from her list.
+     * Transferring ownership of a region involves 6 things:
+     * 1) The new and old owners need to have their credit balance updated based on region income from last update.
+     * 2) The user needs to have this region added to her list of regions.
+     * 3) The region needs to have its owner property set to user.
+     * 4) The old owner needs to have this region removed from her list.
+     * 5) The new user needs to pay the cost of the region to the old owner
+     * 6) update the data for old and new user in the datastore
+     *
      * All these things need to happen as part of a single atomic transaction, and right now they are not.
      * In order to work as a single transaction, we may need to change the datamodel to have
      * users parents of regions. In that case, changing ownership will probably involve
@@ -148,36 +180,47 @@ public class RegionAccess extends DataStoreAccess {
         RegionBean region = regionAndUser.getRegion();
         UserBean oldOwner = userAccess.getUserById(region.getOwnerId());
         UserBean newOwner = regionAndUser.getUser();
+
+        userAccess.updateCreditsForUser(oldOwner);
+        userAccess.updateCreditsForUser(newOwner);
+
         long time = System.currentTimeMillis();
-        LOG.warning("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
+        LOG.info("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
                 + " region:"+ region.getRegionId());
 
         if (newOwner.getRegions().contains(region.getRegionId())) {
+            // this should never happen
             LOG.severe(newOwner.getUserId() + " already owns region " + region.getRegionId());
             //throw new IllegalStateException(newOwner.getUserId() + " already owns region " + region.getRegionId());
         }
         else {
             newOwner.getRegions().add(region.getRegionId());
-        }
-        region.setOwnerId(newOwner.getUserId());
-        boolean removed = oldOwner.getRegions().remove(region.getRegionId());
-        LOG.warning("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
-        if (!removed) {
-            String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
-                    + "with these regions: "+ oldOwner.getRegions();
-            LOG.severe(msg);
-            //throw new IllegalStateException(msg);
-        }
 
-        // this should happen as part of a single transaction (but its not right now)
-        userAccess.updateUser(oldOwner);
-        userAccess.updateUser(newOwner);
-        this.updateRegion(region);
+            region.setOwnerId(newOwner.getUserId());
+            boolean removed = oldOwner.getRegions().remove(region.getRegionId());
+            LOG.info("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
+            if (!removed) {
+                String msg = "Was not able to remove region " + region.getRegionId() + " from " + oldOwner.getUserId()
+                        + "with these regions: " + oldOwner.getRegions();
+                LOG.severe(msg);
+                //throw new IllegalStateException(msg);
+            }
+
+            newOwner.setCredits(newOwner.getCredits() - region.getCost());
+            oldOwner.setCredits(oldOwner.getCredits() + region.getCost());
+            Date now = new Date();
+            newOwner.setLastUpdated(now);
+            oldOwner.setLastUpdated(now);
+
+            // this should all happen as part of a single transaction (but it's not right now)
+            userAccess.updateUser(oldOwner);
+            userAccess.updateUser(newOwner);
+            this.updateRegion(region);
+        }
 
         long duration = System.currentTimeMillis() - time;
         String msg = "time to transfer ownership = " + duration + "ms.";
-        System.out.println(msg);
-        LOG.warning(msg);
+        LOG.info(msg);
 
         return regionAndUser;
     }

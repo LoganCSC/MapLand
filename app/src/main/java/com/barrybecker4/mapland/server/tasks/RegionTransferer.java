@@ -9,6 +9,7 @@ import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBeanCollection;
 import com.barrybecker4.mapland.backend.mapLandApi.model.UserBean;
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionAndUserBean;
+import com.barrybecker4.mapland.server.IResponseHandler;
 import com.barrybecker4.mapland.server.MapLandApiService;
 
 import java.io.IOException;
@@ -22,15 +23,17 @@ public class RegionTransferer
         extends AsyncTask<Pair<Context, RegionAndUserBean>, Void, RegionAndUserBean> {
 
     private Context context;
+    private IResponseHandler callback;
 
     /**
      * Asynchronously retrieve the user (or add if not there)
      */
-    public static void transferRegionOwnership(RegionBean region, UserBean newOwner, Context context) {
+    public static void transferRegionOwnership(
+            RegionBean region, UserBean newOwner, Context context, IResponseHandler callback) {
 
         // call the backend server
         AsyncTask<Pair<Context, RegionAndUserBean>, Void, RegionAndUserBean> task =
-                new RegionTransferer();
+                new RegionTransferer(callback);
 
         RegionAndUserBean regionAndNewOwner = new RegionAndUserBean();
         regionAndNewOwner.setRegion(region.clone());
@@ -52,7 +55,8 @@ public class RegionTransferer
     /**
      * Constructor
      */
-    private RegionTransferer() {
+    private RegionTransferer(IResponseHandler callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -68,6 +72,13 @@ public class RegionTransferer
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(RegionAndUserBean result) {
+        if (callback != null) {
+            callback.jsonRetrieved(result);
         }
     }
 }

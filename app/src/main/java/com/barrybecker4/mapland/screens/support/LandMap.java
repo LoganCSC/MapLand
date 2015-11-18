@@ -1,7 +1,6 @@
 package com.barrybecker4.mapland.screens.support;
 
 import android.location.Location;
-import android.text.Html;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.game.FormatUtil;
@@ -28,12 +27,12 @@ public class LandMap {
     public static final List<String> MAP_TYPE_VALUES = Arrays.asList(
             "Normal", "Terrain", "Hybrid", "Satellite");
 
-    // 37.6017602,-122.074174 - house
+    // 37.6021,-122.0758 - house
     // 37.6131828,-122.0764492
     //private static final LatLng INITIAL_CENTER = new LatLng(37.65478, -122.07035);
     /** This is used if the position cannot be retrieved from the map - such as when the emulator is used */
     //private static final LatLng DEFAULT_POSITION = new LatLng(37.607768, -122.07912);
-    private static final LatLng DEFAULT_POSITION = new LatLng(37.603768, -122.0772);
+    private static final LatLng DEFAULT_POSITION = new LatLng(37.602768, -122.0752);
     private static final int INITIAL_ZOOM_LEVEL = 12;
 
     private static final Map<String, Integer> MAP_TYPE_MAP = new HashMap<>();
@@ -51,6 +50,7 @@ public class LandMap {
 
     private GoogleMap theMap;
     private Marker currentMarker;
+    private String currentUserId;
     private List<RegionBean> currentRegions;
 
     /**
@@ -108,13 +108,18 @@ public class LandMap {
     /**
      * Brian, make this show rectangles color-coded by owner instead of the default marker.
      * @param regions the list of currently visible regions to show
+     * @param userId the current user's id
      */
-    public void setVisibleRegions(List<RegionBean> regions, String currentUserId) {
-        currentRegions = regions;
-        drawRegions(currentUserId);
+    public void setVisibleRegions(List<RegionBean> regions, String userId) {
+        this.currentRegions = regions;
+        this.currentUserId = userId;
+        drawRegions();
     }
 
-    private void drawRegions(String currentUserId) {
+    public void drawRegions() {
+        if (currentUserId == null) {
+            throw new IllegalStateException("Must set user and regions first.");
+        }
         theMap.clear();
         if (currentRegions != null) {
             for (RegionBean region : currentRegions) {

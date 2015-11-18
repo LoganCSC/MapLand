@@ -13,16 +13,21 @@ import com.barrybecker4.mapland.game.FormatUtil;
 
 
 /**
+ * Shown when the user enters a region that they can buy.
  * @author Barry Becker
  */
 public class BuyRegionDialogFragment extends DialogFragment {
 
-
-    /** required parameterless constructor */
+    /** required parameter-less constructor */
     public BuyRegionDialogFragment() {
     }
 
-
+    /**
+     * Args cannot be passed directly because this dialog is created using
+     * the parameter-less constructor when the phone rotates.
+     * @param savedInstanceState existing state
+     * @return alert dialog
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -34,22 +39,32 @@ public class BuyRegionDialogFragment extends DialogFragment {
         Double balance = args.getDouble("balance");
         Double income = args.getDouble("income");
 
+        DialogInterface.OnClickListener cancelHandler = new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        };
         String msg = "Region's income:"+ FormatUtil.formatNumber(income)+
                 "?\n Price: " + FormatUtil.formatNumber(cost)
-                + "\n You have " + FormatUtil.formatNumber(balance)+"\n\n" +
-                "\n Do you want to buy this region from " + oldOwner +"?";
+                + "\n You have " + FormatUtil.formatNumber(balance)+"\n";
 
-        builder.setMessage(msg)
-                .setPositiveButton("Buy!", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ((OnRegionBoughtHandler) getActivity()).regionBoughtByCurrentUser();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
+        //String msg = "It costs " + FormatUtil.formatNumber(cost)
+        //        + " and you have " + FormatUtil.formatNumber(balance) + ".";
+
+        if (cost > balance) {
+            builder.setMessage("You cannot buy this region from " + oldOwner + ". " + msg)
+                    .setNegativeButton("OK", cancelHandler);
+        }
+        else {
+            builder.setMessage("Do you want to want to buy this region from " +oldOwner +"? " + msg)
+                    .setPositiveButton("Buy!", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ((OnRegionBoughtHandler) getActivity()).regionBoughtByCurrentUser();
+                        }
+                    })
+                    .setNegativeButton("Cancel", cancelHandler);
+        }
+
         // Create the AlertDialog object and return it
         return builder.create();
     }
