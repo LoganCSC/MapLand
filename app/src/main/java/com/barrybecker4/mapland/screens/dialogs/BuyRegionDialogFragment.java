@@ -37,15 +37,19 @@ public class BuyRegionDialogFragment extends DialogFragment {
         String oldOwner = args.getString("oldOwner");
         Double cost = args.getDouble("cost");
         Double balance = args.getDouble("balance");
+        Double income = args.getDouble("income");
 
         DialogInterface.OnClickListener cancelHandler = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
             }
         };
+        String msg = "Region's income:"+ FormatUtil.formatNumber(income)+
+                "?\n Price: " + FormatUtil.formatNumber(cost)
+                + "\n You have " + FormatUtil.formatNumber(balance)+"\n";
 
-        String msg = "It costs " + FormatUtil.formatNumber(cost)
-                + " and you have " + FormatUtil.formatNumber(balance) + ".";
+        //String msg = "It costs " + FormatUtil.formatNumber(cost)
+        //        + " and you have " + FormatUtil.formatNumber(balance) + ".";
 
         if (cost > balance) {
             builder.setMessage("You cannot buy this region from " + oldOwner + ". " + msg)
