@@ -32,10 +32,12 @@ public class BuyRegionDialogFragment extends DialogFragment {
         String oldOwner = args.getString("oldOwner");
         Double cost = args.getDouble("cost");
         Double balance = args.getDouble("balance");
+        Double income = args.getDouble("income");
 
-        String msg = "Do you want to buy this region from "
-                + oldOwner + "?\n It costs " + FormatUtil.formatNumber(cost)
-                + " and you have " + FormatUtil.formatNumber(balance);
+        String msg = "Region's income:"+ FormatUtil.formatNumber(income)+
+                "?\n Price: " + FormatUtil.formatNumber(cost)
+                + "\n You have " + FormatUtil.formatNumber(balance)+"\n\n" +
+                "\n Do you want to buy this region from " + oldOwner +"?";
 
         builder.setMessage(msg)
                 .setPositiveButton("Buy!", new DialogInterface.OnClickListener() {
