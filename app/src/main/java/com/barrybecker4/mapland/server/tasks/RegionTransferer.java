@@ -26,7 +26,7 @@ public class RegionTransferer
     private IResponseHandler callback;
 
     /**
-     * Asynchronously retrieve the user (or add if not there)
+     * Transfer a region from one owner to another
      */
     public static void transferRegionOwnership(
             RegionBean region, UserBean newOwner, Context context, IResponseHandler callback) {
