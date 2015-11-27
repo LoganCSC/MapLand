@@ -18,6 +18,7 @@ import com.google.api.services.datastore.client.DatastoreException;
 import com.google.appengine.api.datastore.DatastoreServiceConfig;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Named;
 
@@ -39,6 +40,7 @@ import javax.inject.Named;
  *  https://console.developers.google.com/project/maplandbackend
  */
 public class MapLandEndpoint {
+    private static final Logger LOG = Logger.getLogger(MapLandEndpoint.class.getName());
 
     static {
         System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
@@ -52,7 +54,7 @@ public class MapLandEndpoint {
 
         UserAccess access = new UserAccess();
         UserBean user = access.getUserById(userId);
-        System.out.println("returning user = " + user);
+        LOG.info("ENDPOINT: returning user = " + user);
         return user;
     }
 

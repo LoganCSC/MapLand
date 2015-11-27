@@ -27,7 +27,7 @@ public class UserAccess extends DataStoreAccess {
     private static final Double INITIAL_CREDITS = 200.0;
     private static final int MILLIS_PER_MINUTE = 60000;
 
-    private static final Logger LOG = Logger.getLogger(RegionAccess.class.getName());
+    private static final Logger LOG = Logger.getLogger(UserAccess.class.getName());
 
 
     /**
@@ -38,8 +38,8 @@ public class UserAccess extends DataStoreAccess {
     public UserBean getUserById(String userId) {
         UserBean user = null;
 
+        LOG.info("USER: About to get info for " + userId);
         try {
-            LOG.info("USER: About to get info for " + userId);
             Entity entity = getUserEntity(KIND, userId);
             user = new UserBean(entity);
             updateCreditsForUser(user);
