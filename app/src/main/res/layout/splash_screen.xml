@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center|center_vertical|center_horizontal"
-    android:background="#0099ff">
+    android:background="#01735c">
 
     <ImageButton
         android:layout_width="377dp"

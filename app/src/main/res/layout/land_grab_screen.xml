@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#01735c">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
         <TableRow>
             <Spinner android:id="@+id/map_type_select"
                 android:layout_width="140dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
             <CheckBox
                 android:id="@+id/traffic_toggle"
                 android:layout_width="wrap_content"

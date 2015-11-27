@@ -6,7 +6,7 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#D000"
+    android:background="#01735c"
     android:orientation="vertical">
     <TextView
       android:id="@+id/game_management_instructions"
