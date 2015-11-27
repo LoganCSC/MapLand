@@ -37,19 +37,12 @@ public class UserAccess extends DataStoreAccess {
 
         try {
             System.out.println("About to get info for " + userId);
-            Entity entity = getUserEntity("User", userId);
+            Entity entity = getUserEntity(KIND, userId);
             user = new UserBean(entity);
             updateCreditsForUser(user);
         }
         catch (DatastoreException exception) {
-            // Catch all Datastore rpc errors.
-            System.err.println("Error while doing user datastore operation");
-            // Log the exception, the name of the method called and the error code.
-            System.err.println(String.format("DatastoreException(%s): %s %s",
-                    exception.getMessage(),
-                    exception.getMethodName(),
-                    exception.getCode()));
-            System.exit(1);
+            fatalError(exception);
         }
 
         return user;
@@ -57,23 +50,7 @@ public class UserAccess extends DataStoreAccess {
 
     public boolean updateUser(UserBean user) throws DatastoreException {
 
-        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
-        ByteString tx = createTransaction();
-
-        // Create an RPC request to commit the transaction.
-        CommitRequest.Builder creq = CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
-
-        Entity entity = createUserEntity(user);
-        // Insert the entity in the commit request mutation.
-        creq.getMutationBuilder().addUpdate(entity);
-
-        // Execute the Commit RPC synchronously and ignore the response.
-        // Apply the insert mutation if the entity was not found and close
-        // the transaction.
-        datastore.commit(creq.build());
-        return true;
+        return updateEntity(createUserEntity(user));
     }
 
     /**

@@ -65,7 +65,7 @@ public class LandGrabMapActivity extends FragmentActivity
     private GameState state;
 
     /** location tolerance in meters. More that this will not be accepted */
-    private static final float GPS_TOL = 12;
+    private static final float GPS_TOL = 14;
 
 
     @Override
@@ -152,7 +152,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
     private void locationChanged(Location loc) {
         Log.i("MAP", "User's positionChanged: " + loc + " accuracy =" + loc.getAccuracy());
-        if (loc.getAccuracy() <= GPS_TOL) {
+        if (loc.getAccuracy() < GPS_TOL) {
             mLocationTextView.setText(RegionUtil.formatLocation(loc));
             state.setCurrentPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
         }
@@ -237,6 +237,7 @@ public class LandGrabMapActivity extends FragmentActivity
         RegionBean region = state.getCurrentRegion();
         args.putString("oldOwner", region.getOwnerId());
         args.putDouble("cost", region.getCost());
+        args.putDouble("income", region.getIncome());
         args.putDouble("balance", user.getCredits());
         dialog.setArguments(args);
         dialog.show(getFragmentManager(), "buy-region-dialog");

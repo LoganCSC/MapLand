@@ -16,64 +16,100 @@
 
 package com.barrybecker4.mapland.screens;
 
+import com.barrybecker4.mapland.FeatureView;
 import com.barrybecker4.mapland.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
+import com.barrybecker4.mapland.screens.games.GameDetails;
+import com.barrybecker4.mapland.screens.games.GameDetailsList;
 
+import android.app.ListActivity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This allows the user to create or join active games.
  * The can join a game that they or some other user has created.
  * Or they can configure and create a new game.
  */
-public class GameManagementActivity extends FragmentActivity
-        implements OnMapClickListener, OnMapLongClickListener, OnCameraChangeListener,
-                OnMapReadyCallback {
+public class GameManagementActivity extends ListActivity {
 
-    private TextView mTapTextView;
-    private TextView mCameraTextView;
+    private TextView mInstructionsTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_management);
 
-        mTapTextView = (TextView) findViewById(R.id.tap_text);
-        mCameraTextView = (TextView) findViewById(R.id.camera_text);
+        mInstructionsTextView = (TextView) findViewById(R.id.game_management_instructions);
+        ListAdapter adapter = new CustomArrayAdapter(this, GameDetailsList.GAMES);
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        setListAdapter(adapter);
+    }
+
+    /**
+     * A custom array adapter that shows a {@link FeatureView} containing details about the screen.
+     */
+    private static class CustomArrayAdapter extends ArrayAdapter<GameDetails> {
+
+        /**
+         * @param games An array containing the details of the open games to be displayed.
+         */
+        public CustomArrayAdapter(Context context, GameDetails[] games) {
+            super(context, R.layout.feature, R.id.title, games);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            FeatureView featureView;
+            if (convertView instanceof FeatureView) {
+                featureView = (FeatureView) convertView;
+            } else {
+                featureView = new FeatureView(getContext());
+            }
+
+            GameDetails game = getItem(position);
+
+            featureView.setTitleId(game.name);
+            String desc = game.getDescription();
+            featureView.setDescription(desc);
+            featureView.setContentDescription(game.name + ". " + desc);
+
+            return featureView;
+        }
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
-        map.setOnMapClickListener(this);
-        map.setOnMapLongClickListener(this);
-        map.setOnCameraChangeListener(this);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
     }
+/*
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        if (item.getItemId() == R.id.menu_legal) {
+            startActivity(new Intent(this, LegalInfoActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }*/
 
     @Override
-    public void onMapClick(LatLng point) {
-        mTapTextView.setText("tapped, point=" + point);
-    }
+    protected void onListItemClick(ListView listView, View view, int position, long id) {
+        GameDetails game = (GameDetails) getListAdapter().getItem(position);
 
-    @Override
-    public void onMapLongClick(LatLng point) {
-        mTapTextView.setText("long pressed, point=" + point);
-    }
-
-    @Override
-    public void onCameraChange(final CameraPosition position) {
-        mCameraTextView.setText(position.toString());
+        Toast.makeText(this, game.name, Toast.LENGTH_SHORT).show();
+        // open a dialog asking the user if they would like to join this game.
+        // If they are already in the game, perhaps ask them to leave.
+        //startActivity(new Intent(this, game.activityClass));
     }
 }

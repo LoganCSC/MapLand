@@ -17,7 +17,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical">
+  android:orientation="vertical"
+    android:background="#0099ff">
   <ListView
     android:id="@android:id/list"
     android:layout_width="match_parent"
@@ -27,5 +28,5 @@
     android:id="@android:id/empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="@string/no_demos"/>
+    android:text="@string/no_games"/>
 </LinearLayout>

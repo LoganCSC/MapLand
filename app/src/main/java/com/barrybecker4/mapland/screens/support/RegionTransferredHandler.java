@@ -15,7 +15,7 @@ public class RegionTransferredHandler implements IResponseHandler {
         this.map = map;
     }
 
-    /** Called when the new location has been added the datastore */
+    /** Called when the the region has been transferred to the new owner */
     @Override
     public void jsonRetrieved(GenericJson result) {
         RegionAndUserBean region = (RegionAndUserBean)result;

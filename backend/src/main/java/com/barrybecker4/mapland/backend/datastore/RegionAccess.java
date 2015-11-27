@@ -42,6 +42,9 @@ public class RegionAccess extends DataStoreAccess {
     private static final double MIN_INITIAL_INCOME = 0;
     private static final double MAX_INITIAL_INCOME = 2.0;
 
+    /** This should com from the current game instead */
+    private static final double REGION_PCT_COST_INC = 0.1;
+
     private static final Logger LOG = Logger.getLogger(RegionAccess.class.getName());
 
     /** Used to avoid two different users adding the same region at the same time */
@@ -88,17 +91,6 @@ public class RegionAccess extends DataStoreAccess {
         }
 
         return regions;
-    }
-
-    private void fatalError(DatastoreException exception) {
-        // Catch all Datastore rpc errors.
-        System.err.println("Error while doing region datastore operation");
-        // Log the exception, the name of the method called and the error code.
-        System.err.println(String.format("DatastoreException(%s): %s %s",
-                exception.getMessage(),
-                exception.getMethodName(),
-                exception.getCode()));
-        System.exit(1);
     }
 
     /**
@@ -157,13 +149,14 @@ public class RegionAccess extends DataStoreAccess {
     }
 
     /**
-     * Transferring ownership of a region involves 6 things:
+     * Transferring ownership of a region involves 7 things:
      * 1) The new and old owners need to have their credit balance updated based on region income from last update.
      * 2) The user needs to have this region added to her list of regions.
      * 3) The region needs to have its owner property set to user.
-     * 4) The old owner needs to have this region removed from her list.
-     * 5) The new user needs to pay the cost of the region to the old owner
-     * 6) update the data for old and new user in the datastore
+     * 4) The region needs to have its cost increased by the regionCostPctIncrease configured for the game.
+     * 5) The old owner needs to have this region removed from her list.
+     * 6) The new user needs to pay the cost of the region to the old owner
+     * 7) update the data for old and new user in the datastore
      *
      * All these things need to happen as part of a single atomic transaction, and right now they are not.
      * In order to work as a single transaction, we may need to change the datamodel to have
@@ -197,6 +190,7 @@ public class RegionAccess extends DataStoreAccess {
             newOwner.getRegions().add(region.getRegionId());
 
             region.setOwnerId(newOwner.getUserId());
+            region.setCost(region.getCost() * (1.0 + REGION_PCT_COST_INC));
             boolean removed = oldOwner.getRegions().remove(region.getRegionId());
             LOG.info("TRANSFER: " + oldOwner + " after removing " + region.getRegionId());
             if (!removed) {
@@ -231,23 +225,7 @@ public class RegionAccess extends DataStoreAccess {
      * @throws DatastoreException
      */
     public boolean updateRegion(RegionBean region) throws DatastoreException {
-
-        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
-        ByteString tx = createTransaction();
-
-        // Create an RPC request to commit the transaction.
-        DatastoreV1.CommitRequest.Builder creq = DatastoreV1.CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
-
-        Entity entity = createRegionEntity(region);
-        // Insert the entity in the commit request mutation.
-        creq.getMutationBuilder().addUpdate(entity);
-
-        // Execute the Commit RPC synchronously and ignore the response.
-        // Apply the insert mutation if the entity was not found and close the transaction.
-        datastore.commit(creq.build());
-        return true;
+        return updateEntity(createRegionEntity(region));
     }
 
     /**
@@ -399,7 +377,7 @@ public class RegionAccess extends DataStoreAccess {
         return list;
     }*/
 
-    private Entity createRegionEntity(RegionBean region) {
+    public static Entity createRegionEntity(RegionBean region) {
 
         // Set the entity key with only one `path_element`: no parent.
         Key.Builder key = Key.newBuilder().addPathElement(
@@ -411,7 +389,7 @@ public class RegionAccess extends DataStoreAccess {
     }
 
     /** @return new Region entity with specified info */
-    private Entity createRegionEntity(
+    private static Entity createRegionEntity(
             Key.Builder key, String ownerId, double cost, double income,
             Double nwLat, Double nwLong, Double seLat, Double seLong) {
         Entity entity;

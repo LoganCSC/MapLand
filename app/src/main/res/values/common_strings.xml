@@ -17,6 +17,7 @@
 <resources>
   <string name="demo_title">Land Grab</string>
   <string name="legal_info">Legal Info</string>
-  <string name="no_demos">No demos</string>
+  <string name="no_screens">No screens</string>
+  <string name="no_games">No open games</string>
   <string name="play_services_not_installed">Google Play services is not installed on this device.</string>
 </resources>

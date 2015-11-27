@@ -30,14 +30,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- * The main activity of the API library demo gallery.
+ * The main activity of the MapLand application.
  * <p>
- * The main layout lists the demonstrated features, with buttons to launch them.
+ * The main layout lists the main activities like viewing the map or managing games.
  */
 public final class MainActivity extends ListActivity {
 
     /**
-     * A custom array adapter that shows a {@link FeatureView} containing details about the demo.
+     * A custom array adapter that shows a {@link FeatureView} containing details about the screen.
      */
     private static class CustomArrayAdapter extends ArrayAdapter<ScreenDetails> {
 

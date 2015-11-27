@@ -22,7 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
- * A widget that describes an activity that demonstrates a feature.
+ * A widget that describes one of the MapLand features (like view map or manage games).
  */
 public final class FeatureView extends FrameLayout {
 
@@ -38,21 +38,34 @@ public final class FeatureView extends FrameLayout {
     }
 
     /**
-     * Set the resource id of the title of the demo.
-     *
-     * @param titleId the resource id of the title of the demo
+     * Set the resource id of the title of the feature.
+     * @param titleId the resource id of the title of the feature
      */
     public synchronized void setTitleId(int titleId) {
         ((TextView) (findViewById(R.id.title))).setText(titleId);
     }
 
     /**
-     * Set the resource id of the description of the demo.
-     *
-     * @param descriptionId the resource id of the description of the demo
+     * @param title the feature title
+     */
+    public synchronized void setTitleId(String title) {
+        ((TextView) (findViewById(R.id.title))).setText(title);
+    }
+
+    /**
+     * Set the resource id of the description of the feature.
+     * @param descriptionId the resource id of the description of the feature
      */
     public synchronized void setDescriptionId(int descriptionId) {
         ((TextView) (findViewById(R.id.description))).setText(descriptionId);
+    }
+
+    /**
+     * Set the resource id of the description of the feature.
+     * @param description the description of the feature
+     */
+    public synchronized void setDescription(String description) {
+        ((TextView) (findViewById(R.id.description))).setText(description);
     }
 
 }
