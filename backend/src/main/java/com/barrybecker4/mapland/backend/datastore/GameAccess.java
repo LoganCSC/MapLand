@@ -11,7 +11,6 @@ import com.google.api.services.datastore.DatastoreV1.Value;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.google.protobuf.ByteString;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class GameAccess extends DataStoreAccess {
     private static final String DEFAULT_GAME_NAME = "New Game";
     private static final int DEFAULT_NUM_PLAYERS = 2;
     private static final int DEFAULT_DURATION = 72;
+    private static final Double DEFAULT_REGION_COST_PCT_INCREASE = 0.1;
 
     // define default bounding region
     // // 37.6021,-122.0758 - house
@@ -92,7 +92,8 @@ public class GameAccess extends DataStoreAccess {
             // If no entity was found, create a new one.
 
             List<Long> regions = new LinkedList<>();
-            entity = createGameEntity(key, DEFAULT_GAME_NAME, DEFAULT_NUM_PLAYERS, DEFAULT_DURATION,
+            entity = createGameEntity(key, DEFAULT_GAME_NAME, DEFAULT_NUM_PLAYERS,
+                    DEFAULT_DURATION, DEFAULT_REGION_COST_PCT_INCREASE,
                     NW_LAT, NW_LNG, SE_LAT, SE_LNG);
             // Insert the entity in the commit request mutation.
             creq.getMutationBuilder().addInsert(entity);
@@ -111,14 +112,15 @@ public class GameAccess extends DataStoreAccess {
         Key.Builder key = Key.newBuilder().addPathElement(
                 Key.PathElement.newBuilder().setKind(KIND).setId(game.getGameId()));
 
-        return createGameEntity(key, game.getGameName(), game.getNumPlayers(), game.getDuration(),
+        return createGameEntity(key, game.getGameName(), game.getNumPlayers(),
+                game.getDuration(), game.getRegionCostPercentIncrease(),
                 game.getNwLatitudeCoord(), game.getNwLongitudeCoord(),
                 game.getSeLatitudeCoord(), game.getSeLongitudeCoord());
     }
 
     /** @return new User entity with specified info */
     private Entity createGameEntity(
-            Key.Builder key, String gameName, int numPlayers, int durationHrs,
+            Key.Builder key, String gameName, int numPlayers, int durationHrs, double regionCostPctInc,
             double nwLat, double nwLng, double seLat, double seLng) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();
@@ -137,6 +139,9 @@ public class GameAccess extends DataStoreAccess {
                 .setName("duration")
                 .setValue(Value.newBuilder().setIntegerValue(durationHrs)));
 
+        entityBuilder.addProperty(Property.newBuilder()
+                .setName("regionCostPercentIncrease")
+                .setValue(Value.newBuilder().setDoubleValue(regionCostPctInc)));
 
         //entityBuilder.addProperty(Property.newBuilder()
         //        .setName("region")

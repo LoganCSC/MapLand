@@ -36,6 +36,9 @@ public class GameBean {
     /** timestamp when game started */
     private Date startTime;
 
+    /** The percentage that a region should increase in value after a purchase */
+    private Double regionCostPercentIncrease;
+
     private double nwLatitudeCoord;
     private double nwLongitudeCoord;
     private double seLatitudeCoord;
@@ -146,6 +149,16 @@ public class GameBean {
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
+
+
+    public Double getRegionCostPercentIncrease() {
+        return regionCostPercentIncrease;
+    }
+
+    public void setRegionCostPercentIncrease(Double regionCostPercentIncrease) {
+        this.regionCostPercentIncrease = regionCostPercentIncrease;
+    }
+
     public double getNwLatitudeCoord() {
         return nwLatitudeCoord;
     }
