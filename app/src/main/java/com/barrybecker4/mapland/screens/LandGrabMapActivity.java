@@ -237,6 +237,7 @@ public class LandGrabMapActivity extends FragmentActivity
         RegionBean region = state.getCurrentRegion();
         args.putString("oldOwner", region.getOwnerId());
         args.putDouble("cost", region.getCost());
+        args.putDouble("income", region.getIncome());
         args.putDouble("balance", user.getCredits());
         dialog.setArguments(args);
         dialog.show(getFragmentManager(), "buy-region-dialog");

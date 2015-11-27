@@ -44,9 +44,9 @@ public class BuyRegionDialogFragment extends DialogFragment {
                 // User cancelled the dialog
             }
         };
-        String msg = "Region's income:"+ FormatUtil.formatNumber(income)+
-                "?\n Price: " + FormatUtil.formatNumber(cost)
-                + "\n You have " + FormatUtil.formatNumber(balance)+"\n";
+        String msg = "\nPrice: " + FormatUtil.formatNumber(cost) +
+                "\nIncome:"+ FormatUtil.formatNumber(income)+
+                "\nYou have " + FormatUtil.formatNumber(balance)+"\n";
 
         //String msg = "It costs " + FormatUtil.formatNumber(cost)
         //        + " and you have " + FormatUtil.formatNumber(balance) + ".";
