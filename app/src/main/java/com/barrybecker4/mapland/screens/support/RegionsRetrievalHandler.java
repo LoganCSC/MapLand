@@ -29,7 +29,12 @@ public class RegionsRetrievalHandler implements IResponseHandler {
     /** Show a popup with the user info */
     @Override
     public void jsonRetrieved(GenericJson result) {
-        List<RegionBean> regions = ((RegionBeanCollection)result).getItems();
+        RegionBeanCollection regionCollection = ((RegionBeanCollection)result);
+        if (regionCollection == null) {
+            Log.e("REGION RETRIEVAL", "Region collection null");
+            return;
+        }
+        List<RegionBean> regions = regionCollection.getItems();
         // we should not need this if setting DATASTORE_EMPTY_LIST_SUPPORT would work
         if (regions == null) {
             regions = new ArrayList<>();

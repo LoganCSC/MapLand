@@ -105,8 +105,8 @@ public class MapLandEndpoint {
     }
 
     /**
-     * Endpoint method that adds a new region with specified information and owner.
-     * The owner must also be updatd with this new region as part of an atomic transaction.
+     * Endpoint method that transfers a region from an old owner to a new one.
+     * The owner must also be updated with this new region as part of an atomic transaction.
      */
     @ApiMethod(name = "transferRegionOwnership")
     public RegionAndUserBean transferRegionOwnership(

@@ -163,7 +163,7 @@ public class RegionAccess extends DataStoreAccess {
      * users parents of regions. In that case, changing ownership will probably involve
      * deleting the region owned by the previous owner before recreating it for the new owner.
      * @param regionAndUser contains the region to update, and the new owner
-     * @return the updated region (with new owner) and user (with new region).
+     * @return the updated region (with new owner) and user (with new region and credits).
      *   The old owner is updated too, but not returned.
      */
     public RegionAndUserBean transferRegionOwnership(
@@ -174,12 +174,7 @@ public class RegionAccess extends DataStoreAccess {
         UserBean oldOwner = userAccess.getUserById(region.getOwnerId());
         UserBean newOwner = regionAndUser.getUser();
 
-        userAccess.updateCreditsForUser(oldOwner);
-        userAccess.updateCreditsForUser(newOwner);
-
         long time = System.currentTimeMillis();
-        LOG.info("TRANSFER: oldOwner:" + oldOwner.getUserId() + "newOwner:" + newOwner.getUserId()
-                + " region:"+ region.getRegionId());
 
         if (newOwner.getRegions().contains(region.getRegionId())) {
             // this should never happen
@@ -187,6 +182,11 @@ public class RegionAccess extends DataStoreAccess {
             //throw new IllegalStateException(newOwner.getUserId() + " already owns region " + region.getRegionId());
         }
         else {
+            LOG.info("TRANSFER: oldOwner: " + oldOwner.getUserId() + "  newOwner:" + newOwner.getUserId()
+                    + " region:"+ region.getRegionId());
+            userAccess.updateCreditsForUser(oldOwner);
+            userAccess.updateCreditsForUser(newOwner);
+
             newOwner.getRegions().add(region.getRegionId());
 
             region.setOwnerId(newOwner.getUserId());
@@ -215,6 +215,7 @@ public class RegionAccess extends DataStoreAccess {
         long duration = System.currentTimeMillis() - time;
         String msg = "time to transfer ownership = " + duration + "ms.";
         LOG.info(msg);
+        LOG.info("TRANSFER: Returning : " + regionAndUser);
 
         return regionAndUser;
     }
@@ -280,6 +281,7 @@ public class RegionAccess extends DataStoreAccess {
         // first query by latitude
         Query.Builder query = Query.newBuilder();
         double regionHeight = nwLat - seLat;
+        LOG.info("About to get regions for viewport: (" + nwLat + " , " + nwLong +") (" + seLat +", "+  seLong +")");
 
         // One degree of latitude = about 69 miles, so 0.01 degrees is less than a mile.
         DatastoreV1.Filter nwLatFilter =

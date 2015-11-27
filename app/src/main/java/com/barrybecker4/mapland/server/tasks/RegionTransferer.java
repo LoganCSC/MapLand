@@ -43,7 +43,6 @@ public class RegionTransferer
         newOwner.getRegions().add(region.getRegionId());
         region.setOwnerId(newOwner.getUserId());
 
-
         RegionAndUserBean regionAndNewOwner = new RegionAndUserBean();
         regionAndNewOwner.setRegion(region.clone());
         regionAndNewOwner.setUser(newOwner.clone());

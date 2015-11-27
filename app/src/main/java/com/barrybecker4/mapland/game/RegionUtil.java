@@ -108,7 +108,6 @@ public class RegionUtil {
         return null;
     }
 
-
     private static float roundToEPS(double coord) {
         return (float) (Math.round(coord * EPS_SCALE) / EPS_SCALE);
     }

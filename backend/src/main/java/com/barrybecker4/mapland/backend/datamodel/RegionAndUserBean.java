@@ -24,4 +24,8 @@ public class RegionAndUserBean {
     public void setUser(UserBean user) {
         this.user = user;
     }
+
+    public String toString() {
+        return "{Region = " + region.toString() + " New Owner = " + user.toString() + "}";
+    }
 }

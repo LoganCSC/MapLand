@@ -71,5 +71,8 @@ public class FormatUtil {
     public static String formatNumber(int num) {
         return INT_FORMAT.format(num);
     }
-
+    /** Just show the last few digits for brevity */
+    public static String formatId(Long id) {
+        return "..." + id.toString().substring(10);
+    }
 }

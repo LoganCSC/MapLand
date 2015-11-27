@@ -132,7 +132,7 @@ public class LandGrabMapActivity extends FragmentActivity
 
     @Override
     public void onMapReady(GoogleMap map) {
-        theMap = new LandMap(map);
+        theMap = new LandMap(map, this);
 
         theMap.setCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
@@ -239,6 +239,7 @@ public class LandGrabMapActivity extends FragmentActivity
         args.putDouble("cost", region.getCost());
         args.putDouble("income", region.getIncome());
         args.putDouble("balance", user.getCredits());
+        args.putLong("regionId", region.getRegionId());
         dialog.setArguments(args);
         dialog.show(getFragmentManager(), "buy-region-dialog");
     }
@@ -255,9 +256,9 @@ public class LandGrabMapActivity extends FragmentActivity
                 + " Transferring ownership...");
         String oldOwner = region.getOwnerId();
 
-        // This does 3 things: User has this region added, region has its owner set to user,
-        // and the old owner has this region removed from its list.
-        RegionTransferer.transferRegionOwnership(region, user, this, new RegionTransferredHandler(theMap));
+        // This does several things: User has this region added, region has its owner set to user,
+        // and the old owner has this region removed from its list. Both user's money is also updated.
+        RegionTransferer.transferRegionOwnership(region, user, this, new RegionTransferredHandler(theMap, state));
         showCurrentBalance(user.getCredits() - region.getCost());
         Toast.makeText(this, "Transferring ownership of "
                 + region.getRegionId() + " from " + oldOwner
