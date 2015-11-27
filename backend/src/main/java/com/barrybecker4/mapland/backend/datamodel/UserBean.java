@@ -34,7 +34,7 @@ public class UserBean implements Serializable {
         //Value locsValue = entity.getProperty(1).getValue();
 
         Map<String, DatastoreV1.Value> propertyMap = DatastoreHelper.getPropertyMap(userEntity);
-        //System.out.println("user propertyMap = "+ propertyMap);
+        //System.out.println("user propertyMap = " + propertyMap);
 
         String username = propertyMap.get("name").getStringValue();
         Double credits = propertyMap.get("credits").getDoubleValue();

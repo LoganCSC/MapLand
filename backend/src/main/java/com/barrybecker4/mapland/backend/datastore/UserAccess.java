@@ -16,6 +16,7 @@ import com.barrybecker4.mapland.backend.datamodel.UserBean;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/
@@ -25,6 +26,8 @@ public class UserAccess extends DataStoreAccess {
     public static final String KIND = "User";
     private static final Double INITIAL_CREDITS = 200.0;
     private static final int MILLIS_PER_MINUTE = 60000;
+
+    private static final Logger LOG = Logger.getLogger(RegionAccess.class.getName());
 
 
     /**
@@ -36,7 +39,7 @@ public class UserAccess extends DataStoreAccess {
         UserBean user = null;
 
         try {
-            System.out.println("About to get info for " + userId);
+            LOG.info("USER: About to get info for " + userId);
             Entity entity = getUserEntity(KIND, userId);
             user = new UserBean(entity);
             updateCreditsForUser(user);
@@ -79,10 +82,10 @@ public class UserAccess extends DataStoreAccess {
 
         Entity entity;
         if (lresp.getFoundCount() > 0) {
-            System.out.println("Found a user entity with id = " + name);
-            entity = lresp.getFound(0).getEntity();
+            LOG.info("USER: Found a user entity with id = " + name);
+                    entity = lresp.getFound(0).getEntity();
         } else {
-            System.out.println("No user entity found for name = " + name + ". Adding one.");
+            LOG.info("USER: No user entity found for name = " + name + ". Adding one.");
             // If no entity was found, create a new one.
 
             List<Long> regions = new LinkedList<>();
