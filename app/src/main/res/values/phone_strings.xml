@@ -31,5 +31,7 @@
   <string name="mylocation_layer">My Location Layer</string>
   <string name="none_map">None</string>
   <string name="normal">Normal</string>
+  <color name="bg_color">#886644</color>
+  <color name="title_bg_color">#664422</color>
 
 </resources>

@@ -16,6 +16,7 @@ import com.barrybecker4.mapland.backend.datamodel.UserBean;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/
@@ -26,6 +27,8 @@ public class UserAccess extends DataStoreAccess {
     private static final Double INITIAL_CREDITS = 200.0;
     private static final int MILLIS_PER_MINUTE = 60000;
 
+    private static final Logger LOG = Logger.getLogger(UserAccess.class.getName());
+
 
     /**
      * Get the specified user if they are in the database.
@@ -35,21 +38,14 @@ public class UserAccess extends DataStoreAccess {
     public UserBean getUserById(String userId) {
         UserBean user = null;
 
+        LOG.info("USER: About to get info for " + userId);
         try {
-            System.out.println("About to get info for " + userId);
-            Entity entity = getUserEntity("User", userId);
+            Entity entity = getUserEntity(KIND, userId);
             user = new UserBean(entity);
             updateCreditsForUser(user);
         }
         catch (DatastoreException exception) {
-            // Catch all Datastore rpc errors.
-            System.err.println("Error while doing user datastore operation");
-            // Log the exception, the name of the method called and the error code.
-            System.err.println(String.format("DatastoreException(%s): %s %s",
-                    exception.getMessage(),
-                    exception.getMethodName(),
-                    exception.getCode()));
-            System.exit(1);
+            fatalError(exception);
         }
 
         return user;
@@ -57,23 +53,7 @@ public class UserAccess extends DataStoreAccess {
 
     public boolean updateUser(UserBean user) throws DatastoreException {
 
-        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
-        ByteString tx = createTransaction();
-
-        // Create an RPC request to commit the transaction.
-        CommitRequest.Builder creq = CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
-
-        Entity entity = createUserEntity(user);
-        // Insert the entity in the commit request mutation.
-        creq.getMutationBuilder().addUpdate(entity);
-
-        // Execute the Commit RPC synchronously and ignore the response.
-        // Apply the insert mutation if the entity was not found and close
-        // the transaction.
-        datastore.commit(creq.build());
-        return true;
+        return updateEntity(createUserEntity(user));
     }
 
     /**
@@ -102,10 +82,10 @@ public class UserAccess extends DataStoreAccess {
 
         Entity entity;
         if (lresp.getFoundCount() > 0) {
-            System.out.println("Found a user entity with id = " + name);
-            entity = lresp.getFound(0).getEntity();
+            LOG.info("USER: Found a user entity with id = " + name);
+                    entity = lresp.getFound(0).getEntity();
         } else {
-            System.out.println("No user entity found for name = " + name + ". Adding one.");
+            LOG.info("USER: No user entity found for name = " + name + ". Adding one.");
             // If no entity was found, create a new one.
 
             List<Long> regions = new LinkedList<>();
@@ -132,7 +112,7 @@ public class UserAccess extends DataStoreAccess {
 
     /** @return new User entity with specified info */
     private Entity createUserEntity(
-            Key.Builder key, String userId, double credits, List<Long> regions) {
+            Key.Builder key, String userId, double credits,  List<Long> regions) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();
         // Set the entity key.

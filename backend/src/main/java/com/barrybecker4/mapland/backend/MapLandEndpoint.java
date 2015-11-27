@@ -18,6 +18,7 @@ import com.google.api.services.datastore.client.DatastoreException;
 import com.google.appengine.api.datastore.DatastoreServiceConfig;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Named;
 
@@ -39,6 +40,7 @@ import javax.inject.Named;
  *  https://console.developers.google.com/project/maplandbackend
  */
 public class MapLandEndpoint {
+    private static final Logger LOG = Logger.getLogger(MapLandEndpoint.class.getName());
 
     static {
         System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
@@ -52,7 +54,7 @@ public class MapLandEndpoint {
 
         UserAccess access = new UserAccess();
         UserBean user = access.getUserById(userId);
-        System.out.println("returning user = " + user);
+        LOG.info("ENDPOINT: returning user = " + user);
         return user;
     }
 
@@ -103,8 +105,8 @@ public class MapLandEndpoint {
     }
 
     /**
-     * Endpoint method that adds a new region with specified information and owner.
-     * The owner must also be updatd with this new region as part of an atomic transaction.
+     * Endpoint method that transfers a region from an old owner to a new one.
+     * The owner must also be updated with this new region as part of an atomic transaction.
      */
     @ApiMethod(name = "transferRegionOwnership")
     public RegionAndUserBean transferRegionOwnership(

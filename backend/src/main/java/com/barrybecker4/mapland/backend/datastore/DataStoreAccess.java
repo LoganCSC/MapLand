@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.backend.datastore;
 
 //import com.google.appengine.api.datastore.Entity;
+import com.barrybecker4.mapland.backend.datamodel.GameBean;
 import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.DatastoreV1.BeginTransactionResponse;
 import com.google.api.services.datastore.DatastoreV1.BeginTransactionRequest;
@@ -119,6 +120,27 @@ public class DataStoreAccess {
         return id;
     }
 
+    /** update the specified entity in the datastore */
+    protected boolean updateEntity(Entity entity) throws DatastoreException {
+
+        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
+        ByteString tx = createTransaction();
+
+        // Create an RPC request to commit the transaction.
+        CommitRequest.Builder creq = CommitRequest.newBuilder();
+        // Set the transaction to commit.
+        creq.setTransaction(tx);
+
+        // Insert the entity in the commit request mutation.
+        creq.getMutationBuilder().addUpdate(entity);
+
+        // Execute the Commit RPC synchronously and ignore the response.
+        // Apply the insert mutation if the entity was not found and close
+        // the transaction.
+        datastore.commit(creq.build());
+        return true;
+    }
+
     /**
      * @return new transaction
      * @throws DatastoreException if problem accessing the datastore
@@ -130,6 +152,17 @@ public class DataStoreAccess {
         BeginTransactionResponse tres = datastore.beginTransaction(treq.build());
         // Get the transaction handle from the response.
         return tres.getTransaction();
+    }
+
+    protected void fatalError(DatastoreException exception) {
+        // Catch all Datastore rpc errors.
+        System.err.println("Error while doing region datastore operation");
+        // Log the exception, the name of the method called and the error code.
+        System.err.println(String.format("DatastoreException(%s): %s %s",
+                exception.getMessage(),
+                exception.getMethodName(),
+                exception.getCode()));
+        System.exit(1);
     }
 
     protected void sleep(int millis) {

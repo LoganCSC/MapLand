@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.barrybecker4.mapland.game.FormatUtil;
+import com.barrybecker4.mapland.game.RegionUtil;
 
 
 /**
@@ -38,25 +39,27 @@ public class BuyRegionDialogFragment extends DialogFragment {
         Double cost = args.getDouble("cost");
         Double balance = args.getDouble("balance");
         Double income = args.getDouble("income");
+        Long regionId = args.getLong("regionId");
 
         DialogInterface.OnClickListener cancelHandler = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
             }
         };
-        String msg = "Region's income:"+ FormatUtil.formatNumber(income)+
-                "?\n Price: " + FormatUtil.formatNumber(cost)
-                + "\n You have " + FormatUtil.formatNumber(balance)+"\n";
+        String msg = "\nPrice: " + FormatUtil.formatNumber(cost) +
+                "\nIncome:"+ FormatUtil.formatNumber(income)+
+                "\nYou have " + FormatUtil.formatNumber(balance)+"\n";
+        String thisRegion = "this region ("+ FormatUtil.formatId(regionId)+")";
 
         //String msg = "It costs " + FormatUtil.formatNumber(cost)
         //        + " and you have " + FormatUtil.formatNumber(balance) + ".";
 
         if (cost > balance) {
-            builder.setMessage("You cannot buy this region from " + oldOwner + ". " + msg)
+            builder.setMessage("You cannot buy " + thisRegion + " from " + oldOwner + ". " + msg)
                     .setNegativeButton("OK", cancelHandler);
         }
         else {
-            builder.setMessage("Do you want to want to buy this region from " +oldOwner +"? " + msg)
+            builder.setMessage("Do you want to want to buy "+ thisRegion + " from " +oldOwner +"? " + msg)
                     .setPositiveButton("Buy!", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             ((OnRegionBoughtHandler) getActivity()).regionBoughtByCurrentUser();

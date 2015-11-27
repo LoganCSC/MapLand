@@ -1,7 +1,13 @@
 package com.barrybecker4.mapland.screens.support;
 
+import android.content.Context;
 import android.location.Location;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
+import com.barrybecker4.mapland.R;
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;
 import com.barrybecker4.mapland.game.FormatUtil;
 import com.barrybecker4.mapland.game.RegionUtil;
@@ -56,7 +62,7 @@ public class LandMap {
     /**
      * @param map the google map used internally
      */
-    public LandMap(GoogleMap map) {
+    public LandMap(GoogleMap map, final Context context) {
         theMap = map;
 
         map.setMyLocationEnabled(true);
@@ -75,12 +81,12 @@ public class LandMap {
                 if (currentMarker != null) {
                     currentMarker.remove();
                 }
-                RegionBean clickedRegion = RegionUtil.findRegion(latLng, currentRegions);
+                final RegionBean clickedRegion = RegionUtil.findRegion(latLng, currentRegions);
                 if (clickedRegion != null) {
+                    theMap.setInfoWindowAdapter(new RegionInfoWindowAdapter(clickedRegion, context));
+
                     MarkerOptions opts = new MarkerOptions()
                             .alpha(0.1f).position(latLng)
-                            .snippet("cost: " + FormatUtil.formatNumber(clickedRegion.getCost())
-                                    + " income: " + FormatUtil.formatNumber(clickedRegion.getIncome()))
                             .title(clickedRegion.getOwnerId());
                     currentMarker = theMap.addMarker(opts);
                     currentMarker.showInfoWindow();

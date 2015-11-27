@@ -32,7 +32,7 @@ public class RegionRetriever extends AsyncTask<Pair<Context, ViewPort>, Void, Re
 
         task.execute(new Pair<>(context, viewport));
 
-        Log.i("TASK", "locations retriever status = " + task.getStatus());
+        Log.i("TASK", "Regions retriever status = " + task.getStatus());
     }
 
     /**

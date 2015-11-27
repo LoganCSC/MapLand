@@ -28,9 +28,6 @@ public class GameBean {
      */
     private Integer numPlayers;
 
-    /** large region region where the game will be played */
-    private RegionBean region;
-
     private List<Long> players;
 
     /** The maximum game duration in hours */
@@ -38,6 +35,14 @@ public class GameBean {
 
     /** timestamp when game started */
     private Date startTime;
+
+    /** The percentage that a region should increase in value after a purchase */
+    private Double regionCostPercentIncrease;
+
+    private double nwLatitudeCoord;
+    private double nwLongitudeCoord;
+    private double seLatitudeCoord;
+    private double seLongitudeCoord;
 
 
     public GameBean() {}
@@ -55,7 +60,12 @@ public class GameBean {
         DatastoreV1.Value idVal = propertyMap.get("regionId");
         Long id = gameEntity.getKey().getPathElement(0).getId();
         //Long regionId = id; //idVal == null ?  null : idVal.getIntegerValue();
-        RegionBean region = new RegionBean(propertyMap.get("region").getEntityValue());
+        //RegionBean region = new RegionBean(propertyMap.get("region").getEntityValue());
+        double nwLat = propertyMap.get("nwLatitudeCoord").getDoubleValue();
+        double nwLng = propertyMap.get("nwLongitudeCoord").getDoubleValue();
+        double seLat = propertyMap.get("seLatitudeCoord").getDoubleValue();
+        double seLng = propertyMap.get("seLongitudeCoord").getDoubleValue();
+
         String gameName = propertyMap.get("gameName").getStringValue();
         Integer numPlayers = (int) propertyMap.get("numPlayers").getIntegerValue();
         Integer duration = (int) propertyMap.get("duration").getIntegerValue();
@@ -74,7 +84,11 @@ public class GameBean {
         this.setGameId(id);
         this.setGameName(gameName);
         this.setNumPlayers(numPlayers);
-        this.setRegion(region);
+        //this.setRegion(region);
+        this.setNwLatitudeCoord(nwLat);
+        this.setNwLongitudeCoord(nwLng);
+        this.setSeLatitudeCoord(seLat);
+        this.setSeLongitudeCoord(seLng);
         this.setPlayers(players);
         this.setDuration(duration);
         this.setStartTime(startTime);
@@ -103,14 +117,14 @@ public class GameBean {
     public void setNumPlayers(Integer numPlayers) {
         this.numPlayers = numPlayers;
     }
-
+    /*
     public RegionBean getRegion() {
         return region;
     }
 
     public void setRegion(RegionBean region) {
         this.region = region;
-    }
+    }*/
 
     public List<Long> getPlayers() {
         return players;
@@ -137,8 +151,51 @@ public class GameBean {
     }
 
 
+    public Double getRegionCostPercentIncrease() {
+        return regionCostPercentIncrease;
+    }
+
+    public void setRegionCostPercentIncrease(Double regionCostPercentIncrease) {
+        this.regionCostPercentIncrease = regionCostPercentIncrease;
+    }
+
+    public double getNwLatitudeCoord() {
+        return nwLatitudeCoord;
+    }
+
+    public void setNwLatitudeCoord(double nwLatitudeCoord) {
+        this.nwLatitudeCoord = nwLatitudeCoord;
+    }
+
+    public double getNwLongitudeCoord() {
+        return nwLongitudeCoord;
+    }
+
+    public void setNwLongitudeCoord(double nwLongitudeCoord) {
+        this.nwLongitudeCoord = nwLongitudeCoord;
+    }
+
+    public double getSeLatitudeCoord() {
+        return seLatitudeCoord;
+    }
+
+    public void setSeLatitudeCoord(double seLatitudeCoord) {
+        this.seLatitudeCoord = seLatitudeCoord;
+    }
+
+    public double getSeLongitudeCoord() {
+        return seLongitudeCoord;
+    }
+
+    public void setSeLongitudeCoord(double seLongitudeCoord) {
+        this.seLongitudeCoord = seLongitudeCoord;
+    }
+
+
     public String toString() {
-        return "{gameId: " + this.gameId + " name: " + this.gameName + " region: " + this.region
+        return "{gameId: " + this.gameId + " name: " + this.gameName
+                + " region: [" + this.nwLatitudeCoord + ", " + this.nwLongitudeCoord + "] ["
+                + this.seLatitudeCoord + ", " + this.seLongitudeCoord + "] "
                 + " duration: "+this.duration +" players: " + this.players;
     }
 }

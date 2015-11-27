@@ -29,7 +29,7 @@ public class UserRetrievalHandler implements IResponseHandler {
         UserBean user = (UserBean) result;
 
         if (user == null) {
-            Toast.makeText(context, "user unexpectedly null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Retrieved user unexpectedly null", Toast.LENGTH_SHORT).show();
             return;
         }
         state.setCurrentUser(user);
