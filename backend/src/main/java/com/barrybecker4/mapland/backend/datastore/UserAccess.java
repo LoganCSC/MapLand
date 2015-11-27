@@ -112,7 +112,7 @@ public class UserAccess extends DataStoreAccess {
 
     /** @return new User entity with specified info */
     private Entity createUserEntity(
-            Key.Builder key, String userId, double credits, List<Long> regions) {
+            Key.Builder key, String userId, double credits,  List<Long> regions) {
         Entity entity;
         Entity.Builder entityBuilder = Entity.newBuilder();
         // Set the entity key.
