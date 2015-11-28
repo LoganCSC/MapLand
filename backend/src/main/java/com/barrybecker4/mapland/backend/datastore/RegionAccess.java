@@ -30,15 +30,14 @@ import java.util.logging.Logger;
 
 /**
  * Based on the introductory code at https://cloud.google.com/datastore/docs/getstarted/start_java/
- * TODO: add a method that gets region for a specified lat/long
  */
 public class RegionAccess extends DataStoreAccess {
 
     public static final String KIND = "Region";
     private static final Random RND = new Random();
 
-    private static final double MIN_INITIAL_COST = 100L;
-    private static final double MAX_INITIAL_COST = 200L;
+    private static final double MIN_INITIAL_COST = 50L;
+    private static final double MAX_INITIAL_COST = 100L;
     private static final double MIN_INITIAL_INCOME = 0;
     private static final double MAX_INITIAL_INCOME = 2.0;
 
