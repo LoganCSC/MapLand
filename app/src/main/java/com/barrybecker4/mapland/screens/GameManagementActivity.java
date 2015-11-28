@@ -18,13 +18,13 @@ package com.barrybecker4.mapland.screens;
 
 import com.barrybecker4.mapland.FeatureView;
 import com.barrybecker4.mapland.R;
-import com.barrybecker4.mapland.backend.datamodel.GameBean;
-import com.barrybecker4.mapland.game.RegionUtil;
+import com.barrybecker4.mapland.backend.mapLandApi.model.GameBean;
 import com.barrybecker4.mapland.screens.dialogs.NewGameDialogFragment;
 import com.barrybecker4.mapland.screens.dialogs.OnNewGameCreatedHandler;
 import com.barrybecker4.mapland.screens.games.GameDetails;
 import com.barrybecker4.mapland.screens.games.GameDetailsList;
-import com.google.android.gms.maps.model.LatLng;
+import com.barrybecker4.mapland.screens.support.GameAddHandler;
+import com.barrybecker4.mapland.server.tasks.GameAdder;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -71,6 +71,7 @@ public class GameManagementActivity extends ListActivity
     /** Persists the new game in the datastore to make it available to others */
     public void createNewGame(GameBean newGame) {
         // call the backend to add the persist the new game
+        GameAdder.addGame(newGame, this, new GameAddHandler());
     }
 
     /**

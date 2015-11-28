@@ -1,6 +1,5 @@
 package com.barrybecker4.mapland.screens.support;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.barrybecker4.mapland.backend.mapLandApi.model.RegionBean;

@@ -4,6 +4,7 @@ import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.api.services.datastore.client.DatastoreHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Map;
  *
  * @author Barry Becker
  */
-public class GameBean {
+public class GameBean implements Serializable {
 
     private Long gameId;
 

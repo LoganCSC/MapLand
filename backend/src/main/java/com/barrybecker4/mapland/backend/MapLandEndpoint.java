@@ -6,9 +6,11 @@
 
 package com.barrybecker4.mapland.backend;
 
+import com.barrybecker4.mapland.backend.datamodel.GameBean;
 import com.barrybecker4.mapland.backend.datamodel.RegionAndUserBean;
 import com.barrybecker4.mapland.backend.datamodel.RegionBean;
 import com.barrybecker4.mapland.backend.datamodel.UserBean;
+import com.barrybecker4.mapland.backend.datastore.GameAccess;
 import com.barrybecker4.mapland.backend.datastore.RegionAccess;
 import com.barrybecker4.mapland.backend.datastore.UserAccess;
 import com.google.api.server.spi.config.Api;
@@ -102,6 +104,20 @@ public class MapLandEndpoint {
 
         RegionAccess access = new RegionAccess();
         return access.addNewRegion(owner, nwLat, nwLong, seLat, seLong);
+    }
+
+    /**
+     * Endpoint method that adds a new game configuration with specified information.
+     */
+    @ApiMethod(name = "addNewGame")
+    public GameBean addNewGame(@Named("name") String name,
+            @Named("numPlayers") int numPlayers, @Named("durationHrs") int durationHrs,
+            @Named("regionPctIncrease") double regionPctIncrease, @Named("notes") String notes,
+            @Named("nwLat") Double nwLat, @Named("nwLong") Double nwLong,
+            @Named("seLat") Double seLat, @Named("seLong") Double seLong) throws DatastoreException {
+
+        GameAccess access = new GameAccess();
+        return access.addNewGame(name, numPlayers, durationHrs, regionPctIncrease, notes, nwLat, nwLong, seLat, seLong);
     }
 
     /**

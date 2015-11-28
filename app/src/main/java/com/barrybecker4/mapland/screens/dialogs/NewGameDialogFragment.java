@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import com.barrybecker4.mapland.backend.datamodel.GameBean;
+import com.barrybecker4.mapland.backend.mapLandApi.model.GameBean;
 
 import com.barrybecker4.mapland.R;
 import com.barrybecker4.mapland.screens.GameManagementActivity;
@@ -47,12 +47,16 @@ public class NewGameDialogFragment extends DialogFragment {
         final NumberPicker numPlayersPicker = (NumberPicker) view.findViewById(R.id.num_players_picker);
         numPlayersPicker.setMinValue(2);
         numPlayersPicker.setMaxValue(20);
+        numPlayersPicker.setValue(3);
         final NumberPicker numHoursPicker = (NumberPicker) view.findViewById(R.id.num_hours_picker);
         numHoursPicker.setMinValue(2);
         numHoursPicker.setMaxValue(2000);
+        numHoursPicker.setValue(24);
         final NumberPicker regionValueIncPicker = (NumberPicker) view.findViewById(R.id.new_game_region_value_inc);
-        numHoursPicker.setMinValue(0);
-        numHoursPicker.setMaxValue(100);
+        regionValueIncPicker.setMinValue(0);
+        regionValueIncPicker.setMaxValue(100);
+        regionValueIncPicker.setValue(10);
+
 
         // Home: 37.602768, -122.0752
         final EditText notesInput = (EditText) view.findViewById(R.id.new_game_notes_input);

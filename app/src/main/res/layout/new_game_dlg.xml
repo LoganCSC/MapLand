@@ -42,8 +42,9 @@
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:id="@+id/num_players_picker"
-                android:layout_gravity="center_horizontal"/>
+                />
         </TableRow>
         <TableRow>
             <TextView
@@ -53,6 +54,7 @@
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:id="@+id/num_hours_picker"
                 android:layout_gravity="center_horizontal"/>
         </TableRow>
@@ -64,6 +66,7 @@
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:id="@+id/new_game_region_value_inc"
                 android:layout_gravity="center_horizontal"/>
         </TableRow>

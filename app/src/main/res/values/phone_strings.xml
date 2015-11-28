@@ -18,9 +18,9 @@
   <string name="new_game_num_players_txt">Required number of players</string>
   <string name="new_game_duration_txt">Duration (in hours)</string>
   <string name="new_game_region_value_inc_txt">Duration (in hours)</string>
-  <string name="new_game_name_field_txt">Notes:</string>
-  <string name="new_game_name_txt">Game name:</string>
-  <string name="new_game_notes_txt">default name</string>
+  <string name="new_game_name_field_txt">Game name:</string>
+  <string name="new_game_name_txt">default name</string>
+  <string name="new_game_notes_txt">---</string>
   <string name="bounds_nw_lat_txt">Game NW latitude boundary:</string>
   <string name="bounds_nw_lng_txt">Game NW longitude boundary:</string>
   <string name="bounds_se_lat_txt">Game SE latitude boundary:</string>
