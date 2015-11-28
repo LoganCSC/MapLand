@@ -75,10 +75,7 @@ public class UserAccess extends DataStoreAccess {
         // Execute the RPC and get the response.
         LookupResponse lresp = datastore.lookup(lreq.build());
 
-        // Create an RPC request to commit the transaction.
-        CommitRequest.Builder creq = CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
+        CommitRequest.Builder creq = createCommitRequest();
 
         Entity entity;
         if (lresp.getFoundCount() > 0) {

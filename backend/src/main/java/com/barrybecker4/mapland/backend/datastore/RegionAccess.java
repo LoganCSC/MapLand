@@ -315,8 +315,7 @@ public class RegionAccess extends DataStoreAccess {
                 RegionBean regionBean = new RegionBean(regionEntity);
                 // only add it to the list if it also meets the longitude filter.
                 // This must be done manually be because of bigTable query limitations.
-                if (regionBean.getSeLongitudeCoord() >= nwLong &&
-                        regionBean.getNwLongitudeCoord() <= seLong) {
+                if (regionBean.getSeLongitudeCoord() >= nwLong && regionBean.getNwLongitudeCoord() <= seLong) {
                     list.add(regionBean);
                 }
             }

@@ -73,6 +73,6 @@ public class FormatUtil {
     }
     /** Just show the last few digits for brevity */
     public static String formatId(Long id) {
-        return "..." + id.toString().substring(10);
+        return "..." + id.toString().substring(12);
     }
 }

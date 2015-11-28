@@ -102,13 +102,10 @@ public class DataStoreAccess {
      */
     protected Long insertEntity(Entity entity) throws DatastoreException {
 
-        // Create an RPC request to commit the transaction.
-        CommitRequest.Builder creq = CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(createTransaction());
+        CommitRequest.Builder creq = createCommitRequest();
 
         // Insert the entity in the commit request mutation.
-        creq.getMutationBuilder().addInsertAutoId(entity); // addInsert(entity)
+        creq.getMutationBuilder().addInsertAutoId(entity);
 
         // Execute the Commit RPC synchronously and ignore the response.
         // Apply the insert mutation if the entity was not found and close
@@ -120,16 +117,13 @@ public class DataStoreAccess {
         return id;
     }
 
-    /** update the specified entity in the datastore */
+    /**
+     * Update the specified entity in the datastore.
+     * @param entity the entity to update values for
+     */
     protected boolean updateEntity(Entity entity) throws DatastoreException {
 
-        // Set the transaction, so we get a consistent snapshot of the entity at the time the txn started.
-        ByteString tx = createTransaction();
-
-        // Create an RPC request to commit the transaction.
-        CommitRequest.Builder creq = CommitRequest.newBuilder();
-        // Set the transaction to commit.
-        creq.setTransaction(tx);
+        CommitRequest.Builder creq = createCommitRequest();
 
         // Insert the entity in the commit request mutation.
         creq.getMutationBuilder().addUpdate(entity);
@@ -139,6 +133,13 @@ public class DataStoreAccess {
         // the transaction.
         datastore.commit(creq.build());
         return true;
+    }
+
+    protected CommitRequest.Builder createCommitRequest() throws DatastoreException {
+        CommitRequest.Builder creq = CommitRequest.newBuilder();
+        // Set the transaction to commit.
+        creq.setTransaction(createTransaction());
+        return creq;
     }
 
     /**

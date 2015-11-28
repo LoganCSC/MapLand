@@ -35,13 +35,14 @@ public class RegionTransferer
         AsyncTask<Pair<Context, RegionAndUserBean>, Void, RegionAndUserBean> task =
                 new RegionTransferer(callback);
 
+
         // update on client as well as server
         // this should not be needed
         if (newOwner.getRegions() == null) {
             newOwner.setRegions(new ArrayList<Long>());
         }
-        newOwner.getRegions().add(region.getRegionId());
-        region.setOwnerId(newOwner.getUserId());
+        //newOwner.getRegions().add(region.getRegionId());
+        //region.setOwnerId(newOwner.getUserId());
 
         RegionAndUserBean regionAndNewOwner = new RegionAndUserBean();
         regionAndNewOwner.setRegion(region.clone());
