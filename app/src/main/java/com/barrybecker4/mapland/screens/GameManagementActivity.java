@@ -18,16 +18,23 @@ package com.barrybecker4.mapland.screens;
 
 import com.barrybecker4.mapland.FeatureView;
 import com.barrybecker4.mapland.R;
+import com.barrybecker4.mapland.backend.datamodel.GameBean;
+import com.barrybecker4.mapland.game.RegionUtil;
+import com.barrybecker4.mapland.screens.dialogs.NewGameDialogFragment;
+import com.barrybecker4.mapland.screens.dialogs.OnNewGameCreatedHandler;
 import com.barrybecker4.mapland.screens.games.GameDetails;
 import com.barrybecker4.mapland.screens.games.GameDetailsList;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,9 +45,8 @@ import android.widget.Toast;
  * The can join a game that they or some other user has created.
  * Or they can configure and create a new game.
  */
-public class GameManagementActivity extends ListActivity {
-
-    private TextView mInstructionsTextView;
+public class GameManagementActivity extends ListActivity
+        implements OnNewGameCreatedHandler {
 
 
     @Override
@@ -48,10 +54,31 @@ public class GameManagementActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_management);
 
-        mInstructionsTextView = (TextView) findViewById(R.id.game_management_instructions);
+        TextView mInstructionsTextView = (TextView) findViewById(R.id.game_management_instructions);
         ListAdapter adapter = new CustomArrayAdapter(this, GameDetailsList.GAMES);
 
         setListAdapter(adapter);
+
+        Button mNewGameButton = (Button) findViewById(R.id.new_game_button);
+        mNewGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNewGameDialog();
+            }
+        });
+    }
+
+    /** Persists the new game in the datastore to make it available to others */
+    public void createNewGame(GameBean newGame) {
+        // call the backend to add the persist the new game
+    }
+
+    /**
+     * Show popup dialog to allow users to enter parameters for a new game definition
+     */
+    private void showNewGameDialog() {
+        NewGameDialogFragment dialog = new NewGameDialogFragment();
+        dialog.show(getFragmentManager(), "new-game-dialog");
     }
 
     /**

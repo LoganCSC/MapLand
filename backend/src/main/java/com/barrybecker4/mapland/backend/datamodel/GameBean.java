@@ -39,6 +39,9 @@ public class GameBean {
     /** The percentage that a region should increase in value after a purchase */
     private Double regionCostPercentIncrease;
 
+    /** some custom instructions or notes to other players */
+    private String notes;
+
     private double nwLatitudeCoord;
     private double nwLongitudeCoord;
     private double seLatitudeCoord;
@@ -157,6 +160,14 @@ public class GameBean {
 
     public void setRegionCostPercentIncrease(Double regionCostPercentIncrease) {
         this.regionCostPercentIncrease = regionCostPercentIncrease;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public double getNwLatitudeCoord() {

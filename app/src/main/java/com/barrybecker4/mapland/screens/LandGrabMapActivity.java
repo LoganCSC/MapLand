@@ -43,7 +43,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
