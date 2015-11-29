@@ -53,7 +53,8 @@ public class GameAdder extends AsyncTask<Pair<Context, GameBean>, Void, GameBean
             // Can all these parameters be replaced with just the bean?
             return MapLandApiService.getInstance()
                     .addNewGame(game.getGameName(),
-                            game.getNumPlayers(), game.getDuration(), game.getRegionCostPercentIncrease(), game.getNotes(),
+                            game.getNumPlayers(), game.getDuration(), game.getRegionCostPercentIncrease(),
+                            ":" + game.getNotes(),  // cannot be ""
                             game.getNwLatitudeCoord(), game.getNwLongitudeCoord(),
                             game.getSeLatitudeCoord(), game.getSeLongitudeCoord())
                     .execute();

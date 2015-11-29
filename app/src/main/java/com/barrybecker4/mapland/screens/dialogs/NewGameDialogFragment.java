@@ -53,6 +53,7 @@ public class NewGameDialogFragment extends DialogFragment {
         numPlayersPicker.setMaxValue(20);
         numPlayersPicker.setValue(3);
         final EditText numHoursPicker = (EditText) view.findViewById(R.id.num_hours_picker);
+        numHoursPicker.setText("24");
         numHoursPicker.addTextChangedListener(new DurationTextWatcher());
         final NumberPicker regionValueIncPicker = (NumberPicker) view.findViewById(R.id.new_game_region_value_inc);
         regionValueIncPicker.setMinValue(0);

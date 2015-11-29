@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 
 /**
- * Define the mapLand API endpoints
+ * Define the mapLand API endpoints.
  */
 @Api(
     name = "mapLandApi",
@@ -40,6 +40,7 @@ import javax.inject.Named;
 /**
  * When deployed to google appengine view here:
  *  https://console.developers.google.com/project/maplandbackend
+ *  Locally here: http://localhost:8080/_ah/api/explorer
  */
 public class MapLandEndpoint {
     private static final Logger LOG = Logger.getLogger(MapLandEndpoint.class.getName());
@@ -117,6 +118,7 @@ public class MapLandEndpoint {
             @Named("seLat") Double seLat, @Named("seLong") Double seLong) throws DatastoreException {
 
         GameAccess access = new GameAccess();
+        notes = notes.substring(1); // strip first character used to avoid ""
         return access.addNewGame(name, numPlayers, durationHrs, regionPctIncrease, notes, nwLat, nwLong, seLat, seLong);
     }
 

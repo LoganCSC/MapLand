@@ -73,7 +73,11 @@ public class GameBean implements Serializable {
         String gameName = propertyMap.get("gameName").getStringValue();
         Integer numPlayers = (int) propertyMap.get("numPlayers").getIntegerValue();
         Integer duration = (int) propertyMap.get("duration").getIntegerValue();
-        Long micros = propertyMap.get("startTime").getTimestampMicrosecondsValue();
+        DatastoreV1.Value startTimeProp = propertyMap.get("startTime");
+        Long micros = 0L;
+        if (startTimeProp != null) {
+            micros = startTimeProp.getTimestampMicrosecondsValue();
+        }
         Date startTime = new Date(micros / 1000);
 
         List<Long> players = new ArrayList<>();

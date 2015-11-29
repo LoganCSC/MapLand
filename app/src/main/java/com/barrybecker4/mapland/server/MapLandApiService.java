@@ -10,6 +10,9 @@ import java.io.IOException;
 
 /**
  * Provides singleton access to the backend MapLand api running on google appengine in the cloud.
+ *
+ * To explore the endpoints locally go to:
+ * http://localhost:8080/_ah/api/explorer
  */
 public class MapLandApiService {
 

@@ -67,11 +67,12 @@ public class RegionUtil {
         // move it a random amount.
         int rnd = RND.nextInt(4);
         LatLng newPosition;
+        double inc = 2 * REGION_SIZE;
         switch (rnd) {
-            case 0: newPosition = new LatLng(position.latitude + REGION_SIZE, position.longitude); break;
-            case 1: newPosition = new LatLng(position.latitude - REGION_SIZE, position.longitude); break;
-            case 2: newPosition = new LatLng(position.latitude, position.longitude + REGION_SIZE); break;
-            case 3: newPosition = new LatLng(position.latitude, position.longitude - REGION_SIZE); break;
+            case 0: newPosition = new LatLng(position.latitude + inc, position.longitude); break;
+            case 1: newPosition = new LatLng(position.latitude - inc, position.longitude); break;
+            case 2: newPosition = new LatLng(position.latitude, position.longitude + inc); break;
+            case 3: newPosition = new LatLng(position.latitude, position.longitude - inc); break;
             default: throw new IllegalStateException("Unexpected rnd:"+ rnd);
         }
         return newPosition;
