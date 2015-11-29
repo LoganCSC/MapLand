@@ -24,7 +24,9 @@ import com.barrybecker4.mapland.screens.dialogs.OnNewGameCreatedHandler;
 import com.barrybecker4.mapland.screens.games.GameDetails;
 import com.barrybecker4.mapland.screens.games.GameDetailsList;
 import com.barrybecker4.mapland.screens.support.GameAddHandler;
+import com.barrybecker4.mapland.screens.support.GamesRetrievalHandler;
 import com.barrybecker4.mapland.server.tasks.GameAdder;
+import com.barrybecker4.mapland.server.tasks.GameRetriever;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -39,6 +41,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 /**
  * This allows the user to create or join active games.
@@ -55,9 +59,9 @@ public class GameManagementActivity extends ListActivity
         setContentView(R.layout.game_management);
 
         TextView mInstructionsTextView = (TextView) findViewById(R.id.game_management_instructions);
-        ListAdapter adapter = new CustomArrayAdapter(this, GameDetailsList.GAMES);
 
-        setListAdapter(adapter);
+        GameRetriever.getRegions(new GamesRetrievalHandler(this));
+
 
         Button mNewGameButton = (Button) findViewById(R.id.new_game_button);
         mNewGameButton.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +76,13 @@ public class GameManagementActivity extends ListActivity
     public void createNewGame(GameBean newGame) {
         // call the backend to add the persist the new game
         GameAdder.addGame(newGame, this, new GameAddHandler());
+    }
+
+    public void gamesRetrieved(List<GameBean> games) {
+        GameDetails[] gameDetailsList = GameDetailsList.createGameDetailsArray(games);
+        ListAdapter adapter = new CustomArrayAdapter(this, gameDetailsList);
+
+        setListAdapter(adapter);
     }
 
     /**

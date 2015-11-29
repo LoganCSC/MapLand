@@ -1,6 +1,9 @@
 package com.barrybecker4.mapland.screens.games;
 
 
+import com.barrybecker4.mapland.backend.mapLandApi.model.GameBean;
+
+import java.util.List;
 
 /**
  * A list of all the games that are available to join.
@@ -16,4 +19,14 @@ public final class GameDetailsList {
         new GameDetails("Second game", 4, 20),
         new GameDetails("3rd game", 7, 2)
     };
+
+    public static GameDetails[] createGameDetailsArray(List<GameBean> games) {
+        GameDetails[] detailsList = new GameDetails[games.size()];
+
+        int ct = 0;
+        for (GameBean game : games) {
+            detailsList[ct++] = new GameDetails(game.getGameName(), game.getNumPlayers(), game.getDuration());
+        }
+        return detailsList;
+    }
 }

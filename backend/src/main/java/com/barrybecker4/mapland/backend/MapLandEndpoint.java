@@ -74,7 +74,7 @@ public class MapLandEndpoint {
     }
 
     /**
-     * endpoint method that takes a regionId and returns persisted information about that region.
+     * endpoint method that takes a regionId and returns the regions in the specified viewport.
      */
     @ApiMethod(name = "getRegionsInViewPort")
     public List<RegionBean> getRegionsInViewPort(
@@ -107,6 +107,15 @@ public class MapLandEndpoint {
         return access.addNewRegion(owner, nwLat, nwLong, seLat, seLong);
     }
 
+    /**
+     * endpoint method that returns a list of open games.
+     */
+    @ApiMethod(name = "getOpenGames")
+    public List<GameBean> getOpenGames() {
+
+        GameAccess access = new GameAccess();
+        return access.getOpenGames();
+    }
     /**
      * Endpoint method that adds a new game configuration with specified information.
      */

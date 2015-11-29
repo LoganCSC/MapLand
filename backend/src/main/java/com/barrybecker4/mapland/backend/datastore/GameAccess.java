@@ -1,6 +1,7 @@
 package com.barrybecker4.mapland.backend.datastore;
 
 import com.barrybecker4.mapland.backend.datamodel.GameBean;
+import com.google.api.services.datastore.DatastoreV1;
 import com.google.api.services.datastore.DatastoreV1.CommitRequest;
 import com.google.api.services.datastore.DatastoreV1.Entity;
 import com.google.api.services.datastore.DatastoreV1.Key;
@@ -10,9 +11,14 @@ import com.google.api.services.datastore.DatastoreV1.Property;
 import com.google.api.services.datastore.DatastoreV1.Value;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.google.protobuf.ByteString;
+import com.google.api.services.datastore.DatastoreV1.Query;
+import com.google.api.services.datastore.DatastoreV1.Filter;
+import com.google.protobuf.ByteString;
+import static com.google.api.services.datastore.client.DatastoreHelper.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Provide access to games entities in datastore.
@@ -31,6 +37,8 @@ public class GameAccess extends DataStoreAccess {
     private static final double NW_LNG = -122.1;
     private static final double SE_LAT = 37.5;
     private static final double SE_LNG = -121.9;
+
+    private static final Logger LOG = Logger.getLogger(GameAccess.class.getName());
 
 
     /**
@@ -51,6 +59,49 @@ public class GameAccess extends DataStoreAccess {
         }
 
         return game;
+    }
+
+    /**
+     * @return a list of open games.
+     */
+    public List<GameBean> getOpenGames() {
+
+        Query.Builder query = Query.newBuilder();
+        LOG.info("About to get all open games.");
+        /*
+        Filter nwLatFilter =
+                makeFilter("nwLatitude",
+                        DatastoreV1.PropertyFilter.Operator.LESS_THAN, makeValue(nwLat + regionHeight))
+                        .build();
+        DatastoreV1.Filter seLatFilter =
+                makeFilter("nwLatitude",
+                        DatastoreV1.PropertyFilter.Operator.GREATER_THAN_OR_EQUAL, makeValue(seLat))
+                        .build();
+        */
+        //query.setFilter(makeFilter(nwLatFilter, seLatFilter));
+        query.addKindBuilder().setName(KIND);
+
+        DatastoreV1.RunQueryRequest request = DatastoreV1.RunQueryRequest.newBuilder().setQuery(query).build();
+        DatastoreV1.RunQueryResponse response;
+        List<GameBean> list = new LinkedList<>();
+
+        try {
+            response = datastore.runQuery(request);
+
+            List<DatastoreV1.EntityResult> results =
+                    response.getBatch().getEntityResultList();
+
+            for (DatastoreV1.EntityResult result : results) {
+                Entity gameEntity = result.getEntity();
+                GameBean regionBean = new GameBean(gameEntity);
+                list.add(regionBean);
+            }
+        }
+        catch (  DatastoreException e) {
+            e.printStackTrace();
+        }
+        LOG.info("returning " + list.size() + " open games");
+        return list;
     }
 
     /**
