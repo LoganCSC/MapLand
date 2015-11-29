@@ -7,12 +7,9 @@
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
     </system-properties>
-	
-	<resource-files>
+
+    <resource-files>
         <include path="/**.p12" />
     </resource-files>
-	
-	<!--static-files>
-		<include path="/**.p12" />
-	</static-files-->
+
 </appengine-web-app>

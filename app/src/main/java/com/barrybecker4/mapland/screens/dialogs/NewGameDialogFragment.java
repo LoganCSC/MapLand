@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,8 @@ import com.barrybecker4.mapland.screens.GameManagementActivity;
  */
 public class NewGameDialogFragment extends DialogFragment {
 
+    private View view;
+
     /** required parameter-less constructor */
     public NewGameDialogFragment() {
     }
@@ -40,7 +44,7 @@ public class NewGameDialogFragment extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.new_game_dlg, null);
+        view = inflater.inflate(R.layout.new_game_dlg, null);
 
         // = (CompoundButton) findViewById(R.id.traffic_toggle);
         final EditText nameInput = (EditText) view.findViewById(R.id.new_game_name_input);
@@ -48,15 +52,12 @@ public class NewGameDialogFragment extends DialogFragment {
         numPlayersPicker.setMinValue(2);
         numPlayersPicker.setMaxValue(20);
         numPlayersPicker.setValue(3);
-        final NumberPicker numHoursPicker = (NumberPicker) view.findViewById(R.id.num_hours_picker);
-        numHoursPicker.setMinValue(2);
-        numHoursPicker.setMaxValue(2000);
-        numHoursPicker.setValue(24);
+        final EditText numHoursPicker = (EditText) view.findViewById(R.id.num_hours_picker);
+        numHoursPicker.addTextChangedListener(new DurationTextWatcher());
         final NumberPicker regionValueIncPicker = (NumberPicker) view.findViewById(R.id.new_game_region_value_inc);
         regionValueIncPicker.setMinValue(0);
         regionValueIncPicker.setMaxValue(100);
         regionValueIncPicker.setValue(10);
-
 
         // Home: 37.602768, -122.0752
         final EditText notesInput = (EditText) view.findViewById(R.id.new_game_notes_input);
@@ -77,9 +78,9 @@ public class NewGameDialogFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         GameBean newGame = new GameBean();
-                        newGame.setNumPlayers(numPlayersPicker.getValue());
-                        newGame.setDuration(numHoursPicker.getValue());
                         newGame.setGameName(nameInput.getText().toString());
+                        newGame.setNumPlayers(numPlayersPicker.getValue());
+                        newGame.setDuration(getDuration(numHoursPicker));
                         double incPct = (double) regionValueIncPicker.getValue() / 100.0;
                         newGame.setRegionCostPercentIncrease(incPct);
                         newGame.setNotes(notesInput.getText().toString());
@@ -99,6 +100,41 @@ public class NewGameDialogFragment extends DialogFragment {
 
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    private int getDuration(EditText numHoursPicker) {
+        int duration = Integer.parseInt(numHoursPicker.getText().toString());
+        if (duration < 2) {
+            duration = 2;
+        }
+        else if (duration > 2000) {
+            duration = 2000;
+        }
+        return duration;
+    }
+
+    private class DurationTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            final EditText numHoursPicker = (EditText) view.findViewById(R.id.num_hours_picker);
+            try {
+                int v = Integer.parseInt(s.toString());
+            }
+            catch (NumberFormatException e) {
+                numHoursPicker.setText("Invalid");
+            }
+        }
     }
 
 }

@@ -30,6 +30,7 @@
                 android:id="@+id/new_game_name_input"
                 android:text="@string/new_game_name_txt"
                 android:inputType="text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -41,7 +42,7 @@
                 android:layout_height="wrap_content"/>
             <NumberPicker
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:orientation="horizontal"
                 android:id="@+id/num_players_picker"
                 />
@@ -51,12 +52,11 @@
                 android:text="@string/new_game_duration_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <NumberPicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/num_hours_picker"
-                android:layout_gravity="center_horizontal"/>
+            <EditText android:id="@+id/num_hours_picker"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="number"
+                      android:ems="10" />
         </TableRow>
         <TableRow>
             <TextView
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"/>
             <NumberPicker
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:orientation="horizontal"
                 android:id="@+id/new_game_region_value_inc"
                 android:layout_gravity="center_horizontal"/>
@@ -77,13 +77,21 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/new_game_notes_input"
-                android:inputType="text"
+                android:text="@string/new_game_notes"
+                android:inputType="textMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="8dp"/>
+                android:lines="2"
+                android:gravity="top|left"
+                android:maxLines="8"
+                android:scrollbars="vertical" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="@string/new_game_bounds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
         </TableRow>
         <TableRow>
             <TextView
@@ -94,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
                 android:ems="10" />
         </TableRow>
         <TableRow>
@@ -105,6 +114,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="number"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
                       android:ems="10" />
         </TableRow>
         <TableRow>
@@ -116,7 +126,8 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="number"
-                      android:ems="10" />
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      android:ems="8" />
         </TableRow>
         <TableRow>
             <TextView
@@ -127,19 +138,8 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="number"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
                       android:ems="10" />
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:id="@+id/location_text"
-                android:text="@string/current_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/move_position"
-                android:text="@string/change_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </TableRow>
     </TableLayout>
 </LinearLayout>
